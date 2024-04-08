@@ -19,7 +19,7 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Thêm mới sản phẩm</div>
-        <form th:object="${product}" action="/addProduct/" method="post" class="p-3">
+        <form th:action="@{/product/createProduct}" method="post" class="p-3">
 
             <div class="form-group">
                 <label>Nhập mã sản phẩm</label>
@@ -47,7 +47,7 @@
             </div>
             <div >
                 <button type="submit" class="btn btn-dark w-50">Thêm mới</button>
-                <button type="submit" class="btn btn-dark w-50">Cancel</button>
+                <button class="btn btn-dark w-50">Cancel</button>
             </div>
         </form>
     </div>

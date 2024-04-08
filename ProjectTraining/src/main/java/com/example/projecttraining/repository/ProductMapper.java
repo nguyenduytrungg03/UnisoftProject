@@ -14,11 +14,11 @@ public interface ProductMapper {
     List<Product> searchProduct(@Param("codeProduct") String codeProduct,
                                 @Param("nameProduct") String nameProduct);
     void deleteProduct(@Param("idProduct") int idProduct);
-    int findByIdProduct(@Param("idProduct") int idProduct);
-    int updateProduct(@Param("codeProduct")String codeProduct,
-                      @Param("nameProduct")String nameProduct,
-                      @Param("saleProduct")double saleProduct,
-                      @Param("purchasePrice") double purchasePrice);
+    Product findByIdProduct(@Param("idProduct") int idProduct);
 
+    int updateProduct(Product product);
     int countProduct();
+
+    int createProduct( Product product);
+
 }

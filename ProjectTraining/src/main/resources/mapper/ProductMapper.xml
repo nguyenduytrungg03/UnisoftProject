@@ -51,18 +51,8 @@
             status_delete = 0
     </select>
 
-    <!-- Delete Product -->
-    <update id="deleteProduct" parameterType="com.example.projecttraining.model.Product" >
-        UPDATE
-            product
-        SET
-            status_delete =1
-        WHERE
-            id_product = #{idProduct}
-    </update>
-
     <!-- Find By id Product -->
-    <select id="findByIdProduct" parameterType="com.example.projecttraining.model.Product">
+    <select id="findByIdProduct" resultMap="productResultMap">
         SELECT
             id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product
         FROM
@@ -71,19 +61,42 @@
             id_product = #{idProduct}
     </select>
 
-    <!--Update Product -->
-    <update id="updateProduct" parameterType="com.example.projecttraining.model.Product" >
+    <!-- Delete Product -->
+    <update id="deleteProduct"  parameterType="com.example.projecttraining.model.Product">
         UPDATE
             product
         SET
-            code_product = #{codeProducy},
+            status_delete =1
+        WHERE
+            id_product = #{idProduct}
+    </update>
+
+    <!--Update Product -->
+    <update id="updateProduct" >
+        UPDATE
+            product
+        SET
+            code_product = #{codeProduct},
             name_product = #{nameProduct},
             sale_price = #{salePrice},
             purchase_price = #{purchasePrice},
-            version_product = #{version_product}+ 1
+            version_product = #{versionProduct}+ 1
         WHERE
-            id_product =:idProduct
+            id_product = #{idProduct}
         AND
-            version_product =:versionProduct
+            version_product = #{versionProduct}
     </update>
+
+
+    <insert id="createProduct">
+        INSERT INTO
+            product(id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product)
+        VALUES
+            (#{idProduct},
+             #{codeProduct},
+             #{nameProduct},
+             #{salePrice},
+             #{purchasePrice},
+             #{inventoryNumber},0,0)
+    </insert>
 </mapper>

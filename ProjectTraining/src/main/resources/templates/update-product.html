@@ -19,35 +19,35 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Chỉnh sửa sản phẩm</div>
-        <form th:object="${product}" action="/updateProduct/" method="post" class="p-3">
+        <form th:object="${product}" th:action="@{/product/updateProduct}" method="post" class="p-3">
 
             <div class="form-group">
-                <label>Nhập mã sản phẩm</label>
-                <input th:field="*{product.}" class="form-control">
+                <label for="codeProduct">Sửa mã sản phẩm</label>
+                <input th:field="*{codeProduct}" id="codeProduct" class="form-control">
             </div>
             <div class="form-group">
-                <label>Nhập tên sản phẩm</label>
-                <input class="form-control">
-            </div>
-
-            <div class="form-group">
-                <label>Nhập giá bán của sản phẩm</label>
-                <input class="form-control">
+                <label for="nameProduct">Sửa tên sản phẩm</label>
+                <input th:field="*{nameProduct}" id="nameProduct" class="form-control">
             </div>
 
             <div class="form-group">
-                <label>Nhập giá mua vào của sản phẩm</label>
-                <input class="form-control">
+                <label>Sửa giá bán của sản phẩm</label>
+                <input th:field="*{salePrice}" id="saleProduct" class="form-control">
+            </div>
+
+            <div class="form-group">
+                <label>Sửa giá mua vào của sản phẩm</label>
+                <input th:field="*{purchasePrice}" id="purchasePrice" class="form-control" >
 
             </div>
 
             <div class="form-group">
                 <label>Số lượng tồn kho</label>
-                <input disabled class="form-control">
+                <input th:field="*{inventoryNumber}" id="inventoryNumber" disabled class="form-control">
             </div>
             <div class="d-flex">
-                    <button type="submit" class="btn btn-dark w-50">Edit</button>
-                    <button type="submit" class="btn btn-dark w-50">Cancel</button>
+                    <button type="submit" class="btn btn-dark w-50">Chỉnh sửa</button>
+                    <button class="btn btn-dark w-50">Cancel</button>
             </div>
         </form>
     </div>

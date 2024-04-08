@@ -10,7 +10,12 @@ public interface IProductService {
 //            , int pageIndex, int pageSize
     );
     void deleteProduct(int idProduct);
-    int findByIdProduct(int idProduct);
-    int updateProduct(String codeProduct,String nameProduct,double saleProduct,double purchasePrice);
+    Product findByIdProduct(int idProduct);
+
+    int updateProduct(Product product);
     int countProduct();
+
+    int createProduct(Product product);
+
 }
+

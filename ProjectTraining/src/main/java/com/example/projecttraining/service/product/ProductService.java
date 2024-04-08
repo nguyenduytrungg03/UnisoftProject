@@ -25,24 +25,30 @@ public class ProductService implements IProductService {
 //                , pageIndex, pageSize
         );
     }
-
     @Override
     public void deleteProduct(int idProduct) {
         productMapper.deleteProduct(idProduct);
     }
 
     @Override
-    public int findByIdProduct(int idProduct) {
+    public Product findByIdProduct(int idProduct) {
         return productMapper.findByIdProduct(idProduct);
     }
 
     @Override
-    public int updateProduct(String codeProduct, String nameProduct, double saleProduct, double purchasePrice) {
-        return productMapper.updateProduct(codeProduct, nameProduct,saleProduct,purchasePrice);
+    public int updateProduct(Product product) {
+        return productMapper.updateProduct(product);
     }
 
     @Override
     public int countProduct() {
         return productMapper.countProduct();
     }
+
+    @Override
+    public int createProduct(Product product) {
+        return productMapper.createProduct(product);
+    }
+
+
 }

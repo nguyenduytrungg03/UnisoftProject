@@ -34,7 +34,9 @@ public class ProductController {
 
     @GetMapping("/search")
     public String searchProduct(@RequestParam(name = "codeProduct") String codeProduct, @RequestParam(name = "nameProduct") String nameProduct,
+                                @RequestParam(required = false, defaultValue = "0") int page,
                                 Model model) {
+        int index =4;
         List<Product> productList = iProductService.searchProduct(codeProduct, nameProduct);
         model.addAttribute("productList", productList);
         return "product/list";
@@ -49,15 +51,62 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    @GetMapping("/updateProduct/")
-    public String goFromUpdate(@RequestParam int idProduct, Model model) {
-        model.addAttribute("product", iProductService.findByIdProduct(idProduct));
-        return "update-product";
+    @GetMapping("/formUpdate/{idProduct}")
+    public String goFromUpdate(@PathVariable("idProduct") int idProduct, Model model) {
+        Product product = iProductService.findByIdProduct(idProduct);
+        model.addAttribute("product",product);
+        System.out.println(product);
+        return "/update-product";
     }
 
     @PostMapping("/updateProduct")
-    public  String updateProduct(@RequestParam("codeProduct") String codeProduct, @RequestParam("nameProduct") String nameProduct, @RequestParam("salePrice") double salePrice, @RequestParam("purchasePrice") double purchasePrice , Model model){
-        model.addAttribute("product", iProductService.updateProduct(codeProduct,nameProduct,salePrice, purchasePrice));
-        return "/product-list";
+    public String updateProduct(@ModelAttribute( "product") Product product,
+                                @RequestParam(required = false, defaultValue = "0") int page,
+                                RedirectAttributes redirectAttributes){
+    int row = 0;
+
+        try {
+            row = iProductService.updateProduct(product);
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+        }
+        if (row != 1) {
+            redirectAttributes.addFlashAttribute("message","Chỉnh sửa thất bại.");
+            return "redirect:/product/list?page=" +page ;
+        }else {
+            redirectAttributes.addFlashAttribute("message","Chỉnh sửa thành công.");
+            return "redirect:/product/list?page=" + page;
+        }
     }
+
+
+    @GetMapping("/formCreate")
+    public String goFormCreate(Model model){
+    model.addAttribute("product", new Product());
+    return "create-product";
+    }
+
+
+    @PostMapping("/createProduct")
+    public String createProduct(@ModelAttribute("product") Product product,
+                                @RequestParam(required = false, defaultValue = "0") int page,
+                                RedirectAttributes redirectAttributes, Model model){
+        int result = 0;
+        try {
+            result = iProductService.createProduct(product);
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+        }
+        if(result == 0) {
+            redirectAttributes.addFlashAttribute("message","Thêm mới thất bại.");
+            return "redirect:/product/list?page=" + page ;
+        }else {
+            redirectAttributes.addFlashAttribute("message","Thêm mới thành công.");
+            return "redirect:/product/list?page=" + page ;
+        }
+    }
+
+
+
+
 }

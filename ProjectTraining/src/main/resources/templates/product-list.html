@@ -16,6 +16,11 @@
 <body>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách sản phẩm
+    <div>
+        <button class="btn btn-primary" th:attr ="onclick=|createProduct(${page}|">
+            <a  th:href="@{/product/formCreate}">Thêm mới sản phẩm</a>
+        </button>
+    </div>
 </nav>
 <div id="successMessage" th:if="${message}" class="alert alert-success" role="alert">
     <span th:text="${message}"></span>
@@ -62,7 +67,9 @@
                 <td th:text="${#numbers.formatDecimal(product.salePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                 <td th:text="${#numbers.formatDecimal(product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                 <td th:text="${product.inventoryNumber}"></td>
-                <td><a th:href="@{'/updateProduct/' + ${product.idProduct}}">Chỉnh sửa</a></td>
+                <td>
+                    <a th:href="@{'/product/formUpdate/' + ${product.idProduct}}">Chỉnh sửa</a>
+                </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
                             th:attr="onclick=|infoDelete(${product.idProduct},'${product.nameProduct}')|">
@@ -76,10 +83,10 @@
             </tr>
             </tbody>
         </table>
-        <!--        Page-->
+<!--    Page-->
         <div th:if="${productList.size() > 0}">
-            <nav aria-label="Page navigation example">
-                <ul class="pagination">
+            <nav  aria-label="Page navigation example">
+                <ul class="pagination display-flex" >
                     <li th:if="${page != 0 }" class="page-item">
                         <a class="page-link" th:href="@{/product/list(page=${page -1})}">Previous</a>
                     </li>
@@ -95,32 +102,33 @@
         </div>
     </div>
 
-    <!--    modal delete -->
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa sản phẩm này không?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form th:action="@{/product/delete}" method="post">
-                    <div class="modal-body">
-                        Bạn có muốn xóa sản phẩm <span id="nameProduct" style="color:navy"></span> không?
-                        <input type="hidden" id="idProduct" name="idProduct">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
+
 
     <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
+</div>
+<!--    Modal delete -->
+<div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa sản phẩm này không?</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <form th:action="@{/product/delete}" method="post">
+                <div class="modal-body">
+                    Bạn có muốn xóa sản phẩm <span id="nameProduct" style="color:navy"></span> cùng với id <span id="codeProduct" style="color:navy"></span> này không?
+                    <input type="hidden" id="idProduct" name="idProduct">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    <button type="submit" class="btn btn-primary">Save changes</button>
+                </div>
+            </form>
+        </div>
+    </div>
 </div>
 
 <script>
@@ -130,9 +138,14 @@
         console.log(idProduct, nameProduct)
     }
         // Tự động ẩn thông báo sau 4 giây
-        setTimeout(function() {
+    setTimeout(function() {
         document.getElementById("successMessage").style.display = "none";
-    }, 4000); // 4000 milliseconds = 4 giây
+    }, 4000);// 4000 milliseconds = 4 giây
+
+    function createProduct(page) {
+        localStorage.setItem("page",page+1);
+    }
+
 
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
