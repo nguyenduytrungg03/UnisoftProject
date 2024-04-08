@@ -1,0 +1,89 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.projecttraining.repository.ProductMapper">
+
+    <resultMap id="productResultMap" type="com.example.projecttraining.model.Product">
+        <id property="idProduct" column="id_product"/>
+        <result property="codeProduct" column="code_product"/>
+        <result property="nameProduct" column="name_product"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="inventoryNumber" column="inventory_number"/>
+        <result property="statusDelete" column="status_delete"/>
+        <result property="versionProduct" column="version_product"/>
+    </resultMap>
+
+    <!-- SELECT query -->
+    <select id="getAllProduct" resultMap="productResultMap">
+        SELECT
+            id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product
+        FROM
+            product
+        WHERE
+            status_delete = 0
+        ORDER BY
+            code_product
+        LIMIT
+            #{pageIndex}
+        OFFSET
+            #{pageSize}
+    </select>
+
+    <select id="countProduct">
+        SELECT
+            count(*)
+        FROM
+            product
+    </select>
+    <!-- Search codeProduct & nameProduct -->
+    <select id="searchProduct" resultMap="productResultMap">
+        SELECT
+            id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product
+        FROM
+            product
+        WHERE
+            TRIM(code_product) LIKE CONCAT(#{codeProduct}, '%')
+          AND
+            TRIM(name_product) LIKE CONCAT(#{nameProduct}, '%')
+          AND
+            status_delete = 0
+    </select>
+
+    <!-- Delete Product -->
+    <update id="deleteProduct" parameterType="com.example.projecttraining.model.Product" >
+        UPDATE
+            product
+        SET
+            status_delete =1
+        WHERE
+            id_product = #{idProduct}
+    </update>
+
+    <!-- Find By id Product -->
+    <select id="findByIdProduct" parameterType="com.example.projecttraining.model.Product">
+        SELECT
+            id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product
+        FROM
+            product
+        WHERE
+            id_product = #{idProduct}
+    </select>
+
+    <!--Update Product -->
+    <update id="updateProduct" parameterType="com.example.projecttraining.model.Product" >
+        UPDATE
+            product
+        SET
+            code_product = #{codeProducy},
+            name_product = #{nameProduct},
+            sale_price = #{salePrice},
+            purchase_price = #{purchasePrice},
+            version_product = #{version_product}+ 1
+        WHERE
+            id_product =:idProduct
+        AND
+            version_product =:versionProduct
+    </update>
+</mapper>
