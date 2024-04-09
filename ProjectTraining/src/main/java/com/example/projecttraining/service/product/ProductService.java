@@ -1,7 +1,7 @@
 package com.example.projecttraining.service.product;
 
 import com.example.projecttraining.model.Product;
-import com.example.projecttraining.repository.ProductMapper;
+import com.example.projecttraining.mapper.ProductMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -9,6 +9,7 @@ import java.util.List;
 
 @Service
 public class ProductService implements IProductService {
+
     @Autowired
     ProductMapper productMapper;
 

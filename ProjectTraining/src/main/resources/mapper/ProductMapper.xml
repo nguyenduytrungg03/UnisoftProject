@@ -2,7 +2,7 @@
     <!DOCTYPE mapper
     PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
     "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.projecttraining.repository.ProductMapper">
+<mapper namespace="com.example.projecttraining.mapper.ProductMapper">
 
     <resultMap id="productResultMap" type="com.example.projecttraining.model.Product">
         <id property="idProduct" column="id_product"/>
@@ -52,7 +52,7 @@
     </select>
 
     <!-- Find By id Product -->
-    <select id="findByIdProduct" resultMap="productResultMap">
+    <select id="findByIdProduct" resultMap="productResultMap" >
         SELECT
             id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product
         FROM

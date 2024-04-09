@@ -19,7 +19,7 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Chỉnh sửa sản phẩm</div>
-        <form th:object="${product}" th:action="@{/product/updateProduct}" method="post" class="p-3">
+        <form th:object="${productDTO}" th:action="@{/product/updateProduct}" method="post" class="p-3">
 
             <div class="form-group">
                 <label for="codeProduct">Sửa mã sản phẩm</label>

@@ -1,8 +1,7 @@
-package com.example.projecttraining.repository;
+package com.example.projecttraining.mapper;
 
 import com.example.projecttraining.model.Product;
 import org.apache.ibatis.annotations.Mapper;
-import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
