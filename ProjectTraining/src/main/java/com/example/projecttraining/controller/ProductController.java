@@ -42,8 +42,16 @@ public class ProductController {
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 Model model) {
         int index = 4;
-        List<Product> productList = iProductService.searchProduct(codeProduct, nameProduct);
+        List<Product> productList = iProductService.findAllProduct(index, index * page);
+        int countProduct = iProductService.countProduct();
+        double a = (double) countProduct / index;
+        int totalPage = (int) Math.ceil(a);
         model.addAttribute("productList", productList);
+        model.addAttribute("codeProduct", codeProduct);
+        model.addAttribute("nameProduct", nameProduct);
+        model.addAttribute("totalPage", totalPage);
+        model.addAttribute("page", page);
+        model.addAttribute("index", index);
         return "product/list";
     }
 
@@ -70,18 +78,16 @@ public class ProductController {
         return "/update-product";
     }
 
-    @PostMapping("/updateProduct")
+    @PostMapping("/updateProduct/{idProduct}")
     public String updateProduct(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
+                                @PathVariable("idProduct") int idProduct ,
                                 RedirectAttributes redirectAttributes,
                                 BindingResult bindingResult, Model model) {
-
+        productDTO.setIdProduct(idProduct);
         new ProductDTO().validate(productDTO, bindingResult);
-        if (bindingResult.hasErrors()) {
-            model.addAttribute("productDTO", productDTO);
-            return "update-product";
-        }
+
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         int result = 0;
@@ -91,13 +97,13 @@ public class ProductController {
             System.out.println(e.getMessage());
         }
         if (result != 1) {
-            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại.");
+            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");
             return "redirect:/product/list?page=" + page;
         } else {
-            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công.");
+            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
             return "redirect:/product/list?page=" + page;
-
         }
+
 
     }
 
