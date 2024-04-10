@@ -1,6 +1,7 @@
 package com.example.projecttraining.config;
 
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -16,6 +17,8 @@ import org.springframework.security.web.SecurityFilterChain;
 @Configuration
 @EnableWebSecurity
 public class WebSecurityConfig  {
+
+    @Autowired
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
@@ -39,8 +42,7 @@ public class WebSecurityConfig  {
                         .loginPage("/login")
                         .usernameParameter("accountName")
                         .passwordParameter("password")
-                        .failureUrl("/login?error=true")
-                        .defaultSuccessUrl("/test")
+                        .defaultSuccessUrl("/product")
                 );
         return httpSecurity.build();
     }
