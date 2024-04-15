@@ -1,10 +1,15 @@
 package com.example.projecttraining.controller;
 
 import com.example.projecttraining.dto.product_dto.ProductDTO;
+import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Product;
+import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.product.IProductService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -20,6 +25,18 @@ import java.util.Map;
 public class ProductController {
     @Autowired
     private IProductService iProductService;
+
+    @Autowired
+    private IAccountService iAccountService;
+    private Account getAccountLogin () {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String usernameLogin = authentication.getName();
+            Account account  = iAccountService.findByAccountName(usernameLogin);
+            return account;
+        }
+        return null;
+    }
 
 
 //    @GetMapping("/list")
@@ -68,31 +85,33 @@ public class ProductController {
 
     @GetMapping("/formUpdate/{idProduct}")
     public String goFromUpdate(@PathVariable("idProduct") int idProduct, Model model) {
+        Account account = getAccountLogin();
         try {
-            Product product = iProductService.findByIdProduct(idProduct);
             ProductDTO productDTO = new ProductDTO();
+            Product product = iProductService.findByIdProduct(idProduct);
             BeanUtils.copyProperties(product, productDTO);
             model.addAttribute("productDTO", productDTO);
+            model.addAttribute("nameLogin",account.getAccountName());
             System.out.println(product);
         } catch (Throwable e) {
             System.out.println(e.getMessage());
         }
         return "product/product-update";
     }
-    @PostMapping("/updateProduct/{idProduct}")
+    @PostMapping("/updateProduct")
+
     public String updateProduct(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
-                                @PathVariable("idProduct") int idProduct,
                                 RedirectAttributes redirectAttributes,
-                                BindingResult bindingResult, Model model) {
-        productDTO.setIdProduct(idProduct);
+                                BindingResult bindingResult) {
         new ProductDTO().validate(productDTO, bindingResult);
 
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
+
         int result = 0;
         try {
             result = iProductService.updateProduct(product);

@@ -14,13 +14,13 @@
             justify-content: center;
         }
     </style>
+
 </head>
 <body class="bg-dark">
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Chỉnh sửa sản phẩm</div>
-        <form th:object="${productDTO}" th:action="@{'/product/updateProduct/'}" method="post" class="p-3">
-
+        <form th:object="${productDTO}" th:action="@{/product/updateProduct}" method="post" class="p-3">
             <div class="form-group">
                 <label for="codeProduct">Sửa mã sản phẩm</label>
                 <input th:field="*{codeProduct}" id="codeProduct" name="codeProduct" class="form-control">
@@ -38,16 +38,20 @@
             <div class="form-group">
                 <label>Sửa giá mua vào của sản phẩm</label>
                 <input th:field="*{purchasePrice}" id="purchasePrice" name="purchasePrice" class="form-control" >
-
             </div>
 
             <div class="form-group">
                 <label>Số lượng tồn kho</label>
                 <input th:field="*{inventoryNumber}" id="inventoryNumber" name="inventoryNumber" disabled class="form-control">
             </div>
+            <input type ="hidden" th:field ="*{idProduct}" class="form-control" >
+            <input type ="hidden" th:field ="*{versionProduct}" class="form-control" >
+
             <div class="d-flex">
                     <button type="submit" class="btn btn-dark w-50">Chỉnh sửa</button>
-                    <button class="btn btn-dark w-50">Cancel</button>
+                        <button type="button" class="btn btn-dark w-50">
+                            <a th:href="@{/product/list}">Cancel</a>
+                        </button>
             </div>
         </form>
     </div>

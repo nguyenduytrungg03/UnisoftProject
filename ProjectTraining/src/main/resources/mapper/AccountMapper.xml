@@ -14,6 +14,18 @@
                 a.account_name = #{accountName}
             </where>
         </select>
+
+    <insert id="createAccount">
+        INSERT INTO
+            account(account_id, account_name, password,role_id,status_delete, confirm_password)
+        VALUES
+            (#{accountId},
+             #{accountName},
+             #{password},
+             2,
+             0,
+             #{confirmPassword});
+    </insert>
 </mapper>
 
 

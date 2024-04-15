@@ -1,5 +1,6 @@
 package com.example.projecttraining.dto.product_dto;
 
+import jakarta.persistence.Column;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -22,6 +23,11 @@ public class ProductDTO implements Validator {
 
 
     private int inventoryNumber;
+
+    private int versionProduct;
+
+
+    private int statusDelete;
 
     public ProductDTO() {
 
@@ -78,15 +84,7 @@ public class ProductDTO implements Validator {
 
 
 
-    public ProductDTO(int idProduct, String codeProduct, String nameProduct, double salePrice, double purchasePrice, int inventoryNumber) {
-        this.idProduct = idProduct;
-        this.codeProduct = codeProduct;
-        this.nameProduct = nameProduct;
-        this.salePrice = salePrice;
-        this.purchasePrice = purchasePrice;
-        this.inventoryNumber = inventoryNumber;
 
-    }
 
     @Override
     public String toString() {
@@ -100,7 +98,7 @@ public class ProductDTO implements Validator {
     }
 
     @Override
-    public boolean supports(Class<?> clazz) {
+    public boolean supports(@NotNull Class<?> clazz) {
         return false;
     }
 
@@ -110,7 +108,7 @@ public class ProductDTO implements Validator {
         if (productDTO.getCodeProduct() == null || "".equals(productDTO.getCodeProduct())) {
             errors.rejectValue("codeProduct", "codeProduct", "Required!");
         } else if (!productDTO.getCodeProduct().matches(REGEX_ID)) {
-            errors.rejectValue("codeProduct", "code.format", "Wrong format HEL-xxxx");
+            errors.rejectValue("codeProduct", "code.format", "Sai định dạng HEL-xxxx");
         }
         if (productDTO.getNameProduct() == null
                 || "".equals(productDTO.getNameProduct())) {

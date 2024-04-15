@@ -65,4 +65,15 @@
         AND
             e.status_delete = 0
     </select>
+
+    <insert id="createEmployees">
+        INSERT INTO
+            employees(name_employees, phone_number,id_account)
+        VALUES
+            (#{nameEmployees},
+             #{phoneNumber},
+             #{idAccount})
+    </insert>
+
+
 </mapper>

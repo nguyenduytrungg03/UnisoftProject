@@ -1,5 +1,6 @@
 package com.example.projecttraining.mapper;
 
+import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
 import org.apache.ibatis.annotations.Mapper;
 
@@ -15,4 +16,8 @@ public interface EmployeesMapper {
     void deleteEmployees(int idEmployees);
 
     Employees findByIdEmployees(int idEmployees);
+
+    int createEmployees( Employees employees);
+
+    int createEmployees(String nameEmployees, String phoneNumber, int accountId);
 }
