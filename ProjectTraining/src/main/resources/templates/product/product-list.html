@@ -29,7 +29,7 @@
     <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
     <div class="h-100 p-0 m-0" style="width: 60%; float: left">
         <div class="p-2">
-            <form action="/search">
+            <form th:action="@{/product/list}" method="get">
                 <div class="form-group">
                     <label>Mã sản phẩm</label>
                     <input name="codeProduct" placeholder="Nhập mã sản phẩm">
@@ -61,18 +61,19 @@
             <tbody>
             <tr th:each="product,loop : ${productList}">
                 <td th:text="${loop.count}"></td>
-                <td hidden="hidden" th:text="${product.idProduct}"></td>
-                <td th:text="${product.codeProduct}"></td>
-                <td th:text="${product.nameProduct}"></td>
-                <td th:text="${#numbers.formatDecimal(product.salePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-                <td th:text="${#numbers.formatDecimal(product.purchasePrice, 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-                <td th:text="${product.inventoryNumber}"></td>
+                <td hidden="hidden" th:text="${product['idProduct']}"></td>
+                <td th:text="${product['codeProduct']}"></td>
+                <td th:text="${product['nameProduct']}"></td>
+                <td th:text="${#numbers.formatDecimal(product['salePrice'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td th:text="${#numbers.formatDecimal(product['purchasePrice'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td th:text="${product['inventoryNumber']}"></td>
                 <td>
-                    <a th:href="@{'/product/formUpdate/' + ${product.idProduct}}">Chỉnh sửa</a>
+                    <a th:href="@{/product/formUpdate/{idProduct}(idProduct=${product['idProduct']})}">Chỉnh sửa</a>
+
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                            th:attr="onclick=|infoDelete(${product.idProduct},'${product.nameProduct}')|">
+                            th:attr="onclick=|infoDelete('${product.idProduct}','${product.nameProduct}','${product.codeProduct}')|">
                         Xóa
                     </button>
 
@@ -119,7 +120,7 @@
             </div>
             <form th:action="@{/product/delete}" method="post">
                 <div class="modal-body">
-                    Bạn có muốn xóa sản phẩm <span id="nameProduct" style="color:navy"></span> cùng với id <span id="codeProduct" style="color:navy"></span> này không?
+                    Bạn có muốn xóa sản phẩm <span id="nameProduct" style="color:navy"></span> có mã là <span id="codeProduct" style="color:navy"></span> này không?
                     <input type="hidden" id="idProduct" name="idProduct">
                 </div>
                 <div class="modal-footer">
@@ -132,10 +133,11 @@
 </div>
 
 <script>
-    function infoDelete(idProduct, nameProduct) {
+    function infoDelete(idProduct, nameProduct, codeProduct) {
         document.getElementById("idProduct").value = idProduct;
         document.getElementById("nameProduct").innerText = nameProduct;
-        console.log(idProduct, nameProduct)
+        document.getElementById("codeProduct").innerText = codeProduct;
+        console.log(idProduct, nameProduct, codeProduct)
     }
         // Tự động ẩn thông báo sau 4 giây
     setTimeout(function() {

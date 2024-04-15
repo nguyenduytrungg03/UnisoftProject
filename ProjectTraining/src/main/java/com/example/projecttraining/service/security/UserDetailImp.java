@@ -1,52 +1,50 @@
 package com.example.projecttraining.service.security;
 
 import com.example.projecttraining.model.Account;
+import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.stereotype.Service;
+
 
 import java.util.Collection;
 import java.util.List;
 
 public class UserDetailImp implements UserDetails {
 
-        private Integer accountId;
+        private int accountId;
         private String accountName;
         private String password;
-        private boolean isAccountNonLocked;
+        private boolean statusDelete;
         private List<? extends GrantedAuthority> authorities;
 
     public UserDetailImp() {
     }
     public static UserDetailImp convertAccountToAccountDetail(Account account){
-
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(account.getRole().getNameRole()));
-        boolean status = true;
-        if (account.getStatusDelete() == 0){
-            status = false;
-        }
         return new UserDetailImp(
                 account.getAccountId(),
                 account.getAccountName(),
                 account.getPassword(),
-                status,
+                !account.getStatusDelete(),
                 authorities
         );
     }
 
-    public UserDetailImp(Integer accountId, String accountName, String password, boolean isAccountNonLocked, List<? extends GrantedAuthority> authorities) {
+    public UserDetailImp(int accountId, String accountName, String password, boolean statusDelete, List<? extends GrantedAuthority> authorities) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.password = password;
-        this.isAccountNonLocked = isAccountNonLocked;
+        this.statusDelete = statusDelete;
         this.authorities = authorities;
     }
 
-    public Integer getAccountId() {
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
@@ -62,8 +60,12 @@ public class UserDetailImp implements UserDetails {
         this.password = password;
     }
 
-    public void setAccountNonLocked(boolean accountNonLocked) {
-        isAccountNonLocked = accountNonLocked;
+    public boolean isStatusDelete() {
+        return statusDelete;
+    }
+
+    public void setStatusDelete(boolean statusDelete) {
+        this.statusDelete = statusDelete;
     }
 
     public void setAuthorities(List<? extends GrantedAuthority> authorities) {
@@ -77,31 +79,32 @@ public class UserDetailImp implements UserDetails {
 
     @Override
     public String getPassword() {
-        return null;
+        return password;
     }
 
     @Override
     public String getUsername() {
-        return null;
+        return accountName;
     }
+
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isEnabled() {
-        return false;
+        return true;
     }
 }

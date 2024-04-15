@@ -1,21 +1,24 @@
 package com.example.projecttraining.model;
 
-import com.fasterxml.jackson.annotation.JsonBackReference;
-import jakarta.persistence.*;
 
 
 public class Account {
 
-    private Integer accountId;
+    private int accountId;
 
     private String accountName;
 
     private String password;
 
-    private Role role;
-    private  int statusDelete ;
+    private String confirmPassword;
 
-    public Account(Integer accountId, String accountName, String password, Role role, int statusDelete) {
+    private Role role;
+    private  boolean statusDelete ;
+
+//    private Role getDefaultRole() {
+//        return new Role(1, "Admin");
+//    }
+    public Account(int accountId, String accountName, String password, Role role, boolean statusDelete) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.password = password;
@@ -23,14 +26,37 @@ public class Account {
         this.statusDelete = statusDelete;
     }
 
-    public Account() {
+
+    public Account(int accountId, String accountName, String password, String confirmPassword, Role role, boolean statusDelete) {
+        this.accountId = accountId;
+        this.accountName = accountName;
+        this.password = password;
+        this.confirmPassword = confirmPassword;
+        this.role = role;
+        this.statusDelete = statusDelete;
     }
 
-    public Integer getAccountId() {
+    public Account() {
+
+    }
+
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
+    public boolean isStatusDelete() {
+        return statusDelete;
+    }
+
+    public int getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(Integer accountId) {
+    public void setAccountId(int accountId) {
         this.accountId = accountId;
     }
 
@@ -58,11 +84,12 @@ public class Account {
         this.role = role;
     }
 
-    public int getStatusDelete() {
+    public boolean getStatusDelete() {
         return statusDelete;
     }
 
-    public void setStatusDelete(int statusDelete) {
+    public void setStatusDelete(boolean statusDelete) {
         this.statusDelete = statusDelete;
     }
+
 }

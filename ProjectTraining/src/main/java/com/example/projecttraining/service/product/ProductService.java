@@ -6,25 +6,17 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Map;
 
 @Service
 public class ProductService implements IProductService {
 
     @Autowired
-    ProductMapper productMapper;
+    private ProductMapper productMapper;
 
     @Override
-    public List<Product> findAllProduct(int pageIndex, int pageSize) {
-        return productMapper.getAllProduct(pageIndex,pageSize);
-    }
-
-    @Override
-    public List<Product> searchProduct(String codeProduct, String nameProduct
-//            ,int pageIndex, int pageSize
-    ) {
-        return productMapper.searchProduct(codeProduct, nameProduct
-//                , pageIndex, pageSize
-        );
+    public List<Map<String,Object>> getAllProduct(String codeProduct, String nameProduct, int pageIndex, int pageSize) {
+        return productMapper.getAllProduct(codeProduct, nameProduct, pageIndex, pageSize);
     }
     @Override
     public void deleteProduct(int idProduct) {

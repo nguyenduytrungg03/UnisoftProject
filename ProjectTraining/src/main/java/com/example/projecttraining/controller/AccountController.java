@@ -9,16 +9,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @Controller
 @RequestMapping
 public class AccountController {
-    @Autowired
-    private AuthenticationManager authenticationManager;
 
     @GetMapping("/login")
     public String showFormLogin(){
         return "login";
-    }
-    @GetMapping("")
-    public String loginSuccess() {
-        return "test";
     }
 
 }

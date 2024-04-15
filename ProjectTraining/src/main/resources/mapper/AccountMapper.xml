@@ -5,13 +5,11 @@
     <mapper namespace="com.example.projecttraining.mapper.AccountMapper" >
         <select id="findByAccountName" resultType="java.util.Map">
             SELECT
-            a.account_id  , a.account_name
-            , a.password , a.status_delete
-            , r.role_id , r.role_name
+                a.account_id  , a.account_name, a.password , a.status_delete, r.id_role , r.name_role
             FROM
-            account a
+                account a
             JOIN
-            role r ON r.id_role = a.role_id
+                role r ON r.id_role = a.role_id
             <where>
                 a.account_name = #{accountName}
             </where>

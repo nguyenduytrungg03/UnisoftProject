@@ -1,7 +1,6 @@
 package com.example.projecttraining.config;
 
 
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -18,12 +17,14 @@ import org.springframework.security.web.SecurityFilterChain;
 @EnableWebSecurity
 public class WebSecurityConfig  {
 
-    @Autowired
+
 
     @Bean
     public AuthenticationManager authenticationManager(AuthenticationConfiguration authConfig) throws Exception {
         return authConfig.getAuthenticationManager();
     }
+
+
 
     @Bean
     public PasswordEncoder passwordEncoder() {
@@ -34,7 +35,7 @@ public class WebSecurityConfig  {
     public SecurityFilterChain filterChain(HttpSecurity httpSecurity)  throws Exception {
         httpSecurity.csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> {
-                    auth.requestMatchers("/admin**").hasAnyRole("ADMIN");
+                    auth.requestMatchers("/admin/**").hasAnyRole("ADMIN");
                     auth.requestMatchers("/login*").permitAll();
                     auth.anyRequest().authenticated(); }
                 )
@@ -42,7 +43,8 @@ public class WebSecurityConfig  {
                         .loginPage("/login")
                         .usernameParameter("accountName")
                         .passwordParameter("password")
-                        .defaultSuccessUrl("/product")
+                        .failureUrl("/login?error=true")
+                        .defaultSuccessUrl("/employees/list")
                 );
         return httpSecurity.build();
     }

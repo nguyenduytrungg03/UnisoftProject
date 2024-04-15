@@ -12,10 +12,10 @@ import java.util.Map;
 public class AccountService implements IAccountService {
 
     @Autowired
-    AccountMapper accountMapper;
-    private IAccountService accountService;
+    private AccountMapper accountMapper;
     @Override
     public Account findByAccountName(String accountName) {
+
         Map<String, Object> map = accountMapper.findByAccountName(accountName);
         if (map == null) {
             return null;
@@ -25,12 +25,12 @@ public class AccountService implements IAccountService {
     private Account convertToModel(Map<String, Object> map) {
         Account account = new Account();
         Role role = new Role();
-        account.setAccountId((Integer) map.get("account_id"));
+        account.setAccountId((int) map.get("account_id"));
         account.setAccountName((String) map.get("account_name"));
         account.setPassword((String) map.get("password"));
-        account.setStatusDelete((int) map.get("status_delete"));
-        role.setIdRole((Integer) map.get("role_id"));
-        role.setNameRole((String) map.get("role_name"));
+        account.setStatusDelete((boolean) map.get("status_delete"));
+        role.setIdRole((int) map.get("id_role"));
+        role.setNameRole((String) map.get("name_role"));
         account.setRole(role);
         return account;
     }

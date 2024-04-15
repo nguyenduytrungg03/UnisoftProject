@@ -5,15 +5,15 @@ import org.apache.ibatis.annotations.Mapper;
 import org.springframework.data.repository.query.Param;
 
 import java.util.List;
+import java.util.Map;
 
 @Mapper
 public interface ProductMapper {
-    List<Product> getAllProduct(@Param("pageIndex") int pageIndex,
-                                @Param("pageSize") int pageSize);
-    List<Product> searchProduct(@Param("codeProduct") String codeProduct,
-                                @Param("nameProduct") String nameProduct);
+//    List<Product> getAllProduct(@Param("pageIndex") int pageIndex,
+//                                @Param("pageSize") int pageSize);
+    List<Map<String, Object>> getAllProduct(String codeProduct, String nameProduct, int pageIndex, int pageSize);
     void deleteProduct(@Param("idProduct") int idProduct);
-    Product findByIdProduct(@Param("idProduct") int idProduct);
+    Product findByIdProduct( int idProduct);
 
     int updateProduct(Product product);
     int countProduct();

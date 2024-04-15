@@ -19,31 +19,31 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Thêm mới sản phẩm</div>
-        <form th:object="${productDTO}"  th:action="@{/product/createProduct}" method="post" class="p-3">
+        <form th:object="${productDTO}" th:action="@{/product/createProduct}" method="post" class="p-3">
 
             <div class="form-group">
                 <label>Nhập mã sản phẩm</label>
-                <input  class="form-control">
+                <input id="codeProduct" name="codeProduct" class="form-control">
             </div>
             <div class="form-group">
                 <label>Nhập tên sản phẩm</label>
-                <input class="form-control">
+                <input id="nameProduct" name="nameProduct" class="form-control">
             </div>
 
             <div class="form-group">
                 <label>Nhập giá bán của sản phẩm</label>
-                <input class="form-control">
+                <input id="salePrice" name="salePrice" class="form-control">
             </div>
 
             <div class="form-group">
                 <label>Nhập giá mua vào của sản phẩm</label>
-                <input class="form-control">
+                <input id="purchasePrice" name="purchasePrice" class="form-control">
 
             </div>
 
             <div class="form-group">
                 <label>Số lượng tồn kho</label>
-                <input class="form-control">
+                <input id="inventoryNumber" name="inventoryNumber" class="form-control">
             </div>
             <div class="d-flex">
                 <button type="submit" class="btn btn-dark w-50">Thêm mới</button>

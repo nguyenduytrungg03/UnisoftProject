@@ -15,12 +15,10 @@ public class UserDetailService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String accountName) throws UsernameNotFoundException {
-        Account account =  iAccountService.findByAccountName(accountName);
+        Account account = iAccountService.findByAccountName(accountName);
         if (account==null) {
-            new  UsernameNotFoundException("Account Not Found with accountName: " + accountName);
-            return null;
+            throw new UsernameNotFoundException("Không tìm thấy tài khoản: " + accountName);
         }
         return UserDetailImp.convertAccountToAccountDetail(account);
     }
 }
-//UserDetails.convertAccountEntityToAccountDetail(account);

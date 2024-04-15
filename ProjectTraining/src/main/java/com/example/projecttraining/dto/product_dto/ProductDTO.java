@@ -1,5 +1,6 @@
 package com.example.projecttraining.dto.product_dto;
 
+import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
@@ -104,7 +105,7 @@ public class ProductDTO implements Validator {
     }
 
     @Override
-    public void validate(Object target, Errors errors) {
+    public void validate(@NotNull Object target, @NotNull Errors errors) {
         ProductDTO productDTO = (ProductDTO) target;
         if (productDTO.getCodeProduct() == null || "".equals(productDTO.getCodeProduct())) {
             errors.rejectValue("codeProduct", "codeProduct", "Required!");
