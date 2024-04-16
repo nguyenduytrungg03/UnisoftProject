@@ -44,7 +44,7 @@ public class WebSecurityConfig  {
                         .usernameParameter("accountName")
                         .passwordParameter("password")
                         .failureUrl("/login?error=true")
-                        .defaultSuccessUrl("/employees/list")
+                        .defaultSuccessUrl("/product/list")
                 );
         return httpSecurity.build();
     }

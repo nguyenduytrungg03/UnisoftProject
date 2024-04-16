@@ -48,10 +48,10 @@ public class EmployeeController {
     }
 
     @PostMapping("/delete")
-    public String deleteEmployees(@RequestParam("idEmployees") int idEmployees, RedirectAttributes redirectAttributes){
+    public String deleteEmployees(@RequestParam int idEmployees, RedirectAttributes redirectAttributes){
         iEmployeesService.deleteEmployees(idEmployees);
         redirectAttributes.addFlashAttribute("message", "Xóa nhân viên thành công!");
-        return "redirect:employees/employees/list";
+        return "redirect:/employees/list";
     }
 
 

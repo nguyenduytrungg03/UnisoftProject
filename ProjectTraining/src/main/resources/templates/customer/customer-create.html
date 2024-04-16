@@ -13,36 +13,44 @@
             align-items: center;
             justify-content: center;
         }
+        .error {
+            color: red;
+        }
     </style>
 </head>
 <body class="bg-dark">
 <div class="container">
     <div class=" bg-light">
-        <div class="h1 center-box"> chỉnh sửa  nhân viên</div>
-        <form th:object="${employeeDTO}"  th:action="@{/employees/updateEmployees}" method="post" class="p-3">
+        <div class="h1 center-box"> Thêm mới khách hàng</div>
+        <form th:object="${customer}"
+              th:action="@{/customer/createCustomer}"
+              method="post" class="p-3">
+
             <div class="form-group">
-                <label>Nhập tên đăng nhập</label>
-                <input id="accountName" name="accountName" class="form-control">
+                <label>Nhập tên khách hàng</label>
+                <input id="nameCustomer" name="nameCustomer" class="form-control">
+                <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{codeProduct}"></div>-->
             </div>
             <div class="form-group">
-                <label>Nhập mật khẩu</label>
-                <input id="password" name="password" class="form-control">
+                <label>Nhập số điện thoại khách hàng</label>
+                <input id="phoneNumberCustomer" name="phoneNumberCustomer"  class="form-control">
+                <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{nameProduct}"></div>-->
             </div>
             <div class="form-group">
-                <label>Nhập xác nhận mật khẩu</label>
-                <input id="confirmPassword" name="confirmPassword" class="form-control">
+                <label>Nhập địa chỉ của khách hàng</label>
+                <input id="addressCustomer" name="addressCustomer" class="form-control" >
+
             </div>
-            <div class="form-group">
-                <label>Nhập tên nhân viên </label>
-                <input id="nameEmployees" name="nameEmployees" class="form-control">
-            </div>
-            <div class="form-group">
-                <label>Nhập số điện thoại </label>
-                <input id="phoneNumber" name="phoneNumber" class="form-control">
-            </div>
+            <input type ="hidden" th:field ="*{idCustomer}" class="form-control" >
+            <input type ="hidden" th:field ="*{versionCustomer}" class="form-control" >
+            <input type ="hidden" th:field ="*{statusDelete}" class="form-control" >
+
+
             <div class="d-flex">
-                <button type="submit" class="btn btn-dark w-50">Chỉnh sửa</button>
-                <button class="btn btn-dark w-50">Cancel</button>
+                <button type="submit" class="btn btn-dark w-50">Thêm mới</button>
+                <button type="button" class="btn btn-dark w-50">
+                    <a th:href="@{/cutomer/list}">Cancel</a>
+                </button>
             </div>
         </form>
     </div>

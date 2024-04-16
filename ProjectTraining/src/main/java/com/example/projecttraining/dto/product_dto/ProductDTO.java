@@ -8,7 +8,7 @@ import org.springframework.validation.Validator;
 import javax.validation.constraints.Pattern;
 
 public class ProductDTO implements Validator {
-    static final String REGEX_ID = "^HEL-[0-9]{4}$";
+    static final String REGEX_ID = "^HLE-[0-9]{4}$";
     private int idProduct;
     @Pattern(regexp = REGEX_ID, message = "Wrong format HEL-xxxx")
     private String codeProduct;
@@ -108,7 +108,7 @@ public class ProductDTO implements Validator {
         if (productDTO.getCodeProduct() == null || "".equals(productDTO.getCodeProduct())) {
             errors.rejectValue("codeProduct", "codeProduct", "Required!");
         } else if (!productDTO.getCodeProduct().matches(REGEX_ID)) {
-            errors.rejectValue("codeProduct", "code.format", "Sai định dạng HEL-xxxx");
+            errors.rejectValue("codeProduct", "code.format", "Sai định dạng HLE-xxxx");
         }
         if (productDTO.getNameProduct() == null
                 || "".equals(productDTO.getNameProduct())) {

@@ -15,10 +15,10 @@
 </head>
 <body>
 <nav class="navbar navbar-light bg-dark text-white head-text">
-    Danh sách nhân viên
+    Danh sách khách hàng
     <div>
-        <button class="btn " th:attr ="onclick=|createEmployees(${page}|">
-            <a  th:href="@{/employees/formCreate}">Thêm mới sản phẩm</a>
+        <button class="btn " th:attr ="onclick=|createCustomer(${page}|">
+            <a  th:href="@{/customer/formCreate}">Thêm mới sản phẩm</a>
         </button>
     </div>
 </nav>
@@ -29,18 +29,15 @@
     <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
     <div class="h-100 p-0 m-0" style="width: 60%; float: left">
         <div class="p-2">
-            <form th:action="@{/employees/list}" method="get">
+            <form th:action="@{/customer/list}"
+                  method="get">
                 <div class="form-group">
-                    <label>Tên đăng nhập</label>
-                    <input name="accountName" placeholder="Nhập tên đăng nhập">
+                    <label>Tên khách hàng</label>
+                    <input name="nameCustomer" placeholder="Nhập tên khách hàng">
                 </div>
                 <div class="form-group">
-                    <label>Tên nhân viên</label>
-                    <input name="nameEmployees" placeholder="Nhập tên nhân viên">
-                </div>
-                <div class="form-group">
-                    <label>Số điện thoại </label>
-                    <input name="phoneNumber" placeholder="Nhập số điện thoại">
+                    <label>Số điện thoại khách hàng</label>
+                    <input name="phoneNumberCustomer" placeholder="Nhập số điện thoại khách hàng">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
@@ -52,49 +49,51 @@
             <thead class="thead-dark">
             <tr class="w-100">
                 <th>No.</th>
-                <th>Tên đăng nhập</th>
-                <th>Tên nhân viên</th>
+                <th>Tên khách hàng</th>
                 <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Tên nhân viên</th>
                 <th colspan="2" style="text-align: center">Hành động</th>
             </tr>
             </thead>
             <tbody>
-            <tr th:each="employees,loop:${employeesList}">
+            <tr th:each="customer,loop:${customerList}">
                 <td th:text="${loop.count}"></td>
-                <td th:text="${employees['accountName']}"></td>
-                <td th:text="${employees['nameEmployees']}"></td>
-                <td th:text="${employees['phoneNumber']}"></td>
+                <td th:text="${customer['nameCustomer']}"></td>
+                <td th:text="${customer['phoneNumberCustomer']}"></td>
+                <td th:text="${customer['addressCustomer']}"></td>
+                <td th:text="${customer['nameEmployees']}"></td>
                 <td>
                     Chỉnh sửa
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
-                           th:attr="onclick=|infoDelete(${employees['idEmployees']},'${employees['nameEmployees']}')|">
+                            th:attr="onclick=|infoDelete(${customer['idCustomer']},'${customer['nameCustomer']}')|">
                         Xóa
                     </button>
 
                 </td>
             </tr>
-            <tr th:if="${employeesList.size() == 0}">
+            <tr th:if="${customerList.size() == 0}">
                 <td colspan="8">Không tìm thấy sản phẩm</td>
 
             </tr>
             </tbody>
         </table>
         <!--    Page-->
-        <div th:if="${employeesList.size() > 0}">
+        <div th:if="${customerList.size() > 0}">
             <nav  aria-label="Page navigation example">
                 <ul class="pagination display-flex" >
                     <li th:if="${page != 0 }" class="page-item">
-                        <a class="page-link" th:href="@{/employees/list(page=${page -1})}">Previous</a>
+                        <a class="page-link" th:href="@{/customer/list(page=${page -1})}">Previous</a>
                     </li>
                     <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
-                        <a th:href="@{/employees/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
+                        <a th:href="@{/customer/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
                             <span class="sr-only" th:text="${numberOfPage}"> </span>
                         </a>
                     </li>
                     <li th:if="${page + 1 != totalPage }" class="page-item">
-                        <a class="page-link" th:href="@{/employees/list(page=${page+1})}">Next</a>
+                        <a class="page-link" th:href="@{/customer/list(page=${page+1})}">Next</a>
                     </li>
                 </ul>
             </nav>
@@ -107,15 +106,15 @@
         <div class="modal-dialog" role="document">
             <div class="modal-content">
                 <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa Nhân Viên này không?</h5>
+                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa Khách Hàng này không?</h5>
                     <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/employees/delete}" method="post">
+                <form th:action="@{/customer/delete}" method="post">
                     <div class="modal-body">
-                        Bạn có muốn xóa nhân viên có tên <span id="nameEmployees" style="color:navy"></span> này không?
-                        <input type="hidden" id="idEmployees" name="idEmployees" style="color:navy">
+                        Bạn có muốn xóa khách hàng có tên <span id="nameCustomer" style="color:navy"></span> này không?
+                        <input type="hidden" id="idCustomer" name="idCustomer" style="color:navy">
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
@@ -132,17 +131,17 @@
 </div>
 
 <script>
-    function infoDelete(idEmployees, nameEmployees) {
-        document.getElementById("idEmployees").value = idEmployees;
-        document.getElementById("nameEmployees").innerText = nameEmployees;
-        console.log(idEmployees, nameEmployees)
+    function infoDelete(idCustomer, nameCustomer) {
+        document.getElementById("idCustomer").value = idCustomer;
+        document.getElementById("nameCustomer").innerText = nameCustomer;
+        console.log(idCustomer, nameCustomer)
     }
     // Tự động ẩn thông báo sau 4 giây
     setTimeout(function() {
         document.getElementById("successMessage").style.display = "none";
     }, 4000);// 4000 milliseconds = 4 giây
 
-    function createEmployees(page) {
+    function createCustomer(page) {
         localStorage.setItem("page",page+1);
     }
 
