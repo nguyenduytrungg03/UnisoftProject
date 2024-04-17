@@ -19,4 +19,7 @@ public interface EmployeesMapper {
     int createEmployees( Employees employees);
 
     int createEmployees(String nameEmployees, String phoneNumber, int accountId);
+
+    Employees getEmployeesByAccountId (int idAccount);
+
 }

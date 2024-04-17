@@ -1,12 +1,18 @@
 package com.example.projecttraining.controller;
 
+import com.example.projecttraining.dto.product_dto.CustomerDTO;
+import com.example.projecttraining.dto.product_dto.ProductDTO;
+import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Customer;
 import com.example.projecttraining.model.Employees;
-import com.example.projecttraining.model.Product;
+import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.customer.ICustomerService;
+import com.example.projecttraining.service.employees.IEmployeesService;
 import com.example.projecttraining.service.security.UserDetailImp;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -14,6 +20,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
+import javax.validation.Valid;
 import java.util.List;
 import java.util.Map;
 
@@ -25,6 +32,20 @@ public class CustomerController {
     @Autowired
     private ICustomerService iCustomerService;
 
+    @Autowired
+    private IAccountService iAccountService;
+
+    @Autowired
+    private IEmployeesService iEmployeesService;
+    private Account getAccountLogin () {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String usernameLogin = authentication.getName();
+            Account account  = iAccountService.findByAccountName(usernameLogin);
+            return account;
+        }
+        return null;
+    }
     @GetMapping("/list")
     public String findAllCustomer(@RequestParam(required = false, defaultValue = "0") int page
             , @RequestParam(required = false, defaultValue = "") String nameCustomer
@@ -48,7 +69,7 @@ public class CustomerController {
     @PostMapping("/delete")
     public String deleteCustomer(@RequestParam int idCustomer, RedirectAttributes redirectAttributes){
         iCustomerService.deleteCustomer(idCustomer);
-        redirectAttributes.addFlashAttribute("message", "Xóa nhân viên thành công!");
+        redirectAttributes.addFlashAttribute("message", "Xóa khách hàng thành công!");
         return "redirect:/customer/list";
     }
 
@@ -84,6 +105,66 @@ public class CustomerController {
         } else {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công.");
             return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" +addressCustomer;
+        }
+    }
+
+    @GetMapping("/formUpdate/{idCustomer}")
+    public String goFormUpdate(@PathVariable("idCustomer") int idCustomer,Model model, RedirectAttributes redirectAttributes){
+        Account accountLogin = getAccountLogin();
+        assert accountLogin != null;
+        Customer customer = iCustomerService.findByIdCustomer(idCustomer);
+        Employees employee = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
+        System.out.println(customer);
+        if (customer == null) {
+            redirectAttributes.addFlashAttribute("message","Không có đối tượng này");
+            return "redirect:/customer/list";
+        }
+       
+
+
+        if (employee != null) {
+            System.out.println(customer);
+            if ((customer.getEmployees().getIdEmployees() != employee.getIdEmployees()) && !accountLogin.getRole().getNameRole().equals("ROLE_EMPLOYEES")){
+                redirectAttributes.addFlashAttribute("message","Bạn không có quyền cập nhật đối tượng này");
+                return "redirect:/customer/list";
+            }else {
+                CustomerDTO customerDTO = new CustomerDTO();
+                BeanUtils.copyProperties(customer, customerDTO);
+                model.addAttribute("customerDTO", customerDTO);
+                model.addAttribute("accountName", accountLogin.getAccountName());
+            }
+        }
+        return "customer/customer-update";
+    }
+
+
+    @PostMapping("/updateCustomer")
+    public String updateCustomer(@Valid
+                                     @ModelAttribute("customerDTO") CustomerDTO customerDTO,
+                                 @RequestParam(required = false, defaultValue = "0") int page,
+                                 @RequestParam(required = false, defaultValue = "") String nameCustomer,
+                                 @RequestParam(required = false, defaultValue = "") String phoneNumberCustomer,
+                                 @RequestParam(required = false, defaultValue = "") String addressCustomer,
+                                 RedirectAttributes redirectAttributes,
+                                 BindingResult bindingResult, Model model){
+        if (bindingResult.hasFieldErrors()) {
+            model.addAttribute("customerDTO", customerDTO);
+            return "customer/customer-create";
+        }
+        Customer customer = new Customer();
+        BeanUtils.copyProperties(customerDTO, customer);
+        int result = 0;
+        try {
+            result = iCustomerService.updateCustomer(customer.getNameCustomer(),customer.getPhoneNumberCustomer(),customer.getAddressCustomer(), customer.getEmployees().getIdEmployees(),customer.getVersionCustomer(),customer.getIdCustomer());
+        } catch (Throwable e) {
+            System.out.println(e.getMessage());
+        }
+        if (result == 0) {
+            redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại.");
+            return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer ;
+        } else {
+            redirectAttributes.addFlashAttribute("message", "Thêm mới thành công.");
+            return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer ;
         }
     }
 }

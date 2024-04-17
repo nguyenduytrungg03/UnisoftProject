@@ -1,7 +1,7 @@
 package com.example.projecttraining.service.customer;
 
 import com.example.projecttraining.model.Customer;
-import com.example.projecttraining.model.Employees;
+
 
 import java.util.List;
 import java.util.Map;
@@ -18,4 +18,8 @@ public interface ICustomerService {
     Customer findByIdCustomer(int idCustomer);
 
     int createCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees);
+
+    int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees, int versionCustomer, int idCustomer);
+
+
 }

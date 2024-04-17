@@ -2,6 +2,7 @@ package com.example.projecttraining.service.employees;
 
 
 import com.example.projecttraining.model.Account;
+import com.example.projecttraining.model.Customer;
 import com.example.projecttraining.model.Employees;
 
 import java.util.List;
@@ -17,6 +18,8 @@ public interface IEmployeesService {
     Employees findByIdEmployees (int idEmployees);
 
     int createEmployees (Employees employees);
+
+   Employees getEmployeesByAccountId (int idAccount);
 
 
 }

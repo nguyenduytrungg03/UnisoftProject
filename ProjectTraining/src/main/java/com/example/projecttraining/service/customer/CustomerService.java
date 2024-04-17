@@ -33,13 +33,18 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public Customer findByIdCustomer(int idCustomer) {
+    public Customer findByIdCustomer(int idCustomer ) {
         return customerMapper.findByIdCustomer(idCustomer);
     }
 
     @Override
     public int createCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees) {
         return customerMapper.createCustomer(nameCustomer, phoneNumberCustomer,addressCustomer,idEmployees);
+    }
+
+    @Override
+    public int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees, int versionCustomer, int idCustomer) {
+        return customerMapper.updateCustomer(nameCustomer, phoneNumberCustomer, addressCustomer, idEmployees, versionCustomer, idCustomer);
     }
 
 

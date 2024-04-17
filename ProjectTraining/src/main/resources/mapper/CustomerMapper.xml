@@ -52,16 +52,17 @@
         </where>
     </update>
 
-    <select id="findByIdCustomer" parameterType="com.example.projecttraining.model.Customer">
+    <select id="findByIdCustomer" resultType="com.example.projecttraining.model.Customer">
         SELECT
-            *
+          c.id_customer as idCustomer,
+          c.name_customer as nameCustomer,
+          c.phone_number_customer as phoneNumberCustomer,
+          c.address_customer as addressCustomer,
+          c.id_employees as idEmployees
         FROM
             customer c
-        <where>
-            id_customer = #{idCustomer}
-        </where>
-        AND
-            c.status_delete = 0
+        WHERE
+            c.id_customer = #{idCustomer}
     </select>
 
     <insert id="createCustomer" parameterType="com.example.projecttraining.model.Customer">
@@ -73,4 +74,17 @@
              #{addressCustomer},
              #{idEmployees})
     </insert>
+
+
+    <update id="updateCustomer">
+        UPDATE
+            customer
+        SET
+            name_customer = #{nameCustomer},
+            phone_number_customer = #{phoneNumberCustomer},
+            address_customer = #{addressCustomer},
+            version_customer = version_customer +1
+        WHERE
+            id_customer = #{idCustomer};
+    </update>
 </mapper>

@@ -64,7 +64,7 @@
                 <td th:text="${customer['addressCustomer']}"></td>
                 <td th:text="${customer['nameEmployees']}"></td>
                 <td>
-                    Chỉnh sửa
+                    <a th:href="@{/customer/formUpdate/{idCustomer} (idCustomer = ${customer['idCustomer']})}">Chỉnh sửa</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"

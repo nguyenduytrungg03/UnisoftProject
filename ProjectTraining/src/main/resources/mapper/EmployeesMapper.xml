@@ -75,7 +75,20 @@
              #{idAccount})
     </insert>
 
-
+    <select id="getEmployeesByAccountId" parameterType="com.example.projecttraining.model.Employees">
+        SELECT
+            e.id_employees as idEmployees,
+            e.name_employees as nameEmployees,
+            e.phone_number as phoneNumber,
+            e.id_account as idAccount,
+            e.version_employees as versionEmployees
+        FROM
+            employees e
+        JOIN
+            account a on a.account_id = e.id_account
+        where
+            e.id_account = #{idAccount}
+    </select>
 
 
 </mapper>

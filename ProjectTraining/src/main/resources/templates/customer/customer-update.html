@@ -22,7 +22,7 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Chỉnh sửa khách hàng</div>
-        <form th:object="${customer}"
+        <form th:object="${customerDTO}"
               th:action="@{/customer/updateCustomer}"
               method="post" class="p-3">
 
@@ -40,17 +40,16 @@
             <div class="form-group">
                 <label>Nhập địa chỉ của khách hàng</label>
                 <input id="addressCustomer" name="addressCustomer" class="form-control" >
-
             </div>
-<!--            <input type ="hidden" th:field ="*{idCustomer}" class="form-control" >-->
-<!--            <input type ="hidden" th:field ="*{versionCustomer}" class="form-control" >-->
-<!--            <input type ="hidden" th:field ="*{statusDelete}" class="form-control" >-->
+            <input type ="hidden" th:field ="*{idCustomer}" class="form-control" >
+            <input type ="hidden" th:field ="*{versionCustomer}" class="form-control" >
+            <input type ="hidden" th:field ="*{employees}" class="form-control" >
 
 
             <div class="d-flex">
                 <button type="submit" class="btn btn-dark w-50">Thêm mới</button>
                 <button type="button" class="btn btn-dark w-50">
-                    <a th:href="@{/cutomer/list}">Cancel</a>
+                    <a th:href="@{/customer/list}">Cancel</a>
                 </button>
             </div>
         </form>

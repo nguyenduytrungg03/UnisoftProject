@@ -58,4 +58,9 @@ public class EmployeesService implements IEmployeesService{
         employees.setAccount(savedAccount);
         return employeesMapper.createEmployees(employees);
     }
+
+    @Override
+    public Employees getEmployeesByAccountId(int idAccount) {
+        return employeesMapper.getEmployeesByAccountId(idAccount);
+    }
 }

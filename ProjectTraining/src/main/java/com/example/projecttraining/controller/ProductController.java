@@ -91,7 +91,7 @@ public class ProductController {
             Product product = iProductService.findByIdProduct(idProduct);
             BeanUtils.copyProperties(product, productDTO);
             model.addAttribute("productDTO", productDTO);
-            model.addAttribute("nameLogin",account.getAccountName());
+            model.addAttribute("accountName",account.getAccountName());
             System.out.println(product);
         } catch (Throwable e) {
             System.out.println(e.getMessage());
