@@ -1,10 +1,8 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" lang="">
-<html lang="en">
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
 <head>
     <meta charset="UTF-8">
     <title>Sản Phẩm</title>
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <style>
@@ -28,26 +26,27 @@
 
             <div class="form-group">
                 <label>Nhập tên khách hàng</label>
-                <input id="nameCustomer" name="nameCustomer" class="form-control">
+                <input th:field ="*{nameCustomer}" id="nameCustomer" name="nameCustomer" class="form-control">
                 <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{codeProduct}"></div>-->
             </div>
             <div class="form-group">
                 <label>Nhập số điện thoại khách hàng</label>
-                <input id="phoneNumberCustomer" name="phoneNumberCustomer"  class="form-control">
+                <input  th:field ="*{phoneNumberCustomer}" id="phoneNumberCustomer" name="phoneNumberCustomer"  class="form-control">
                 <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{nameProduct}"></div>-->
             </div>
 
             <div class="form-group">
                 <label>Nhập địa chỉ của khách hàng</label>
-                <input id="addressCustomer" name="addressCustomer" class="form-control" >
+                <input th:field ="*{addressCustomer}" id="addressCustomer" name="addressCustomer" class="form-control" >
             </div>
+            <input type ="hidden" th:field ="*{nameEmployees}" class="form-control" >
             <input type ="hidden" th:field ="*{idCustomer}" class="form-control" >
             <input type ="hidden" th:field ="*{versionCustomer}" class="form-control" >
-            <input type ="hidden" th:field ="*{employees}" class="form-control" >
+
 
 
             <div class="d-flex">
-                <button type="submit" class="btn btn-dark w-50">Thêm mới</button>
+                <button type="submit" class="btn btn-dark w-50">Chỉnh sửa</button>
                 <button type="button" class="btn btn-dark w-50">
                     <a th:href="@{/customer/list}">Cancel</a>
                 </button>

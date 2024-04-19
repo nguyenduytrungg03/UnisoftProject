@@ -7,6 +7,7 @@ import com.example.projecttraining.model.Employees;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 @Controller
@@ -34,7 +35,17 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public Customer findByIdCustomer(int idCustomer ) {
-        return customerMapper.findByIdCustomer(idCustomer);
+      Map<String, Object>  map = customerMapper.getCustomerByIdCustomer(idCustomer);
+      Employees employees = new Employees();
+      Customer customer = new Customer();
+      employees.setIdEmployees((Integer) map.get("id_employees"));
+      employees.setNameEmployees((String) map.get("name_employees"));
+      customer.setIdCustomer((Integer) map.get("id_customer"));
+      customer.setNameCustomer((String) map.get("name_customer"));
+      customer.setPhoneNumberCustomer((String) map.get("phone_number_customer"));
+      customer.setAddressCustomer((String) map.get("address_customer"));
+      customer.setEmployees(employees);
+      return customer;
     }
 
     @Override
@@ -43,8 +54,9 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees, int versionCustomer, int idCustomer) {
-        return customerMapper.updateCustomer(nameCustomer, phoneNumberCustomer, addressCustomer, idEmployees, versionCustomer, idCustomer);
+    public int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer , int versionCustomer, int idCustomer) {
+
+        return customerMapper.updateCustomer(nameCustomer, phoneNumberCustomer, addressCustomer , versionCustomer, idCustomer);
     }
 
 

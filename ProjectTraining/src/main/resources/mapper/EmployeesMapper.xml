@@ -85,7 +85,7 @@
         FROM
             employees e
         JOIN
-            account a on a.account_id = e.id_account
+            account a on e.id_account = a.account_id
         where
             e.id_account = #{idAccount}
     </select>

@@ -2,7 +2,7 @@ package com.example.projecttraining.model;
 
 
 public class Employees {
-    private int idEmployees;
+    private Integer idEmployees;
     private String nameEmployees;
     private String phoneNumber;
     private int statusDelete;
@@ -12,7 +12,7 @@ public class Employees {
     public Employees() {
     }
 
-    public Employees(int idEmployees, String nameEmployees, String phoneNumber, int deleteStatus, int versionEmployees, Account account) {
+    public Employees(Integer idEmployees, String nameEmployees, String phoneNumber, int deleteStatus, int versionEmployees, Account account) {
         this.idEmployees = idEmployees;
         this.nameEmployees = nameEmployees;
         this.phoneNumber = phoneNumber;
@@ -21,11 +21,11 @@ public class Employees {
         this.account = account;
     }
 
-    public int getIdEmployees() {
+    public Integer getIdEmployees() {
         return idEmployees;
     }
 
-    public void setIdEmployees(int idEmployees) {
+    public void setIdEmployees(Integer idEmployees) {
         this.idEmployees = idEmployees;
     }
 

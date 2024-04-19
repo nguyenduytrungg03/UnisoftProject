@@ -52,15 +52,19 @@
         </where>
     </update>
 
-    <select id="findByIdCustomer" resultType="com.example.projecttraining.model.Customer">
+    <select id="getCustomerByIdCustomer" resultType='java.util.Map'>
+
         SELECT
-          c.id_customer as idCustomer,
-          c.name_customer as nameCustomer,
-          c.phone_number_customer as phoneNumberCustomer,
-          c.address_customer as addressCustomer,
-          c.id_employees as idEmployees
+            c.id_customer,
+            c.name_customer ,
+            c.phone_number_customer ,
+            c.address_customer ,
+            e.id_employees ,
+            e.name_employees
         FROM
             customer c
+        JOIN
+            employees e ON e.id_employees = c.id_employees
         WHERE
             c.id_customer = #{idCustomer}
     </select>
@@ -85,6 +89,6 @@
             address_customer = #{addressCustomer},
             version_customer = version_customer +1
         WHERE
-            id_customer = #{idCustomer};
+            id_customer = #{idCustomer}
     </update>
 </mapper>

@@ -2,11 +2,12 @@ package com.example.projecttraining.dto.product_dto;
 
 import com.example.projecttraining.model.Employees;
 import org.jetbrains.annotations.NotNull;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
-
+@Component
 public class CustomerDTO implements Validator {
-    private int idCustomer;
+    private Integer idCustomer;
     private String nameCustomer;
     private String phoneNumberCustomer;
 
@@ -16,16 +17,28 @@ public class CustomerDTO implements Validator {
 
     private int statusDelete;
 
-    private Employees employees;
+    private Integer idEmployees;
+    private String nameEmployees;
 
     public CustomerDTO() {
     }
 
-    public int getIdCustomer() {
+    public CustomerDTO(Integer idCustomer, String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int statusDelete, Integer idEmployees, String nameEmployees) {
+        this.idCustomer = idCustomer;
+        this.nameCustomer = nameCustomer;
+        this.phoneNumberCustomer = phoneNumberCustomer;
+        this.addressCustomer = addressCustomer;
+        this.versionCustomer = versionCustomer;
+        this.statusDelete = statusDelete;
+        this.idEmployees = idEmployees;
+        this.nameEmployees = nameEmployees;
+    }
+
+    public Integer getIdCustomer() {
         return idCustomer;
     }
 
-    public void setIdCustomer(int idCustomer) {
+    public void setIdCustomer(Integer idCustomer) {
         this.idCustomer = idCustomer;
     }
 
@@ -69,12 +82,20 @@ public class CustomerDTO implements Validator {
         this.statusDelete = statusDelete;
     }
 
-    public Employees getEmployees() {
-        return employees;
+    public Integer getIdEmployees() {
+        return idEmployees;
     }
 
-    public void setEmployees(Employees employees) {
-        this.employees = employees;
+    public void setIdEmployees(Integer idEmployees) {
+        this.idEmployees = idEmployees;
+    }
+
+    public String getNameEmployees() {
+        return nameEmployees;
+    }
+
+    public void setNameEmployees(String nameEmployees) {
+        this.nameEmployees = nameEmployees;
     }
 
     @Override
@@ -82,11 +103,12 @@ public class CustomerDTO implements Validator {
         return "CustomerDTO{" +
                 "idCustomer= " + idCustomer +
                 ", nameCustomer= " + nameCustomer +
-                ", phoneNumberCustomer= " + phoneNumberCustomer  +
+                ", phoneNumberCustomer= " + phoneNumberCustomer +
                 ", addressCustomer= " + addressCustomer +
                 ", versionCustomer= " + versionCustomer +
                 ", statusDelete= " + statusDelete +
-                ", employees= " + employees +
+                ", idEmployees= " + idEmployees +
+                ", nameEmployees= " + nameEmployees +
                 '}';
     }
 

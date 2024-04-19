@@ -19,7 +19,7 @@ public interface ICustomerService {
 
     int createCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees);
 
-    int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees, int versionCustomer, int idCustomer);
+    int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int idCustomer);
 
 
 }

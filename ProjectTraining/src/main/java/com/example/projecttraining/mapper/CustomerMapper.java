@@ -16,9 +16,9 @@ public interface CustomerMapper {
 
     void deleteCustomer(int idCustomer);
 
-    Customer findByIdCustomer(int idCustomer );
+    Map<String, Object> getCustomerByIdCustomer(int idCustomer);
 
     int createCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees);
 
-    int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer,int idEmployees, int versionCustomer, int idCustomer);
+    int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int idCustomer);
 }
