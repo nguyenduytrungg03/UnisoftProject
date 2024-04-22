@@ -1,14 +1,11 @@
 package com.example.projecttraining.service.employees;
 
-import com.example.projecttraining.dto.product_dto.EmployeesDTO;
 import com.example.projecttraining.mapper.AccountMapper;
 import com.example.projecttraining.mapper.EmployeesMapper;
 import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
 import com.example.projecttraining.model.Role;
-import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.crypto.bcrypt.BCrypt;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -43,24 +40,66 @@ public class EmployeesService implements IEmployeesService{
     }
 
     @Override
-    public Employees findByIdEmployees(int idEmployees) {
-        return employeesMapper.findByIdEmployees(idEmployees);
+    public Employees getEmployeesByIdEmployees(int idEmployees) {
+        Map<String, Object>  map = employeesMapper.getEmployeesByIdEmployees(idEmployees);
+        Employees employees = new Employees();
+        Account account = new Account();
+        employees.setIdEmployees((int) map.get("idEmployees"));
+        employees.setNameEmployees((String) map.get("nameEmployees"));
+        employees.setPhoneNumber((String) map.get("phoneNumber"));
+        employees.setVersionEmployees((int) map.get("versionEmployees"));
+        account.setAccountId((int) map.get("accountId"));
+        account.setAccountName((String) map.get("accountName"));
+        employees.setAccount(account);
+        return employees;
     }
 
     @Override
-    public int createEmployees( Employees employees) {
-        EmployeesDTO employeesDTO = new EmployeesDTO();
-        Role role = new Role(2,"ROLE_EMPLOYEES");
-        Account account = new Account();
-        account.setRole(role);
-        Account savedAccount = accountMapper.createAccount(account);
-        BeanUtils.copyProperties(employeesDTO, employees);
-        employees.setAccount(savedAccount);
-        return employeesMapper.createEmployees(employees);
+    public int createEmployees(Account account, Employees employees) {
+        System.out.println(account);
+        int role = 2;
+        int rowCreateAccount = accountMapper.createAccount(account.getAccountName(), encoder.encode(account.getPassword()), role);
+
+//        account.setPassword(encoder.encode(account.getPassword()));
+        if (rowCreateAccount == 1) {
+            Map<String, Object> getIdByAccountCreate = accountMapper.findByAccountName(account.getAccountName());
+            int accountId = (int) getIdByAccountCreate.get("accountId");
+
+            int rowCreateEmployees = employeesMapper.createEmployees(employees.getNameEmployees(), employees.getPhoneNumber(), accountId);
+            if (rowCreateEmployees == 1) {
+                return 1;
+            }
+      }
+        return 0;
     }
 
     @Override
     public Employees getEmployeesByAccountId(int idAccount) {
         return employeesMapper.getEmployeesByAccountId(idAccount);
     }
+
+//	int roleIdOfUser = 2;
+//		int rowEffectByInsertAccount = accountMapper.insertAccount(account.getUsername(), BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()),roleIdOfUser);
+//		if (rowEffectByInsertAccount == 1) {
+//			Map<String,Object> getIdByAccountAddNew = accountMapper.getAccountByUsername(account.getUsername());
+//			int accountId = (int) getIdByAccountAddNew.get("id");
+//			int rowEffectByInsertEmployee = employeeMapper.insertEmployee(employee.getName(),employee.getPhoneNumber(),accountId);
+//			if (rowEffectByInsertEmployee == 1) {
+//				return 1;
+//			}
+//		}
+//		return 0;
+//    @Override
+//    public int createEmployees( Employees employees) {
+//        EmployeesDTO employeesDTO = new EmployeesDTO();
+//        Role role = new Role(2,"ROLE_EMPLOYEES");
+//        Account account = new Account();
+//        account.setRole(role);
+//        Account savedAccount = accountMapper.createAccount(account);
+//        BeanUtils.copyProperties(employeesDTO, employees);
+//        employees.setAccount(savedAccount);
+//        return employeesMapper.createEmployees(employees);
+//    }
+
+
 }

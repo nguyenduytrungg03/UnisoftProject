@@ -4,7 +4,7 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.projecttraining.mapper.EmployeesMapper" >
 
-    <select id='getAllEmployees' resultType='java.util.Map' >
+    <select id='getAllEmployees' resultType='java.util.Map'>
         SELECT
             e.id_employees as idEmployees,
             e.name_employees as nameEmployees,
@@ -66,29 +66,44 @@
             e.status_delete = 0
     </select>
 
-    <insert id="createEmployees">
+    <insert id="createEmployees"  parameterType="com.example.projecttraining.model.Employees">
         INSERT INTO
-            employees(name_employees, phone_number,id_account)
+            employees(name_employees, phone_number, id_account)
         VALUES
             (#{nameEmployees},
              #{phoneNumber},
              #{idAccount})
     </insert>
 
-    <select id="getEmployeesByAccountId" parameterType="com.example.projecttraining.model.Employees">
+    <select id="getEmployeesByIdEmployees" resultType='java.util.Map' >
         SELECT
             e.id_employees as idEmployees,
             e.name_employees as nameEmployees,
             e.phone_number as phoneNumber,
-            e.id_account as idAccount,
+            a.account_id as accountId,
             e.version_employees as versionEmployees
         FROM
             employees e
         JOIN
             account a on e.id_account = a.account_id
-        where
-            e.id_account = #{idAccount}
+        WHERE
+            e.id_employees = #{idEmployees}
     </select>
+
+    <select id="getEmployeesByAccountId" >
+    SELECT
+        e.id_employees as idEmployees,
+        e.name_employees as nameEmployees,
+        e.phone_number  as phoneNumber,
+        e.version_employees as versionEmployees,
+        e.status_delete as statusDelete
+    FROM
+        employees
+    WHERE
+        e.id_account = #{idAccount}
+    </select>
+
+
 
 
 </mapper>

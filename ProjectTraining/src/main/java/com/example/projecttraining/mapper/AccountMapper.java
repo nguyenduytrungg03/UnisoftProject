@@ -9,6 +9,6 @@ import java.util.Map;
 public interface AccountMapper {
     Map<String, Object> findByAccountName(String accountName);
 
-    Account createAccount(Account account);
+    int createAccount(String accountName, String password, int roleId);
 
 }

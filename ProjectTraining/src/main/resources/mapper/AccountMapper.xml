@@ -15,17 +15,16 @@
             </where>
         </select>
 
-    <insert id="createAccount">
+    <insert id="createAccount"  parameterType="com.example.projecttraining.model.Account">
         INSERT INTO
-            account(account_id, account_name, password,role_id,status_delete, confirm_password)
+            account(account_name, password,role_id)
         VALUES
-            (#{accountId},
-             #{accountName},
-             #{password},
-             2,
-             0,
-             #{confirmPassword});
+             (#{accountName},
+              #{password},
+              #{roleId})
     </insert>
+
+
 </mapper>
 
 

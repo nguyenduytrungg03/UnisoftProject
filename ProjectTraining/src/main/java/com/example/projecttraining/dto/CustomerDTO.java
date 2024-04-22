@@ -1,4 +1,4 @@
-package com.example.projecttraining.dto.product_dto;
+package com.example.projecttraining.dto;
 
 import com.example.projecttraining.model.Employees;
 import org.jetbrains.annotations.NotNull;

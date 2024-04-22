@@ -1,7 +1,6 @@
 package com.example.projecttraining.controller;
 
-import com.example.projecttraining.dto.product_dto.CustomerDTO;
-import com.example.projecttraining.dto.product_dto.ProductDTO;
+import com.example.projecttraining.dto.CustomerDTO;
 import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Customer;
 import com.example.projecttraining.model.Employees;
@@ -9,7 +8,6 @@ import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.customer.ICustomerService;
 import com.example.projecttraining.service.employees.IEmployeesService;
 import com.example.projecttraining.service.security.UserDetailImp;
-import org.jetbrains.annotations.TestOnly;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -22,13 +20,8 @@ import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import javax.validation.Valid;
-import java.net.URI;
-import java.net.URLDecoder;
-import java.nio.charset.StandardCharsets;
-import java.util.Arrays;
 import java.util.List;
 import java.util.Map;
-import java.util.stream.Collectors;
 
 @Controller
 @RequestMapping("/customer")
@@ -109,7 +102,6 @@ public class CustomerController {
             System.out.println(e.getMessage());
         }
         if (result == 0) {
-
             redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại.");
             return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer;
         } else {

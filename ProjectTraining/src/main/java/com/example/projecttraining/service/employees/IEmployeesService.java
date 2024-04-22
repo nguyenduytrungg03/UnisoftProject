@@ -15,9 +15,9 @@ public interface IEmployeesService {
 
     void deleteEmployees(int idEmployees);
 
-    Employees findByIdEmployees (int idEmployees);
+    Employees getEmployeesByIdEmployees(int idEmployees);
 
-    int createEmployees (Employees employees);
+    int createEmployees (Account account, Employees employees);
 
    Employees getEmployeesByAccountId (int idAccount);
 

@@ -53,7 +53,6 @@
     </update>
 
     <select id="getCustomerByIdCustomer" resultType='java.util.Map'>
-
         SELECT
             c.id_customer,
             c.name_customer ,

@@ -1,10 +1,9 @@
 package com.example.projecttraining.controller;
 
-import com.example.projecttraining.dto.product_dto.EmployeesDTO;
+
+import com.example.projecttraining.dto.EmployeesDTO;
 import com.example.projecttraining.model.Employees;
-import com.example.projecttraining.model.Product;
 import com.example.projecttraining.service.employees.IEmployeesService;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -62,30 +61,30 @@ public class EmployeeController {
 
 
     @PostMapping("/createEmployees")
-    public String createEmployees(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO, @RequestParam String accountName, @RequestParam String nameEmployees, @RequestParam String phoneNumber, RedirectAttributes redirectAttributes,
-                                  BindingResult bindingResult, Model model,@RequestParam(required = false, defaultValue = "0") int page){
-
-
-        new EmployeesDTO().validate(employeesDTO, bindingResult);
-        Employees employee = new Employees();
-        BeanUtils.copyProperties(employeesDTO, employee);
-        employee.setAccount(employeesDTO.getAccount());
-        int rowCreateEmployee = iEmployeesService.createEmployees(employee);
+    public String createEmployees(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
+                                  @RequestParam String accountName, @RequestParam String nameEmployees, @RequestParam String phoneNumber,
+                                  @RequestParam(required = false, defaultValue = "0") int page,
+                                  RedirectAttributes redirectAttributes,
+                                  BindingResult bindingResult, Model model){
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("employeesDTO", employeesDTO);
+			return "employees/employees-create";
+		}
+        Employees employees = new Employees();
+        BeanUtils.copyProperties(employeesDTO, employees);
+        employees.setAccount(employeesDTO.getAccount());
+        System.out.println(employees);
+        int rowCreateEmployee = iEmployeesService.createEmployees(employeesDTO.getAccount(),employees);
         if (rowCreateEmployee == 1) {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
-            return "redirect:/employee/list?page=" + page + "&accountName=" + accountName + "&nameEmployees=" + nameEmployees
-                    + "&phoneNumber=" + phoneNumber;
+            return "redirect:/employees/list?page=" + page ;
         } else {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại");
-            return "redirect:/employee/list?page=" + page + "&accountName=" + accountName + "&nameEmployees=" + nameEmployees
-                    + "&phoneNumber=" + phoneNumber;
+            return "redirect:/employees/list?page=" + page ;
         }
+    }
+
     }
 
 
 
-
-
-
-
-}

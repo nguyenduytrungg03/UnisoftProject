@@ -15,10 +15,6 @@ public class Account {
     private Role role;
     private  boolean statusDelete ;
 
-//    private Role getDefaultRole() {
-//        return new Role(1, "Admin");
-//    }
-
 
     public Account(int accountId, String accountName, String password, String confirmPassword, Role role, boolean statusDelete) {
         this.accountId = accountId;

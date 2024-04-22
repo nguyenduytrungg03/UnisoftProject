@@ -1,6 +1,5 @@
-package com.example.projecttraining.dto.product_dto;
+package com.example.projecttraining.dto;
 
-import jakarta.persistence.Column;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;

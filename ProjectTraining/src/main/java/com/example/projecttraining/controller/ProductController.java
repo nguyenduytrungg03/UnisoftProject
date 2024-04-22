@@ -1,6 +1,6 @@
 package com.example.projecttraining.controller;
 
-import com.example.projecttraining.dto.product_dto.ProductDTO;
+import com.example.projecttraining.dto.ProductDTO;
 import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Product;
 import com.example.projecttraining.service.account.IAccountService;

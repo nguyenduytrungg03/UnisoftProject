@@ -1,4 +1,4 @@
-package com.example.projecttraining.dto.product_dto;
+package com.example.projecttraining.dto;
 
 import com.example.projecttraining.model.Account;
 import org.jetbrains.annotations.NotNull;
@@ -92,13 +92,12 @@ public class EmployeesDTO implements Validator {
 
     @Override
     public String toString() {
-        return "EmployeesDTO{" +
-                "idEmployees=" + idEmployees +
-                ", nameEmployees='" + nameEmployees + '\'' +
-                ", phoneNumber='" + phoneNumber + '\'' +
-                ", statusDelete=" + statusDelete +
-                ", versionEmployees=" + versionEmployees +
-                ", account=" + account +
-                '}';
+        return "EmployeesDTO " +
+                "idEmployees " + idEmployees +
+                ", nameEmployees " + nameEmployees +
+                ", phoneNumber " + phoneNumber +
+                ", statusDelete " + statusDelete +
+                ", versionEmployees " + versionEmployees +
+                ", account " + account;
     }
 }
