@@ -11,4 +11,6 @@ public interface AccountMapper {
 
     int createAccount(String accountName, String password, int roleId);
 
+    int findByIdAccountByAccountName(String accountName);
+
 }

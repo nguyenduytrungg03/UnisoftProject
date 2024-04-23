@@ -85,11 +85,9 @@
              p.name_product = #{nameProduct},
              p.sale_price = #{salePrice},
              p.purchase_price = #{purchasePrice},
-             p.version_product = #{versionProduct}+ 1
+             p.version_product = version_product + 1
        <where>
              p.id_product = #{idProduct}
-          AND
-             p.version_product = #{versionProduct}
        </where>
     </update>
 

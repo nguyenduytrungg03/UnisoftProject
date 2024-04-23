@@ -68,7 +68,7 @@
             c.id_customer = #{idCustomer}
     </select>
 
-    <insert id="createCustomer" parameterType="com.example.projecttraining.model.Customer">
+    <insert id="createCustomer">
         INSERT INTO
             customer(name_customer, phone_number_customer, address_customer, id_employees)
         values

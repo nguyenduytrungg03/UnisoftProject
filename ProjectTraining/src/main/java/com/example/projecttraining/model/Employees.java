@@ -4,21 +4,17 @@ package com.example.projecttraining.model;
 public class Employees {
     private Integer idEmployees;
     private String nameEmployees;
+    private Account account;
+
+//    private String accountName;
+//    private String password;
     private String phoneNumber;
     private int statusDelete;
     private int versionEmployees;
-    private Account account;
+
+
 
     public Employees() {
-    }
-
-    public Employees(Integer idEmployees, String nameEmployees, String phoneNumber, int deleteStatus, int versionEmployees, Account account) {
-        this.idEmployees = idEmployees;
-        this.nameEmployees = nameEmployees;
-        this.phoneNumber = phoneNumber;
-        this.statusDelete = deleteStatus;
-        this.versionEmployees = versionEmployees;
-        this.account = account;
     }
 
     public Integer getIdEmployees() {
@@ -61,6 +57,21 @@ public class Employees {
         this.versionEmployees = versionEmployees;
     }
 
+//    public String getAccountName() {
+//        return accountName;
+//    }
+//
+//    public void setAccountName(String accountName) {
+//        this.accountName = accountName;
+//    }
+//
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
     public Account getAccount() {
         return account;
     }

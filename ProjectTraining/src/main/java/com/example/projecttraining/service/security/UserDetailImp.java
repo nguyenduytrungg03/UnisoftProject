@@ -27,7 +27,7 @@ public class UserDetailImp implements UserDetails {
                 account.getAccountId(),
                 account.getAccountName(),
                 account.getPassword(),
-                !account.getStatusDelete(),
+                !account.isStatusDelete(),
                 authorities
         );
     }

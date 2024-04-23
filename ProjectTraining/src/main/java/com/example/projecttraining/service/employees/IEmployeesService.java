@@ -17,9 +17,9 @@ public interface IEmployeesService {
 
     Employees getEmployeesByIdEmployees(int idEmployees);
 
-    int createEmployees (Account account, Employees employees);
+    int createEmployees (String accountName,String password, Employees employees);
 
-   Employees getEmployeesByAccountId (int idAccount);
+   Employees getEmployeesByAccountId (int accountId);
 
-
+//
 }

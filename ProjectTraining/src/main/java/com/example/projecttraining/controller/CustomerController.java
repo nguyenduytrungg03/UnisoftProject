@@ -115,14 +115,14 @@ public class CustomerController {
         Account accountLogin = getAccountLogin();
         assert accountLogin != null;
         Customer customer = iCustomerService.findByIdCustomer(idCustomer);
-        Employees employee = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
+        Employees employees = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
         System.out.println(customer);
         if (customer == null) {
             redirectAttributes.addFlashAttribute("message", "Không có đối tượng này");
             return "redirect:/customer/list";
         }
-        if (employee != null) {
-            if ((customer.getEmployees().getIdEmployees() != employee.getIdEmployees()) && !accountLogin.getRole().getNameRole().equals("ROLE_EMPLOYEES")) {
+        if (employees != null) {
+            if ((customer.getEmployees().getIdEmployees() != employees.getIdEmployees()) && !accountLogin.getRole().getNameRole().equals("ROLE_EMPLOYEES")) {
                 redirectAttributes.addFlashAttribute("message", "Bạn không có quyền cập nhật đối tượng này");
                 return "redirect:/customer/list";
             } else {

@@ -2,10 +2,15 @@ package com.example.projecttraining.controller;
 
 
 import com.example.projecttraining.dto.EmployeesDTO;
+import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
+import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.employees.IEmployeesService;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AnonymousAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -23,6 +28,17 @@ public class EmployeeController {
     private IEmployeesService iEmployeesService;
 
 
+    @Autowired
+    private IAccountService iAccountService;
+    private Account getAccountLogin() {
+        Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
+        if (!(authentication instanceof AnonymousAuthenticationToken)) {
+            String usernameLogin = authentication.getName();
+            Account account = iAccountService.findByAccountName(usernameLogin);
+            return account;
+        }
+        return null;
+    }
 
     @GetMapping("/list")
     public String getAllListEmployees(@RequestParam(required = false, defaultValue = "0") int page
@@ -55,14 +71,13 @@ public class EmployeeController {
 
     @GetMapping("/formCreate")
     public String goFormCreate(Model model) {
-        model.addAttribute("employees", new Employees());
+        model.addAttribute("employeesDTO", new EmployeesDTO());
         return "employees/employees-create";
     }
 
 
     @PostMapping("/createEmployees")
     public String createEmployees(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
-                                  @RequestParam String accountName, @RequestParam String nameEmployees, @RequestParam String phoneNumber,
                                   @RequestParam(required = false, defaultValue = "0") int page,
                                   RedirectAttributes redirectAttributes,
                                   BindingResult bindingResult, Model model){
@@ -72,9 +87,8 @@ public class EmployeeController {
 		}
         Employees employees = new Employees();
         BeanUtils.copyProperties(employeesDTO, employees);
-        employees.setAccount(employeesDTO.getAccount());
-        System.out.println(employees);
-        int rowCreateEmployee = iEmployeesService.createEmployees(employeesDTO.getAccount(),employees);
+        employees.setAccount(employees.getAccount());
+        int rowCreateEmployee = iEmployeesService.createEmployees(employeesDTO.getAccountName(),employeesDTO.getPassword(),employees);
         if (rowCreateEmployee == 1) {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
             return "redirect:/employees/list?page=" + page ;
@@ -83,6 +97,12 @@ public class EmployeeController {
             return "redirect:/employees/list?page=" + page ;
         }
     }
+
+//    @GetMapping("/formUpdate/{idEmployees}")
+//    public String goFormUpdate(){
+//
+//    }
+
 
     }
 

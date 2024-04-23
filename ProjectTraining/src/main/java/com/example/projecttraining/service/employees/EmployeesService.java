@@ -4,7 +4,7 @@ import com.example.projecttraining.mapper.AccountMapper;
 import com.example.projecttraining.mapper.EmployeesMapper;
 import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
-import com.example.projecttraining.model.Role;
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -55,16 +55,15 @@ public class EmployeesService implements IEmployeesService{
     }
 
     @Override
-    public int createEmployees(Account account, Employees employees) {
-        System.out.println(account);
+    @Transactional
+    public int createEmployees(String accountName,String password, Employees employees) {
         int role = 2;
-        int rowCreateAccount = accountMapper.createAccount(account.getAccountName(), encoder.encode(account.getPassword()), role);
+        int rowCreateAccount = accountMapper.createAccount(accountName, encoder.encode(password), role);
 
-//        account.setPassword(encoder.encode(account.getPassword()));
         if (rowCreateAccount == 1) {
-            Map<String, Object> getIdByAccountCreate = accountMapper.findByAccountName(account.getAccountName());
-            int accountId = (int) getIdByAccountCreate.get("accountId");
-
+//            Map<String, Object> getIdByAccountCreate = accountMapper.findByAccountName(accountName);
+//            int accountId = (int) getIdByAccountCreate.get("accountId");
+            int accountId = accountMapper.findByIdAccountByAccountName(accountName);
             int rowCreateEmployees = employeesMapper.createEmployees(employees.getNameEmployees(), employees.getPhoneNumber(), accountId);
             if (rowCreateEmployees == 1) {
                 return 1;
@@ -77,6 +76,21 @@ public class EmployeesService implements IEmployeesService{
     public Employees getEmployeesByAccountId(int idAccount) {
         return employeesMapper.getEmployeesByAccountId(idAccount);
     }
+
+
+//public int insertEmployee(Account account, Employee employee) {
+//		int roleIdOfUser = 2;
+//		int rowEffectByInsertAccount = accountMapper.insertAccount(account.getUsername(), BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()),roleIdOfUser);
+//		if (rowEffectByInsertAccount == 1) {
+//			Map<String,Object> getIdByAccountAddNew = accountMapper.getAccountByUsername(account.getUsername());
+//			int accountId = (int) getIdByAccountAddNew.get("id");
+//			int rowEffectByInsertEmployee = employeeMapper.insertEmployee(employee.getName(),employee.getPhoneNumber(),accountId);
+//			if (rowEffectByInsertEmployee == 1) {
+//				return 1;
+//			}
+//		}
+//		return 0;
+//	}
 
 //	int roleIdOfUser = 2;
 //		int rowEffectByInsertAccount = accountMapper.insertAccount(account.getUsername(), BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()),roleIdOfUser);

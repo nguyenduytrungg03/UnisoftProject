@@ -22,8 +22,6 @@ public class WebSecurityConfig  {
         return authConfig.getAuthenticationManager();
     }
 
-
-
     @Bean
     public PasswordEncoder passwordEncoder() {
         return new BCryptPasswordEncoder();

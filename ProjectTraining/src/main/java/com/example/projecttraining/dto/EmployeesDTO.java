@@ -6,25 +6,25 @@ import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
 
 public class EmployeesDTO implements Validator {
-
-
     private int idEmployees;
     private String nameEmployees;
     private String phoneNumber;
+//    private Account account;
+    private String accountName;
+    private String password;
+    private String confirmPassword;
     private int statusDelete;
     private int versionEmployees;
-    private Account account;
 
     public EmployeesDTO() {
     }
 
-    public EmployeesDTO(int idEmployees, String nameEmployees, String phoneNumber, int statusDelete, int versionEmployees, Account account) {
-        this.idEmployees = idEmployees;
-        this.nameEmployees = nameEmployees;
-        this.phoneNumber = phoneNumber;
-        this.statusDelete = statusDelete;
-        this.versionEmployees = versionEmployees;
-        this.account = account;
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public int getIdEmployees() {
@@ -67,12 +67,28 @@ public class EmployeesDTO implements Validator {
         this.versionEmployees = versionEmployees;
     }
 
-    public Account getAccount() {
-        return account;
+//    public Account getAccount() {
+//        return account;
+//    }
+//
+//    public void setAccount(Account account) {
+//        this.account = account;
+//    }
+
+    public String getAccountName() {
+        return accountName;
     }
 
-    public void setAccount(Account account) {
-        this.account = account;
+    public void setAccountName(String accountName) {
+        this.accountName = accountName;
+    }
+
+    public String getPassword() {
+        return password;
+    }
+
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     @Override
@@ -82,7 +98,22 @@ public class EmployeesDTO implements Validator {
 
     @Override
     public void validate(@NotNull Object target, @NotNull Errors errors) {
-
+        EmployeesDTO employeesDTO = (EmployeesDTO) target;
+//        if (employeesDTO.getAccount().getAccountName().isEmpty()) {
+//            errors.rejectValue("account.username",null,"Tên đăng nhập không được để trống");
+//        }
+//        if (!employeesDTO.getAccount().getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
+//            errors.rejectValue("account.password",null,"Mật khẩu không hợp lệ, Mật khẩu phải có ít nhất một chữ in hoa, và một kí tự số. Mật khẩu phải từ 8 kí tự trở lên");
+//        }
+        if (employeesDTO.getNameEmployees().isEmpty()) {
+            errors.rejectValue("name",null ,"Tên nhân viên không được để trống");
+        }
+        if (!employeesDTO.getPhoneNumber().matches("^0[\\d]{9}$")){
+            errors.rejectValue("phoneNumber",null,"Số điện thoại không được để trống");
+        }
+//        if(!employeesDTO.getConfirmPassword().equals(employeesDTO.getAccount().getPassword())) {
+//            errors.rejectValue("confirmPassword",null, "Xác nhận mật khẩu không trùng khớp.");
+//        }
     }
 
     @Override
@@ -90,14 +121,5 @@ public class EmployeesDTO implements Validator {
         return Validator.super.validateObject(target);
     }
 
-    @Override
-    public String toString() {
-        return "EmployeesDTO " +
-                "idEmployees " + idEmployees +
-                ", nameEmployees " + nameEmployees +
-                ", phoneNumber " + phoneNumber +
-                ", statusDelete " + statusDelete +
-                ", versionEmployees " + versionEmployees +
-                ", account " + account;
-    }
+
 }

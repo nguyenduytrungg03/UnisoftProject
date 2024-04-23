@@ -54,10 +54,12 @@
     </update>
 
 
-
     <select id="findByIdEmployees" parameterType="com.example.projecttraining.model.Employees">
         SELECT
-            *
+            e.id_employees as idEmployees,
+            e.name_employees as nameEmployees,
+            e.phone_number as phoneNumber,
+            a.account_name as accountName
         FROM
             employees e
         WHERE
@@ -66,13 +68,13 @@
             e.status_delete = 0
     </select>
 
-    <insert id="createEmployees"  parameterType="com.example.projecttraining.model.Employees">
+    <insert id="createEmployees"  >
         INSERT INTO
             employees(name_employees, phone_number, id_account)
         VALUES
             (#{nameEmployees},
              #{phoneNumber},
-             #{idAccount})
+             #{accountId})
     </insert>
 
     <select id="getEmployeesByIdEmployees" resultType='java.util.Map' >
@@ -90,7 +92,7 @@
             e.id_employees = #{idEmployees}
     </select>
 
-    <select id="getEmployeesByAccountId" >
+    <select id="getEmployeesByAccountId"  resultType="com.example.projecttraining.model.Employees">
     SELECT
         e.id_employees as idEmployees,
         e.name_employees as nameEmployees,
@@ -100,7 +102,7 @@
     FROM
         employees
     WHERE
-        e.id_account = #{idAccount}
+        e.id_account = #{accountId}
     </select>
 
 

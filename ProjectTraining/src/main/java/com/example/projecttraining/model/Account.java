@@ -4,7 +4,7 @@ package com.example.projecttraining.model;
 
 public class Account {
 
-    private int accountId;
+    private Integer accountId;
 
     private String accountName;
 
@@ -29,23 +29,11 @@ public class Account {
 
     }
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
-
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
-    public boolean isStatusDelete() {
-        return statusDelete;
-    }
-
-    public int getAccountId() {
+    public Integer getAccountId() {
         return accountId;
     }
 
-    public void setAccountId(int accountId) {
+    public void setAccountId(Integer accountId) {
         this.accountId = accountId;
     }
 
@@ -65,6 +53,14 @@ public class Account {
         this.password = password;
     }
 
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
+
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
+    }
+
     public Role getRole() {
         return role;
     }
@@ -73,12 +69,11 @@ public class Account {
         this.role = role;
     }
 
-    public boolean getStatusDelete() {
+    public boolean isStatusDelete() {
         return statusDelete;
     }
 
     public void setStatusDelete(boolean statusDelete) {
         this.statusDelete = statusDelete;
     }
-
 }
