@@ -1,29 +1,21 @@
 package com.example.projecttraining.model;
+import java.time.LocalDateTime;
 
 public class OrderDetail {
 
+
     private Integer idOrder;
-    private String dayStart;
-
-    private String dayEnd;
-
+    private LocalDateTime dayOrderStart;
+    private LocalDateTime dayOrderAllocated;
     private double price;
-
     private int quantity;
-
-    private String addressOrder;
-
-    private String allocationDate;
-
-    private int versionOrderDetail;
-    private String codeProduct;
-    private String nameProduct;
-    private String nameCustomer;
-    private String phoneNumberCustomer;
-    private String employeesName;
-    private String accountName;
-    private String nameStatus;
-
+    private int versionOrder;
+    private String address;
+    private Product product;
+    private Customer customer;
+    private Status status;
+    private Account account;
+    private Employees employees;
 
     public OrderDetail() {
     }
@@ -36,20 +28,20 @@ public class OrderDetail {
         this.idOrder = idOrder;
     }
 
-    public String getDayStart() {
-        return dayStart;
+    public Product getProduct() {
+        return product;
     }
 
-    public void setDayStart(String dayStart) {
-        this.dayStart = dayStart;
+    public void setProduct(Product product) {
+        this.product = product;
     }
 
-    public String getDayEnd() {
-        return dayEnd;
+    public LocalDateTime getDayOrderStart() {
+        return dayOrderStart;
     }
 
-    public void setDayEnd(String dayEnd) {
-        this.dayEnd = dayEnd;
+    public void setDayOrderStart(LocalDateTime dayOrderStart) {
+        this.dayOrderStart = dayOrderStart;
     }
 
     public double getPrice() {
@@ -68,83 +60,59 @@ public class OrderDetail {
         this.quantity = quantity;
     }
 
-    public String getAddressOrder() {
-        return addressOrder;
+    public Customer getCustomer() {
+        return customer;
     }
 
-    public void setAddressOrder(String addressOrder) {
-        this.addressOrder = addressOrder;
+    public void setCustomer(Customer customer) {
+        this.customer = customer;
     }
 
-    public String getAllocationDate() {
-        return allocationDate;
+    public String getAddress() {
+        return address;
     }
 
-    public void setAllocationDate(String allocationDate) {
-        this.allocationDate = allocationDate;
+    public void setAddress(String address) {
+        this.address = address;
     }
 
-    public int getVersionOrderDetail() {
-        return versionOrderDetail;
+    public Status getStatus() {
+        return status;
     }
 
-    public void setVersionOrderDetail(int versionOrderDetail) {
-        this.versionOrderDetail = versionOrderDetail;
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
-    public String getCodeProduct() {
-        return codeProduct;
+    public LocalDateTime getDayOrderAllocated() {
+        return dayOrderAllocated;
     }
 
-    public void setCodeProduct(String codeProduct) {
-        this.codeProduct = codeProduct;
+    public void setDayOrderAllocated(LocalDateTime dayOrderAllocated) {
+        this.dayOrderAllocated = dayOrderAllocated;
     }
 
-    public String getNameProduct() {
-        return nameProduct;
+    public Account getAccount() {
+        return account;
     }
 
-    public void setNameProduct(String nameProduct) {
-        this.nameProduct = nameProduct;
+    public void setAccount(Account account) {
+        this.account = account;
     }
 
-    public String getNameCustomer() {
-        return nameCustomer;
+    public Employees getEmployees() {
+        return employees;
     }
 
-    public void setNameCustomer(String nameCustomer) {
-        this.nameCustomer = nameCustomer;
+    public void setEmployees(Employees employees) {
+        this.employees = employees;
     }
 
-    public String getPhoneNumberCustomer() {
-        return phoneNumberCustomer;
+    public int getVersionOrder() {
+        return versionOrder;
     }
 
-    public void setPhoneNumberCustomer(String phoneNumberCustomer) {
-        this.phoneNumberCustomer = phoneNumberCustomer;
-    }
-
-    public String getEmployeesName() {
-        return employeesName;
-    }
-
-    public void setEmployeesName(String employeesName) {
-        this.employeesName = employeesName;
-    }
-
-    public String getAccountName() {
-        return accountName;
-    }
-
-    public void setAccountName(String accountName) {
-        this.accountName = accountName;
-    }
-
-    public String getNameStatus() {
-        return nameStatus;
-    }
-
-    public void setNameStatus(String nameStatus) {
-        this.nameStatus = nameStatus;
+    public void setVersionOrder(int versionOrder) {
+        this.versionOrder = versionOrder;
     }
 }

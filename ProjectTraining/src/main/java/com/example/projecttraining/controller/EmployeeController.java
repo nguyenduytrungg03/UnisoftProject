@@ -98,10 +98,24 @@ public class EmployeeController {
         }
     }
 
-//    @GetMapping("/formUpdate/{idEmployees}")
-//    public String goFormUpdate(){
-//
-//    }
+    @GetMapping("/formUpdate/{idEmployees}")
+    public String goFormUpdate(@PathVariable ("idEmployees") int idEmployees, Model model, RedirectAttributes redirectAttributes){
+        Account account = getAccountLogin();
+        Employees employees = iEmployeesService.getEmployeesByIdEmployees(idEmployees);
+        if (employees == null) {
+            redirectAttributes.addFlashAttribute("message","Không tồn tại nhân viên này.");
+            return "redirect:/employees/list";
+        }
+        EmployeesDTO employeesDTO = new EmployeesDTO();
+        BeanUtils.copyProperties(employees, employeesDTO);
+        employeesDTO.setAccountName(employees.getAccount().getAccountName());
+        employeesDTO.setPassword(employees.getAccount().getPassword());
+        model.addAttribute("employeesDTO",employeesDTO);
+        assert account != null;
+        model.addAttribute("accountName",account.getAccountName());
+        return "employees/employees-update";
+    }
+
 
 
     }

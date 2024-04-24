@@ -44,11 +44,11 @@ public class EmployeesService implements IEmployeesService{
         Map<String, Object>  map = employeesMapper.getEmployeesByIdEmployees(idEmployees);
         Employees employees = new Employees();
         Account account = new Account();
-        employees.setIdEmployees((int) map.get("idEmployees"));
+        employees.setIdEmployees((Integer) map.get("idEmployees"));
         employees.setNameEmployees((String) map.get("nameEmployees"));
         employees.setPhoneNumber((String) map.get("phoneNumber"));
         employees.setVersionEmployees((int) map.get("versionEmployees"));
-        account.setAccountId((int) map.get("accountId"));
+        account.setAccountId((Integer) map.get("accountId"));
         account.setAccountName((String) map.get("accountName"));
         employees.setAccount(account);
         return employees;
