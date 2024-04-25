@@ -1,4 +1,4 @@
-﻿package com.example.projecttraining.mapper;
+package com.example.projecttraining.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
@@ -8,15 +8,13 @@ import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
+	List<Map<String, Object>> getAllOrder(String accountName, String nameEmployees, String codeProduct,
+			String nameProduct, String nameCustomer, String phoneNumberCustomer, int employeesId,
+			LocalDate dayOrderStart, LocalDate dayOrderEnd, int orderedStatus, int allocatedStatus, int pageIndex,
+			int pageSize);
 
-    List<Map<String, Object>> getAllOrder(String accountName, String nameEmployees,
-                                          String codeProduct,String nameProduct,
-                                          String nameCustomer, String phoneNumber,
-                                          boolean isAdmin, int employeesId, LocalDate dayStart,
-                                          int statusAllocation,int statusBooking,
-                                          int pageIndex, int pageSize);
-
-    int countOrder();
-
+	int countOrder(String accountName, String nameEmployees, String codeProduct, String nameProduct,
+			String nameCustomer, String phoneNumberCustomer, int employeesId, LocalDate dayOrderStart,
+			LocalDate dayOrderEnd, int orderedStatus, int allocatedStatus);
 
 }

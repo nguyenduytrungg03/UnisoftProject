@@ -91,11 +91,10 @@ public class EmployeeController {
         int rowCreateEmployee = iEmployeesService.createEmployees(employeesDTO.getAccountName(),employeesDTO.getPassword(),employees);
         if (rowCreateEmployee == 1) {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công");
-            return "redirect:/employees/list?page=" + page ;
         } else {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại");
-            return "redirect:/employees/list?page=" + page ;
         }
+        return "redirect:/employees/list?page=" + page ;
     }
 
     @GetMapping("/formUpdate/{idEmployees}")

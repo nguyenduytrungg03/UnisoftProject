@@ -1,7 +1,6 @@
 package com.example.projecttraining.mapper;
 
-import com.example.projecttraining.model.Customer;
-import com.example.projecttraining.model.Employees;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.List;

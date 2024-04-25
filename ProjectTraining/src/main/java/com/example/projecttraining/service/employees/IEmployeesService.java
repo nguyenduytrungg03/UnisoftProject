@@ -1,8 +1,5 @@
 package com.example.projecttraining.service.employees;
 
-
-import com.example.projecttraining.model.Account;
-import com.example.projecttraining.model.Customer;
 import com.example.projecttraining.model.Employees;
 
 import java.util.List;
@@ -21,5 +18,4 @@ public interface IEmployeesService {
 
    Employees getEmployeesByAccountId (int accountId);
 
-//
 }

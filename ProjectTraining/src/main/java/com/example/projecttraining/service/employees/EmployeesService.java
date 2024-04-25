@@ -44,12 +44,12 @@ public class EmployeesService implements IEmployeesService{
         Map<String, Object>  map = employeesMapper.getEmployeesByIdEmployees(idEmployees);
         Employees employees = new Employees();
         Account account = new Account();
-        employees.setIdEmployees((Integer) map.get("idEmployees"));
+        employees.setIdEmployees((int) map.get("idEmployees"));
         employees.setNameEmployees((String) map.get("nameEmployees"));
         employees.setPhoneNumber((String) map.get("phoneNumber"));
         employees.setVersionEmployees((int) map.get("versionEmployees"));
-        account.setAccountId((Integer) map.get("accountId"));
         account.setAccountName((String) map.get("accountName"));
+        account.setPassword((String) map.get("password"));
         employees.setAccount(account);
         return employees;
     }
@@ -76,44 +76,6 @@ public class EmployeesService implements IEmployeesService{
     public Employees getEmployeesByAccountId(int idAccount) {
         return employeesMapper.getEmployeesByAccountId(idAccount);
     }
-
-
-//public int insertEmployee(Account account, Employee employee) {
-//		int roleIdOfUser = 2;
-//		int rowEffectByInsertAccount = accountMapper.insertAccount(account.getUsername(), BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()),roleIdOfUser);
-//		if (rowEffectByInsertAccount == 1) {
-//			Map<String,Object> getIdByAccountAddNew = accountMapper.getAccountByUsername(account.getUsername());
-//			int accountId = (int) getIdByAccountAddNew.get("id");
-//			int rowEffectByInsertEmployee = employeeMapper.insertEmployee(employee.getName(),employee.getPhoneNumber(),accountId);
-//			if (rowEffectByInsertEmployee == 1) {
-//				return 1;
-//			}
-//		}
-//		return 0;
-//	}
-
-//	int roleIdOfUser = 2;
-//		int rowEffectByInsertAccount = accountMapper.insertAccount(account.getUsername(), BCrypt.hashpw(account.getPassword(), BCrypt.gensalt()),roleIdOfUser);
-//		if (rowEffectByInsertAccount == 1) {
-//			Map<String,Object> getIdByAccountAddNew = accountMapper.getAccountByUsername(account.getUsername());
-//			int accountId = (int) getIdByAccountAddNew.get("id");
-//			int rowEffectByInsertEmployee = employeeMapper.insertEmployee(employee.getName(),employee.getPhoneNumber(),accountId);
-//			if (rowEffectByInsertEmployee == 1) {
-//				return 1;
-//			}
-//		}
-//		return 0;
-//    @Override
-//    public int createEmployees( Employees employees) {
-//        EmployeesDTO employeesDTO = new EmployeesDTO();
-//        Role role = new Role(2,"ROLE_EMPLOYEES");
-//        Account account = new Account();
-//        account.setRole(role);
-//        Account savedAccount = accountMapper.createAccount(account);
-//        BeanUtils.copyProperties(employeesDTO, employees);
-//        employees.setAccount(savedAccount);
-//        return employeesMapper.createEmployees(employees);
-//    }
 
 
 }

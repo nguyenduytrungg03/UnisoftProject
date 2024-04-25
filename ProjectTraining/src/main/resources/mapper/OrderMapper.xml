@@ -1,58 +1,56 @@
-﻿<?xml version="1.0" encoding="UTF-8"?>
+<?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
-<mapper namespace="com.example.projecttraining.mapper.OrderMapper">
-
-    <select id="findByOrderByIdOrder" resultType='java.util.Map'>
+<mapper namespace="com.example.projecttraining.mapper.OrderMapper" >
+	
+ <select id="findByOrderByIdOrder" resultType="java.util.Map">
         SELECT
-             o.day_order_start       as dayOdrerStart,
+             o.day_order_start       as  dayOrdrerStart,
              o.price,
-             o.day_order_allocated   as dayOrderAllocatred,
+             o.day_order_allocated   as  dayOrderAllocatred,
              o.address,
              o.quantity,
-             p.code_product          as codeProduct,
-             p.name_product          as nameProduct,
-             c.name_customer         as nameCustomer,
-             c.phone_number_customer as phoneNumberCustomer,
-             s.name_status           as nameStatus,
-             a.account_name          as accountName,
-             e.name_employees        as nameEmployees
+             p.code_product          as  codeProduct,
+             p.name_product          as  nameProduct,
+             c.name_customer         as  nameCustomer,
+             c.phone_number_customer as  phoneNumberCustomer,
+             s.name_status           as  nameStatus,
+             a.account_name          as  accountName,
+             e.name_employees        as  nameEmployees
         FROM
-            `order` o
+            `order`    o
         JOIN
-             product p on        o.id_product   =  p.id_product
+             product   p    on        o.id_product   =  p.id_product
         JOIN
-             customer c on       o.id_customer  =  c.id_customer
+             customer  c    on        o.id_customer  =  c.id_customer
         JOIN
-             status s on         o.id_status    =  s.id_status
+             status    s    on        o.id_status    =  s.id_status
         JOIN
-             account a on        o.id_account   =  a.account_id
+             account   a    on        o.id_account   =  a.account_id
         JOIN
-             employees e on      o.id_employees =  e.id_employees
+             employees e    on        o.id_employees =  e.id_employees
         AND
-             TRIM(account_name)            LIKE CONCAT(#{accountName}, '%')
+             TRIM(account_name)            LIKE CONCAT(#{accountName}, "%")
         AND
-             TRIM(name_employees)          LIKE CONCAT(#{nameEmployees}, '%')
+             TRIM(name_employees)          LIKE CONCAT(#{nameEmployees}, "%")
         AND
-             TRIM(code_product)            LIKE CONCAT(#{codeProduct}, '%')
+             TRIM(code_product)            LIKE CONCAT(#{codeProduct}, "%")
         AND
-             TRIM(name_product)            LIKE CONCAT(#{nameProduct}, '%')
+             TRIM(name_product)            LIKE CONCAT(#{nameProduct}, "%")
         AND
-             TRIM(name_customer)           LIKE CONCAT(#{nameCustomer}, '%')
+             TRIM(name_customer)           LIKE CONCAT(#{nameCustomer}, "%")
         AND
-             TRIM(phone_number_customer)   LIKE CONCAT(#{phoneNumberCustomer}, '%')
+             TRIM(phone_number_customer)   LIKE CONCAT(#{phoneNumberCustomer}, "%")
         AND
-             TRIM(day_order_start)         LIKE CONCAT(#{dayOrderStart}, '%')
+             TRIM(day_order_start)         LIKE CONCAT(#{dayOrderStart}, "%")
         AND
-             TRIM(name_status)             LIKE CONCAT(#{nameStatus}, '%')
+             TRIM(name_status)             LIKE CONCAT(#{nameStatus}, "%")
         ORDER BY
              o.day_order_start
         LIMIT
              #{pageIndex}
         OFFSET
              #{pageSize}
-    </select>
-
+</select>
 </mapper>
-

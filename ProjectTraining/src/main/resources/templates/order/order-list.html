@@ -16,11 +16,6 @@
 <body>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách đơn hàng
-    <div>
-        <button class="btn " th:attr ="onclick=|createCustomer(${page}|">
-            <a  th:href="@{/customer/formCreate}">Thêm mới sản phẩm</a>
-        </button>
-    </div>
 </nav>
 <div id="successMessage" th:if="${messages}" class="alert alert-success" role="alert">
     <span th:text="${messages}"></span>
@@ -37,19 +32,19 @@
                 </div>
                 <div class="form-group">
                     <label>Tên nhân viên</label>
-                    <input name="phoneNumberCustomer" placeholder="Nhập tên nhân viên">
+                    <input name="nameEmployees" placeholder="Nhập tên nhân viên">
                 </div>
                 <div class="form-group">
                     <label>Mã sản phẩm </label>
-                    <input name="phoneNumberCustomer" placeholder="Nhập mã sản phẩm">
+                    <input name="codeProduct" placeholder="Nhập mã sản phẩm">
                 </div>
                 <div class="form-group">
                     <label>Tên sản phẩm </label>
-                    <input name="phoneNumberCustomer" placeholder="Nhập tên sản phẩm">
+                    <input name="nameProduct" placeholder="Nhập tên sản phẩm">
                 </div>
                 <div class="form-group">
                     <label>Tên khách hàng </label>
-                    <input name="phoneNumberCustomer" placeholder="Nhập tên khách hàng">
+                    <input name="nameCustomer" placeholder="Nhập tên khách hàng">
                 </div>
                 <div class="form-group">
                     <label>Số điện thoại  </label>
@@ -57,25 +52,23 @@
                 </div>
                 <div class="form-group">
                     <label>Ngày đặt hàng bắt đầu </label>
-                    <input type="date" name="phoneNumberCustomer" placeholder="Nhập ngày đặt hàng bắt đầu">
+                    <input type="date" name="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
                 </div>
                 <div class="form-group">
                     <label>Ngày đặt hàng kết thúc </label>
-                    <input type="date" name="phoneNumberCustomer" placeholder="Nhập ngày đặt hàng kết thúc">
+                    <input type="date" name="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
                 </div>
                 <div class="form-group">
                     <label>Trạng thái:</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox1" value="option1">
-                        <label class="form-check-label" for="inlineCheckbox1">đã phân bổ</label>
+                        <input class="form-check-input" type="checkbox" name="allocatedStatus" value="option1">
+                        <label class="form-check-label" >đã đặt hàng</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" id="inlineCheckbox2" value="option2">
-                        <label class="form-check-label" for="inlineCheckbox2">đã đặt hàng</label>
+                        <input class="form-check-input" type="checkbox" name="orderedStatus" value="option2">
+                        <label class="form-check-label" >đã phân bổ</label>
                     </div>
                 </div>
-
-
                 <div>
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
                     <button  class="btn btn-primary">Clear</button>
@@ -101,13 +94,16 @@
             </tr>
             </thead>
             <tbody>
-            <tr th:each="">
-                <td th:text=""></td>
-                <td th:text=""></td>
-                <td th:text=""></td>
-                <td th:text=""></td>
-                <td th:text=""></td>
-
+            <tr th:each="order,loop:${orderList}">
+                <td th:text="${order['codeProduct']}"></td>
+                <td th:text="${order.['nameProduct']}"></td>
+                <td th:text="${order.['price']}"></td>
+                <td th:text="${order.['quantity']}"></td>
+                <td th:text="${order.['nameCustomer']}"></td>
+                <td th:text="${order.['phoneNumberCustomer']}"></td>
+                <td th:text="${order.['addressCustomer']}"></td>
+   				<td th:text="${order.['statusName']}"></td>
+                <td th:text="${order.['nameCustomer']}"></td>
             </tr>
             </tbody>
         </table>
@@ -115,41 +111,11 @@
 
 
 
-    <div class="modal fade" id="exampleModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel"
-         aria-hidden="true">
-        <div class="modal-dialog" role="document">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title" id="exampleModalLabel">Bạn muốn xóa Khách Hàng này không?</h5>
-                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                        <span aria-hidden="true">&times;</span>
-                    </button>
-                </div>
-                <form th:action="@{/customer/delete}" method="post">
-                    <div class="modal-body">
-                        Bạn có muốn xóa khách hàng có tên <span id="nameCustomer" style="color:navy"></span> này không?
-                        <input type="hidden" id="idCustomer" name="idCustomer" style="color:navy">
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-                        <button type="submit" class="btn btn-primary">Save changes</button>
-                    </div>
-                </form>
-            </div>
-        </div>
-    </div>
 
-
-
-    <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
+    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp;</div>
 </div>
 
 <script>
-    function infoDelete(idCustomer, nameCustomer) {
-        document.getElementById("idCustomer").value = idCustomer;
-        document.getElementById("nameCustomer").innerText = nameCustomer;
-        console.log(idCustomer, nameCustomer)
-    }
     // Tự động ẩn thông báo sau 4 giây
     setTimeout(function() {
         document.getElementById("successMessage").style.display = "none";

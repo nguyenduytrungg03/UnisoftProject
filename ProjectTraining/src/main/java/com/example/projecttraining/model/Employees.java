@@ -2,7 +2,7 @@ package com.example.projecttraining.model;
 
 
 public class Employees {
-    private Integer idEmployees;
+    private int idEmployees;
     private String nameEmployees;
     private Account account;
 
@@ -17,11 +17,11 @@ public class Employees {
     public Employees() {
     }
 
-    public Integer getIdEmployees() {
+    public int getIdEmployees() {
         return idEmployees;
     }
 
-    public void setIdEmployees(Integer idEmployees) {
+    public void setIdEmployees(int idEmployees) {
         this.idEmployees = idEmployees;
     }
 

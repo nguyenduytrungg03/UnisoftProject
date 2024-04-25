@@ -1,6 +1,6 @@
 package com.example.projecttraining.mapper;
 
-import com.example.projecttraining.model.Account;
+
 import org.apache.ibatis.annotations.Mapper;
 
 import java.util.Map;
