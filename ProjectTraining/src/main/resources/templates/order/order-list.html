@@ -1,6 +1,5 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
-<html lang="en">
 <head>
     <!--    <meta charset="UTF-8">-->
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
@@ -28,44 +27,44 @@
                   method="get">
                 <div class="form-group">
                     <label>Tên đăng nhập</label>
-                    <input name="nameCustomer" placeholder="Nhập tên đăng nhập">
+                    <input name="nameCustomer" id="nameCustomer" placeholder="Nhập tên đăng nhập">
                 </div>
                 <div class="form-group">
                     <label>Tên nhân viên</label>
-                    <input name="nameEmployees" placeholder="Nhập tên nhân viên">
+                    <input name="nameEmployees" id="nameEmployees" placeholder="Nhập tên nhân viên">
                 </div>
                 <div class="form-group">
                     <label>Mã sản phẩm </label>
-                    <input name="codeProduct" placeholder="Nhập mã sản phẩm">
+                    <input name="codeProduct" id="codeProduct" placeholder="Nhập mã sản phẩm">
                 </div>
                 <div class="form-group">
                     <label>Tên sản phẩm </label>
-                    <input name="nameProduct" placeholder="Nhập tên sản phẩm">
+                    <input name="nameProduct" id="nameProduct" placeholder="Nhập tên sản phẩm">
                 </div>
                 <div class="form-group">
                     <label>Tên khách hàng </label>
-                    <input name="nameCustomer" placeholder="Nhập tên khách hàng">
+                    <input name="nameCustomer" id="nameCustomer" placeholder="Nhập tên khách hàng">
                 </div>
                 <div class="form-group">
                     <label>Số điện thoại  </label>
-                    <input name="phoneNumberCustomer" placeholder="Nhập số điện thoại">
+                    <input name="phoneNumberCustomer" id="phoneNumberCustomer" placeholder="Nhập số điện thoại">
                 </div>
                 <div class="form-group">
                     <label>Ngày đặt hàng bắt đầu </label>
-                    <input type="date" name="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
+                    <input type="date" name="dayOrderStart" id="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
                 </div>
                 <div class="form-group">
                     <label>Ngày đặt hàng kết thúc </label>
-                    <input type="date" name="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
+                    <input type="date" name="dayOrderEnd" id="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
                 </div>
                 <div class="form-group">
                     <label>Trạng thái:</label>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="allocatedStatus" value="option1">
+                        <input class="form-check-input" type="checkbox" name="allocatedStatus">
                         <label class="form-check-label" >đã đặt hàng</label>
                     </div>
                     <div class="form-check form-check-inline">
-                        <input class="form-check-input" type="checkbox" name="orderedStatus" value="option2">
+                        <input class="form-check-input" type="checkbox" name="orderedStatus">
                         <label class="form-check-label" >đã phân bổ</label>
                     </div>
                 </div>
@@ -95,17 +94,51 @@
             </thead>
             <tbody>
             <tr th:each="order,loop:${orderList}">
-                <td th:text="${order['codeProduct']}"></td>
-                <td th:text="${order.['nameProduct']}"></td>
-                <td th:text="${order.['price']}"></td>
-                <td th:text="${order.['quantity']}"></td>
-                <td th:text="${order.['nameCustomer']}"></td>
-                <td th:text="${order.['phoneNumberCustomer']}"></td>
-                <td th:text="${order.['addressCustomer']}"></td>
-   				<td th:text="${order.['statusName']}"></td>
-                <td th:text="${order.['nameCustomer']}"></td>
+            	<td th:text="${loop.count + index * page}"></td>
+             	<td class="hidden" th:text="${order['idEmployees']}"></td>
+                <td th:contenteditable="${(order['dayOrderAllocated'] == null)} ? 'true' : null" th:text="${order['codeProduct']}" ></td>
+                <td th:text="${order['nameProduct']}"></td>
+                <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td th:text="${order['quantity']}"></td>
+                <td th:text="${order['nameCustomer']}"></td>
+                <td th:text="${order['phoneNumberCustomer']}"></td>
+                <td th:text="${order['address']}"></td>
+   				<td th:text="${order['nameStatus']}"></td>
+                <td th:text="${order['dayOrderAllocated']}"></td>
+                <td th:text="${order['accountName']}"></td>
+                <td th:text="${order['nameEmployees']}"></td>
             </tr>
             </tbody>
+<!--            	<tr th:if="${ordersMap.size() > 0}" th:each="order,status:${ordersMap}" th:id="${order['id']}">
+                <td th:text="${status.count + page * limit}"></td>
+                <td th:text="${#temporals.format(order['dateStart'], 'yyyy/MM/dd HH:mm:ss')}"></td>
+                <td class="codeProduct"  th:contenteditable="${(order['dateAllocation'] == null)} ? 'true' : null" th:text="${order['codeProduct']}" ></td>
+                <td class="nameProduct"  th:contenteditable="${(order['dateAllocation'] == null)} ? 'true' : null" th:text="${order['nameProduct']}"></td>
+                <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td class="quantityBook" th:contenteditable="${(order['dateAllocation'] == null)} ? 'true' : null" th:text="${order['quantityBook']}" ></td>
+                <td class="customerName" th:contenteditable="${(order['dateAllocation'] == null)} ? 'true' : null" th:text="${order['customerName']}"></td>
+                <td class="phoneNumber"  th:contenteditable="${(order['dateAllocation'] == null)} ? 'true' : null" th:text="${order['phoneNumber']}" ></td>
+                <td th:text="${order['address']}"></td>
+                <td th:text="${order['statusName']}"></td>
+                <td th:text="${order['dateAllocation'] != null ? #temporals.format(order['dateAllocation'], 'yyyy/MM/dd HH:mm:ss') : 'Chưa phân bổ' }"></td>
+                <td th:if = "${roleName == 'ROLE_ADMIN'}" th:text="${order['username']}"></td>
+                <td th:if = "${roleName == 'ROLE_ADMIN'}" th:text="${order['employeeName']}"></td>
+   	     	</tr>
+   	     	<tr th:each="order,status:${ordersMap}" th:id="${order['id']}" class="hidden">
+                <td th:text="${status.count + page * limit}"></td>
+                <td th:text="${#temporals.format(order['dateStart'], 'yyyy/MM/dd HH:mm:ss')}"></td>
+                <td class="codeProduct"  th:text="${order['codeProduct']}" ></td>
+                <td class="nameProduct"  th:text="${order['nameProduct']}"></td>
+                <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td class="quantityBook" th:text="${order['quantityBook']}" ></td>
+                <td class="customerName" th:text="${order['customerName']}"></td>
+                <td class="phoneNumber"  th:text="${order['phoneNumber']}" ></td>
+                <td th:text="${order['address']}"></td>
+                <td th:text="${order['statusName']}"></td>
+                <td th:text="${order['dateAllocation'] != null ? #temporals.format(order['dateAllocation'], 'yyyy/MM/dd HH:mm:ss') : 'Chưa phân bổ' }"></td>
+                <td th:if = "${roleName == 'ROLE_ADMIN'}" th:text="${order['username']}"></td>
+                <td th:if = "${roleName == 'ROLE_ADMIN'}" th:text="${order['employeeName']}"></td>
+   	     	</tr>-->
         </table>
         <!--    Page-->
 
@@ -124,6 +157,7 @@
     function createCustomer(page) {
         localStorage.setItem("page",page+1);
     }
+  
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

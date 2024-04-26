@@ -71,12 +71,10 @@
                             th:attr="onclick=|infoDelete(${customer['idCustomer']},'${customer['nameCustomer']}')|">
                         Xóa
                     </button>
-
                 </td>
             </tr>
             <tr th:if="${customerList.size() == 0}">
                 <td colspan="8">Không tìm thấy sản phẩm</td>
-
             </tr>
             </tbody>
         </table>

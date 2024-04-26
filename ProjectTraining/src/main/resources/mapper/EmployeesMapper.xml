@@ -6,10 +6,10 @@
 
     <select id='getAllEmployees' resultType='java.util.Map'>
         SELECT
-            e.id_employees as idEmployees,
+            e.id_employees   as idEmployees,
             e.name_employees as nameEmployees,
-            e.phone_number as phoneNumber,
-            a.account_name as accountName
+            e.phone_number   as phoneNumber,
+            a.account_name   as accountName
         FROM
             employees e
        JOIN
@@ -17,11 +17,11 @@
         WHERE
             e.status_delete = 0
         AND
-            TRIM(account_name) LIKE CONCAT(#{accountName}, '%')
+            TRIM(account_name)   LIKE CONCAT(#{accountName}, '%')
         AND
             TRIM(name_employees) LIKE CONCAT(#{nameEmployees}, '%')
         AND
-            TRIM(phone_number) LIKE CONCAT(#{phoneNumber}, '%')
+            TRIM(phone_number)   LIKE CONCAT(#{phoneNumber}, '%')
         ORDER BY
             e.name_employees
         LIMIT
@@ -56,10 +56,10 @@
 
     <select id="findByIdEmployees" parameterType="com.example.projecttraining.model.Employees">
         SELECT
-            e.id_employees as idEmployees,
-            e.name_employees as nameEmployees,
-            e.phone_number as phoneNumber,
-            a.account_name as accountName
+            e.id_employees    as idEmployees,
+            e.name_employees  as nameEmployees,
+            e.phone_number    as phoneNumber,
+            a.account_name    as accountName
         FROM
             employees e
         WHERE
@@ -79,11 +79,11 @@
 
     <select id="getEmployeesByIdEmployees" resultType='java.util.Map' >
         SELECT
-            e.id_employees as idEmployees,
-            e.name_employees as nameEmployees,
-            e.phone_number as phoneNumber,
-            a.account_name as accountName,
-            a.password as password,
+            e.id_employees      as idEmployees,
+            e.name_employees    as nameEmployees,
+            e.phone_number      as phoneNumber,
+            a.account_name      as accountName,
+            a.password          as password,
             e.version_employees as versionEmployees
         FROM
             employees e
@@ -95,13 +95,13 @@
 
     <select id="getEmployeesByAccountId"  resultType="com.example.projecttraining.model.Employees">
     SELECT
-        e.id_employees as idEmployees,
-        e.name_employees as nameEmployees,
-        e.phone_number  as phoneNumber,
+        e.id_employees      as idEmployees,
+        e.name_employees    as nameEmployees,
+        e.phone_number      as phoneNumber,
         e.version_employees as versionEmployees,
-        e.status_delete as statusDelete
+        e.status_delete     as statusDelete
     FROM
-        employees
+        employees e
     WHERE
         e.id_account = #{accountId}
     </select>

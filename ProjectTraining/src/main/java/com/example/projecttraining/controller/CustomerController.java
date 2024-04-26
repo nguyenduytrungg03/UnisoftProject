@@ -102,12 +102,11 @@ public class CustomerController {
             System.out.println(e.getMessage());
         }
         if (result == 0) {
-            redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại.");
-            return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer;
+            redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại.");           
         } else {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công.");
-            return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer;
         }
+        return "redirect:/customer/list?page=" + page;
     }
 
     @GetMapping("/formUpdate/{idCustomer}")
@@ -159,12 +158,11 @@ public class CustomerController {
         }
         if (result == 0) {
             redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");
-            return "redirect:/customer/list";
+           
         } else {
             redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
 //            return "redirect:/customer/list?page=" + page + "&nameCustomer=" + nameCustomer + "&phoneNumberCustomer=" + phoneNumberCustomer + "&addressCustomer" + addressCustomer;
-            return "redirect:/customer/list" ;
-
         }
+        return "redirect:/customer/list" ;
     }
 }

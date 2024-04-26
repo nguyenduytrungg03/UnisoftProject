@@ -4,11 +4,11 @@
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.projecttraining.mapper.OrderMapper" >
 	
- <select id="findByOrderByIdOrder" resultType="java.util.Map">
+ <select id="findByOrder" resultType='java.util.Map'>
         SELECT
              o.day_order_start       as  dayOrdrerStart,
              o.price,
-             o.day_order_allocated   as  dayOrderAllocatred,
+             o.day_order_allocated   as  dayOrderAllocated,
              o.address,
              o.quantity,
              p.code_product          as  codeProduct,
@@ -17,6 +17,7 @@
              c.phone_number_customer as  phoneNumberCustomer,
              s.name_status           as  nameStatus,
              a.account_name          as  accountName,
+             e.id_employees 		 as  idEmployees,
              e.name_employees        as  nameEmployees
         FROM
             `order`    o
@@ -52,5 +53,24 @@
              #{pageIndex}
         OFFSET
              #{pageSize}
+</select>
+
+<select id= "countOrder">
+		             
+		SELECT 
+			 count(*) 
+		FROM 
+			 `order` o
+		JOIN
+             product   p    on        o.id_product   =  p.id_product
+        JOIN
+             customer  c    on        o.id_customer  =  c.id_customer
+        JOIN
+             status    s    on        o.id_status    =  s.id_status
+        JOIN
+             account   a    on        o.id_account   =  a.account_id
+        JOIN
+             employees e    on        o.id_employees =  e.id_employees    
+
 </select>
 </mapper>

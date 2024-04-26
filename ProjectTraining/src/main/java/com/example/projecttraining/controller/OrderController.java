@@ -2,10 +2,9 @@ package com.example.projecttraining.controller;
 
 import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
-import com.example.projecttraining.sercvice.Order.IOrderService;
 import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.employees.IEmployeesService;
-
+import com.example.projecttraining.service.order.IOrderService;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -44,45 +43,43 @@ public class OrderController {
         return null;
     }
     @GetMapping("/list")
-    public String getAllListOrder(@RequestParam(required = false, defaultValue = "0") int page,
-                                  @RequestParam(required = false, defaultValue = "") String accountName,
-                                  @RequestParam(required = false, defaultValue = "") String nameEmployees,
-                                  @RequestParam(required = false, defaultValue = "") String codeProduct,
-                                  @RequestParam(required = false, defaultValue = "") String nameProduct,
-                                  @RequestParam(required = false, defaultValue = "") String nameCustomer,
-                                  @RequestParam(required = false, defaultValue = "") String phoneNumberCustomer,
-                                  @RequestParam(required = false, defaultValue = "") String dayOrderStart,
-                                  @RequestParam(required = false, defaultValue = "") String dayOrderEnd,
-                                  @RequestParam(required = false, defaultValue = "") Integer orderedStatus,
-                                  @RequestParam(required = false, defaultValue = "") Integer allocatedStatus,
+    public String getAllListOrder(@RequestParam(required = false, defaultValue = "0") int    page,
+                                  @RequestParam(required = false, defaultValue = "") String  accountName,
+                                  @RequestParam(required = false, defaultValue = "") String  nameEmployees,
+                                  @RequestParam(required = false, defaultValue = "") String  codeProduct,
+                                  @RequestParam(required = false, defaultValue = "") String  nameProduct,
+                                  @RequestParam(required = false, defaultValue = "") String  nameCustomer,
+                                  @RequestParam(required = false, defaultValue = "") String  phoneNumberCustomer,
+                                  @RequestParam(required = false, defaultValue = "") String  dayOrderStart,
+                                  @RequestParam(required = false, defaultValue = "") String  dayOrderEnd,
+                                  @RequestParam(required = false, defaultValue = "") String nameStatus,
                                   Model model) {
         Account accountLogin = getAccountLogin();
         assert accountLogin != null;
         Employees employees = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
-        int employeesId = employees.getIdEmployees();
-
+        int idEmployees = employees.getIdEmployees();
         if (dayOrderStart.isEmpty()) {
-            dayOrderStart = "0000-00-00";
+            dayOrderStart = "2010-07-01";
         }
         if (dayOrderEnd.isEmpty()) {
             dayOrderEnd = "9999-12-31";
         }
-        if (allocatedStatus == 0 && orderedStatus == 0 ) {
-            orderedStatus = 1;
-            allocatedStatus =2 ;
-        }
+//        if (allocatedStatus == 0 && orderedStatus == 0 ) {
+//            orderedStatus = 1;
+//            allocatedStatus =2 ;
+//        }
         int index = 3;
         List<Map<String,Object>> orderList = iOrderService.getAllOrder( accountName, nameEmployees,
                                                                         codeProduct, nameProduct,
                                                                         nameCustomer, phoneNumberCustomer,
-                                                                        employeesId , LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd),
-                                                                        orderedStatus, allocatedStatus,
+                                                                        idEmployees , LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd),
+                                                                        nameStatus,
                                                                         index, index * page );
         int countOrder = iOrderService.countOrder( accountName, nameEmployees,
                                                    codeProduct, nameProduct,
                                                    nameCustomer, phoneNumberCustomer,
-                                                   employeesId , LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd),
-                                                   orderedStatus, allocatedStatus);
+                                                   idEmployees , LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd),
+                                                   nameStatus);
         double temp = (double) countOrder / index;
         int totalPage = (int) Math.ceil(temp);
         model.addAttribute("orderList", orderList);
@@ -94,13 +91,11 @@ public class OrderController {
         model.addAttribute("nameEmployees", nameEmployees);
         model.addAttribute("nameCustomer", nameCustomer);
         model.addAttribute("phoneNumberCustomer", phoneNumberCustomer);
-        model.addAttribute("employeesId", employeesId);
+        model.addAttribute("idEmployees", idEmployees);
         model.addAttribute("dayOrderStart", dayOrderStart);
         model.addAttribute("dayOrderEnd", dayOrderEnd);
-        model.addAttribute("orderedStatus", orderedStatus);
-        model.addAttribute("allocatedStatus", allocatedStatus);
+        model.addAttribute("nameStatus", nameStatus);
         return "order/order-list";
-
     }
 }
 

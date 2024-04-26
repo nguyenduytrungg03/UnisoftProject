@@ -119,12 +119,11 @@ public class ProductController {
             System.out.println(e.getMessage());
         }
         if (result != 1) {
-            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");
-            return "redirect:/product/list?page=" + page  + "&codeProduct=" + codeProduct + "&nameProduct=" + nameProduct;
+            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");  
         } else {
             redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
-            return "redirect:/product/list?page=" + page  + "&codeProduct=" + codeProduct + "&nameProduct=" + nameProduct;
         }
+        return "redirect:/product/list?page=" + page;
 
 
     }
@@ -158,11 +157,10 @@ public class ProductController {
         }
         if (result == 0) {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thất bại.");
-            return "redirect:/product/list?page=" + page + "&codeProduct=" + codeProduct + "&nameProduct=" + nameProduct;
         } else {
             redirectAttributes.addFlashAttribute("message", "Thêm mới thành công.");
-            return "redirect:/product/list?page=" + page + "&codeProduct=" + codeProduct + "&nameProduct=" + nameProduct;
         }
+        return "redirect:/product/list?page=" + page;
     }
 
 

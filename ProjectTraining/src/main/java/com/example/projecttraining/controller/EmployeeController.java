@@ -6,6 +6,7 @@ import com.example.projecttraining.model.Account;
 import com.example.projecttraining.model.Employees;
 import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.employees.IEmployeesService;
+
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -24,9 +25,8 @@ import java.util.Map;
 @RequestMapping("/employees")
 public class EmployeeController {
 
-    @Autowired
-    private IEmployeesService iEmployeesService;
-
+  @Autowired
+  private IEmployeesService iEmployeesService; 
 
     @Autowired
     private IAccountService iAccountService;

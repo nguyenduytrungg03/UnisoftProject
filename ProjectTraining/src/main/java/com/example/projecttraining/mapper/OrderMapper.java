@@ -8,13 +8,13 @@ import java.util.Map;
 
 @Mapper
 public interface OrderMapper {
-	List<Map<String, Object>> getAllOrder(String accountName, String nameEmployees, String codeProduct,
-			String nameProduct, String nameCustomer, String phoneNumberCustomer, int employeesId,
-			LocalDate dayOrderStart, LocalDate dayOrderEnd, int orderedStatus, int allocatedStatus, int pageIndex,
+	List<Map<String, Object>> findByOrder(String accountName, String nameEmployees, String codeProduct,
+			String nameProduct, String nameCustomer, String phoneNumberCustomer, int idEmployees,
+			LocalDate dayOrderStart, LocalDate dayOrderEnd, String nameStatus, int pageIndex,
 			int pageSize);
 
 	int countOrder(String accountName, String nameEmployees, String codeProduct, String nameProduct,
-			String nameCustomer, String phoneNumberCustomer, int employeesId, LocalDate dayOrderStart,
-			LocalDate dayOrderEnd, int orderedStatus, int allocatedStatus);
+			String nameCustomer, String phoneNumberCustomer, int idEmployees, LocalDate dayOrderStart,
+			LocalDate dayOrderEnd, String nameStatus);
 
 }
