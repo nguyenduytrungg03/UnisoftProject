@@ -18,6 +18,7 @@ public interface IEmployeesService {
 
     Employees getEmployeesByAccountId (int accountId);
     
+    int updateEmployees (Employees employees);
    
 
 }
