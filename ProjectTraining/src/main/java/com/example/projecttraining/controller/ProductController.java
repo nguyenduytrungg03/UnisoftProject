@@ -13,6 +13,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -99,19 +100,23 @@ public class ProductController {
         return "product/product-update";
     }
     @PostMapping("/updateProduct")
-
     public String updateProduct(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
+                                Errors errors,
                                 RedirectAttributes redirectAttributes,
                                 BindingResult bindingResult) {
+    
         new ProductDTO().validate(productDTO, bindingResult);
-
+    	if (!iProductService.isCodeProductExitsToUpdate(productDTO.getCodeProduct(),productDTO.getIdProduct())) {
+    		errors.rejectValue("codeProduct", null,"Mã sản phẩm không được trùng");
+    	}if (!iProductService.isNameProductExitsToUpdate(productDTO.getNameProduct(),productDTO.getIdProduct())) {
+    		errors.rejectValue("nameProduct", null,"Tên sản phẩm không được trùng");
+    	}
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
-
         int result = 0;
         try {
             result = iProductService.updateProduct(product);
@@ -124,14 +129,12 @@ public class ProductController {
             redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
         }
         return "redirect:/product/list?page=" + page;
-
-
     }
 
 
     @GetMapping("/formCreate")
     public String goFormCreate(Model model) {
-        model.addAttribute("product", new Product());
+    	model.addAttribute("productDTO",new ProductDTO());
         return "product/product-create";
     }
 
@@ -141,12 +144,21 @@ public class ProductController {
                                 @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
                                 @RequestParam(required = false, defaultValue = "0") int page,
+                                Errors errors,
                                 BindingResult bindingResult,
                                 RedirectAttributes redirectAttributes, Model model) {
+    	   new ProductDTO().validate(productDTO,bindingResult);
+    	   if (!iProductService.exitsByCodeProduct(productDTO.getCodeProduct())){
+           	errors.rejectValue("codeProduct", null, "Mã sản phẩm không được trùng");
+           }
+           if (!iProductService.exitsByNameProduct(productDTO.getNameProduct())){
+           	errors.rejectValue("nameProduct", null, "Tên sản phẩm không được trùng");
+           }
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("productDTO", productDTO);
             return "product/product-create";
         }
+      
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         int result = 0;

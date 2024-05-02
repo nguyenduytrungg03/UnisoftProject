@@ -12,12 +12,22 @@ public interface ProductMapper {
 //    List<Product> getAllProduct(@Param("pageIndex") int pageIndex,
 //                                @Param("pageSize") int pageSize);
     List<Map<String, Object>> getAllProduct(String codeProduct, String nameProduct, int pageIndex, int pageSize);
+    
     void deleteProduct(int idProduct);
+    
     Product findByIdProduct( int idProduct);
 
     int updateProduct(Product product);
+    
     int countProduct();
 
     int createProduct( Product product);
-
+    
+    int exitsByCodeProductNotIdProduct(String codeProduct, int idProduct );
+    
+    int exitsByNameProductNotIdProduct(String nameProduct, int idProduct);
+    
+    int exitsByCodeProduct(String codeProduct);
+    
+    int exitsByNameProduct(String nameProduct);
 }

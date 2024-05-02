@@ -32,11 +32,11 @@
             <form th:action="@{/product/list}" method="get">
                 <div class="form-group">
                     <label>Mã sản phẩm</label>
-                    <input name="codeProduct" placeholder="Nhập mã sản phẩm">
+                    <input th:value="${codeProduct}" name="codeProduct" placeholder="Nhập mã sản phẩm">
                 </div>
                 <div class="form-group">
                     <label>Tên sản phẩm</label>
-                    <input name="nameProduct" placeholder="Nhập tên sản phẩm">
+                    <input th:value="${nameProduct}" name="nameProduct" placeholder="Nhập tên sản phẩm">
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
@@ -143,12 +143,10 @@
     setTimeout(function() {
         document.getElementById("successMessage").style.display = "none";
     }, 4000);// 4000 milliseconds = 4 giây
-
+    
     function createProduct(page) {
         localStorage.setItem("page",page+1);
     }
-
-
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

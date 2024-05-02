@@ -32,15 +32,15 @@
             <form th:action="@{/employees/list}" method="get">
                 <div class="form-group">
                     <label>Tên đăng nhập</label>
-                    <input name="accountName" placeholder="Nhập tên đăng nhập">
+                    <input th:value="${accountName}" name="accountName" placeholder="Nhập tên đăng nhập">
                 </div>
                 <div class="form-group">
                     <label>Tên nhân viên</label>
-                    <input name="nameEmployees" placeholder="Nhập tên nhân viên">
+                    <input th:value="${nameEmployees}" name="nameEmployees" placeholder="Nhập tên nhân viên">
                 </div>
                 <div class="form-group">
                     <label>Số điện thoại </label>
-                    <input name="phoneNumber" placeholder="Nhập số điện thoại">
+                    <input th:value="${phoneNumber}" name="phoneNumber" placeholder="Nhập số điện thoại">
                 </div>
                 <input type ="hidden" class="form-control" >
                 <div>
@@ -146,6 +146,7 @@
     function createEmployees(page) {
         localStorage.setItem("page",page+1);
     }
+    
 
 
 </script>

@@ -76,6 +76,13 @@
              #{phoneNumber},
              #{accountId})
     </insert>
+    
+    <update id="updateEmployees">
+    	UPDATE
+    		employees
+    	SET
+    			
+    </update>
 
     <select id="getEmployeesByIdEmployees" resultType='java.util.Map' >
         SELECT
@@ -105,6 +112,9 @@
     WHERE
         e.id_account = #{accountId}
     </select>
+
+
+
 
 
 

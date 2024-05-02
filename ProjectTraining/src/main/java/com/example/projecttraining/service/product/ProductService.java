@@ -42,6 +42,27 @@ public class ProductService implements IProductService {
     public int createProduct(Product product) {
         return productMapper.createProduct(product);
     }
+	@Override
+	public boolean isCodeProductExitsToUpdate(String codeProduct, int idProduct) {
+		int result = productMapper.exitsByCodeProductNotIdProduct(codeProduct, idProduct);
+		return result == 0;
+	}
+	@Override
+	public boolean exitsByNameProduct(String nameProduct) {
+		int result = productMapper.exitsByNameProduct(nameProduct);
+		return result == 0;
+	}
+	@Override
+	public boolean exitsByCodeProduct(String codeProduct) {
+		int result = productMapper.exitsByCodeProduct(codeProduct);
+		return result == 0;
+	}
+
+	@Override
+	public boolean isNameProductExitsToUpdate(String nameProduct, int idProduct) {
+		int result = productMapper.exitsByNameProductNotIdProduct(nameProduct, idProduct);
+		return result == 0;
+	}
 
 
 }

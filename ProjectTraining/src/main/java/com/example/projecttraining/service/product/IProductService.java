@@ -13,6 +13,10 @@ public interface IProductService {
     int updateProduct(Product product);
     int countProduct();
     int createProduct(Product product);
-
+    boolean isCodeProductExitsToUpdate(String codeProduct, int idProduct);
+    boolean isNameProductExitsToUpdate(String nameProduct, int idProduct);
+    boolean exitsByNameProduct(String nameProduct);
+    boolean exitsByCodeProduct(String codeProduct);
+   
 }
 

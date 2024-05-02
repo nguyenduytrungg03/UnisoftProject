@@ -13,6 +13,9 @@
             align-items: center;
             justify-content: center;
         }
+         .error {
+            color: red;
+        }
     </style>
 
 </head>
@@ -20,24 +23,30 @@
 <div class="container">
     <div class=" bg-light">
         <div class="h1 center-box"> Chỉnh sửa sản phẩm</div>
-        <form th:object="${productDTO}" th:action="@{/product/updateProduct}" method="post" class="p-3">
+        <form th:object="${productDTO}"
+        	  th:action="@{/product/updateProduct}" 
+        	  method="post" class="p-3">
             <div class="form-group">
                 <label for="codeProduct">Sửa mã sản phẩm</label>
                 <input th:field="*{codeProduct}" id="codeProduct" name="codeProduct" class="form-control">
+                 <div class="error" th:if="${#fields.hasErrors()}" th:errors="*{codeProduct}"></div>
             </div>
             <div class="form-group">
                 <label for="nameProduct">Sửa tên sản phẩm</label>
                 <input th:field="*{nameProduct}" id="nameProduct" name="nameProduct" class="form-control">
+                 <div class="error" th:if="${#fields.hasErrors()}" th:errors="*{nameProduct}"></div>
             </div>
 
             <div class="form-group">
                 <label>Sửa giá bán của sản phẩm</label>
                 <input th:field="*{salePrice}" id="saleProduct" name="saleProduct" class="form-control">
+                 <div class="error" th:if="${#fields.hasErrors()}" th:errors="*{salePrice}"></div>
             </div>
 
             <div class="form-group">
                 <label>Sửa giá mua vào của sản phẩm</label>
                 <input th:field="*{purchasePrice}" id="purchasePrice" name="purchasePrice" class="form-control" >
+                 <div class="error" th:if="${#fields.hasErrors()}" th:errors="*{purchasePrice}"></div>
             </div>
 
             <div class="form-group">

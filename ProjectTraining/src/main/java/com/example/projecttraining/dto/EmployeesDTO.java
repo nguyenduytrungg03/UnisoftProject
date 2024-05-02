@@ -99,21 +99,20 @@ public class EmployeesDTO implements Validator {
     @Override
     public void validate(@NotNull Object target, @NotNull Errors errors) {
         EmployeesDTO employeesDTO = (EmployeesDTO) target;
-//        if (employeesDTO.getAccount().getAccountName().isEmpty()) {
-//            errors.rejectValue("account.username",null,"Tên đăng nhập không được để trống");
-//        }
-//        if (!employeesDTO.getAccount().getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
-//            errors.rejectValue("account.password",null,"Mật khẩu không hợp lệ, Mật khẩu phải có ít nhất một chữ in hoa, và một kí tự số. Mật khẩu phải từ 8 kí tự trở lên");
-//        }
+        if (employeesDTO.getAccountName().isEmpty()) {
+            errors.rejectValue("account.username",null,"Tên đăng nhập không được để trống");
+        }
+        if (!employeesDTO.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
+            errors.rejectValue("account.password",null,"Mật khẩu không hợp lệ, Mật khẩu phải có ít nhất một chữ in hoa, và một kí tự số. Mật khẩu phải từ 8 kí tự trở lên");
+        }
         if (employeesDTO.getNameEmployees().isEmpty()) {
-            errors.rejectValue("name",null ,"Tên nhân viên không được để trống");
+            errors.rejectValue("name",null ,"Yêu cầu nhập tên nhân viên");
         }
         if (!employeesDTO.getPhoneNumber().matches("^0[\\d]{9}$")){
-            errors.rejectValue("phoneNumber",null,"Số điện thoại không được để trống");
+            errors.rejectValue("phoneNumber",null,"Yêu cầu nhập số điện thoại");
+        }        if(!employeesDTO.getConfirmPassword().equals(employeesDTO.getPassword())) {
+           errors.rejectValue("confirmPassword",null, "Xác nhận mật khẩu không trùng khớp.");
         }
-//        if(!employeesDTO.getConfirmPassword().equals(employeesDTO.getAccount().getPassword())) {
-//            errors.rejectValue("confirmPassword",null, "Xác nhận mật khẩu không trùng khớp.");
-//        }
     }
 
     @Override

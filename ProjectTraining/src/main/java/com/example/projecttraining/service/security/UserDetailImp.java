@@ -31,6 +31,8 @@ public class UserDetailImp implements UserDetails {
                 authorities
         );
     }
+    
+
 
     public UserDetailImp(int accountId, String accountName, String password, boolean statusDelete, List<? extends GrantedAuthority> authorities) {
         this.accountId = accountId;

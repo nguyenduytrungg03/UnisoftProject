@@ -23,10 +23,6 @@ public class ProductDTO implements Validator {
 
     private int inventoryNumber;
 
-    private int versionProduct;
-
-
-    private int statusDelete;
 
     public ProductDTO() {
 
@@ -81,21 +77,6 @@ public class ProductDTO implements Validator {
         this.inventoryNumber = inventoryNumber;
     }
 
-
-
-
-
-    @Override
-    public String toString() {
-        return "ProductDTO [" +
-                "idProduct=" + idProduct +
-                ", codeProduct='" + codeProduct + '\'' +
-                ", nameProduct='" + nameProduct + '\'' +
-                ", salePrice=" + salePrice +
-                ", purchasePrice=" + purchasePrice +
-                ", inventoryNumber=" + inventoryNumber +']';
-    }
-
     @Override
     public boolean supports(@NotNull Class<?> clazz) {
         return false;
@@ -105,13 +86,13 @@ public class ProductDTO implements Validator {
     public void validate(@NotNull Object target, @NotNull Errors errors) {
         ProductDTO productDTO = (ProductDTO) target;
         if (productDTO.getCodeProduct() == null || "".equals(productDTO.getCodeProduct())) {
-            errors.rejectValue("codeProduct", "codeProduct", "Required!");
+            errors.rejectValue("codeProduct", "codeProduct", "Không được để trống!");
         } else if (!productDTO.getCodeProduct().matches(REGEX_ID)) {
-            errors.rejectValue("codeProduct", "code.format", "Sai định dạng HLE-xxxx");
+            errors.rejectValue("codeProduct", null, "Sai định dạng HLE-xxxx");
         }
         if (productDTO.getNameProduct() == null
                 || "".equals(productDTO.getNameProduct())) {
-            errors.rejectValue("nameProduct", "nameProduct", "Yêu cầu nhập tên sản phẩm!");
+            errors.rejectValue("nameProduct", null, "Yêu cầu nhập tên sản phẩm!");
         }
         if(productDTO.getSalePrice() <= 0){
             errors.rejectValue("salePrice","salePrice","Giá mua vào không hợp lệ");
@@ -120,6 +101,5 @@ public class ProductDTO implements Validator {
         }if(productDTO.getInventoryNumber() < 0){
             errors.rejectValue("inventoryNumber","inventoryNumber","Số lượng tồn kho không hợp lệ");
         }
-
     }
 }

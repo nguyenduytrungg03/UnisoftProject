@@ -35,5 +35,9 @@ public class AccountService implements IAccountService {
         account.setRole(role);
         return account;
     }
+	@Override
+	public int exitsByAccountName(String accountName, int accountId) {
+		return  accountMapper.exitsByAccountName(accountName, accountId);
+	}
 
 }

@@ -74,7 +74,7 @@ public class OrderController {
                                                                         nameCustomer, phoneNumberCustomer,
                                                                         idEmployees , LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd),
                                                                         nameStatus,
-                                                                        index, index * page );
+                                                                        index, index * page);
         int countOrder = iOrderService.countOrder( accountName, nameEmployees,
                                                    codeProduct, nameProduct,
                                                    nameCustomer, phoneNumberCustomer,

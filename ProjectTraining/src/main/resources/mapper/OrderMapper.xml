@@ -44,7 +44,7 @@
         AND
              TRIM(phone_number_customer)   LIKE CONCAT(#{phoneNumberCustomer}, "%")
         AND
-             TRIM(day_order_start)         LIKE CONCAT(#{dayOrderStart}, "%")
+             TRIM(day_order_start)         BETWEEN #{dayOrderStart} AND #{"9999-12-31"}
         AND
              TRIM(name_status)             LIKE CONCAT(#{nameStatus}, "%")
         ORDER BY
@@ -71,6 +71,5 @@
              account   a    on        o.id_account   =  a.account_id
         JOIN
              employees e    on        o.id_employees =  e.id_employees    
-
 </select>
 </mapper>

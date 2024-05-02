@@ -4,4 +4,7 @@ import com.example.projecttraining.model.Account;
 
 public interface IAccountService {
     Account findByAccountName(String accountName);
+    
+    
+    int exitsByAccountName(String accountName, int accountId);
 }

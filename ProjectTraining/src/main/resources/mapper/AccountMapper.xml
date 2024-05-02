@@ -32,7 +32,17 @@
         WHERE
             a.account_name = #{accountName}
     </select>
-
+		
+	<select id="exitsByAccountName">
+		SELECT 
+	    	COUNT(*)
+	    FROM
+	    	account
+	    WHERE
+	    	account_name = #{accountName} 
+	    AND
+	    	account_id = #{accountId)
+	</select>		
 
 </mapper>
 

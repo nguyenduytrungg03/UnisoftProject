@@ -15,6 +15,7 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
+import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -110,13 +111,63 @@ public class EmployeeController {
         employeesDTO.setAccountName(employees.getAccount().getAccountName());
         employeesDTO.setPassword(employees.getAccount().getPassword());
         model.addAttribute("employeesDTO",employeesDTO);
-        assert account != null;
         model.addAttribute("accountName",account.getAccountName());
         return "employees/employees-update";
     }
+    
+    @PostMapping("/updateEmployees")
+    public String updateEmployees( @ModelAttribute("employeesDTO")  EmployeesDTO employeesDTO,
+    							   @RequestParam int page,
+    							   @RequestParam String employeesName, @RequestParam String phoneNumber,
+    							   BindingResult bindingResult, Errors errors, RedirectAttributes redirectAttributes, Model model) {
+    	
+    	int exitsByAccountName = iAccountService.exitsByAccountName(employeesDTO.getAccountName(), employeesDTO.getIdEmployees());
+    	if(exitsByAccountName !=0) {
+    		errors.rejectValue("account.accountName", null, "Đã có tên tài khoản vui lòng nhập lại");
+    	}
+    	new EmployeesDTO().validate(employeesDTO, bindingResult);
+		if (bindingResult.hasErrors()) {
+			model.addAttribute("employeesDTO", employeesDTO);
+			return "employees/employees-update";
+		}
+		
+//		Account account = new Account();
+//		account.getAccountName();
+    	return null;
+    }
 
 
-
+//    @PostMapping("/edit")
+//	 public String editEmployees(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
+//			 					@RequestParam int page, @RequestParam String accountName,
+//			 					@RequestParam String employeesName, @RequestParam String phoneNumber,
+//			 					BindingResult bindingResult, Errors errors,Model model, RedirectAttributes redirectAttributes) {
+//		 int checkExistsUsername = accountService.checkUsernameExists(employeeDTO.getAccount().getUsername(), employeeDTO.getAccount().getId());
+//		 if (checkExistsUsername != 0) {
+//			errors.rejectValue("account.username", null, "Tên tài khoản đã bị trùng, vui lòng nhập lại");
+//			
+//		}
+//		new EmployeeDTO().validate(employeeDTO, bindingResult);
+//		if (bindingResult.hasErrors()) {
+//			model.addAttribute("employeeDTO", employeeDTO);
+//			return "employee/showformupdateempl";
+//		}
+//		Account account = employeeDTO.getAccount();
+//		Employee employee = new Employee();
+//		BeanUtils.copyProperties(employeeDTO, employee);
+//		employee.setAccount(account);
+//		int rowEffectByEditEmployee = employeeService.updateEmployee(employee);
+//		if (rowEffectByEditEmployee == 1) {
+//			redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
+//			return "redirect:/employee/list?page=" + page + "&username=" + username + "&employeeName=" + employeeName
+//					+ "&phoneNumberSearch=" + phoneNumberSearch;
+//		} else {
+//			redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");
+//			return "redirect:/employee/list?page=" + page + "&username=" + username + "&employeeName=" + employeeName
+//					+ "&phoneNumberSearch=" + phoneNumberSearch;
+//		}
+//		
+//	 }
     }
 
 

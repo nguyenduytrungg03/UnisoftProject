@@ -19,7 +19,9 @@
         SELECT
             count(*)
         FROM
-            product
+            product p
+        WHERE 
+			p.status_delete = 0 ;
     </select>
     <!-- Search codeProduct & nameProduct -->
     <select id="getAllProduct" resultType="java.util.Map">
@@ -103,4 +105,50 @@
              #{purchasePrice},
              #{inventoryNumber},0,0)
     </insert>
+    
+    
+    <select id="exitsByCodeProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	product
+	    <where>
+	    	code_product = #{codeProduct} 
+	    </where>
+	</select>
+		
+	
+	<select id="exitsByNameProduct" resultType="int">
+	SELECT 
+	    	COUNT(*)
+	    FROM
+	    	product
+	    <where>
+	    	name_product = #{nameProduct} 
+	    </where>
+	</select>
+    
+    <select id="exitsByCodeProductNotIdProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	product
+	    <where>
+	    		code_product = #{codeProduct}
+	    	AND id_product != #{idProduct}
+	    </where>
+	</select>
+	
+	<select id="exitsByNameProductNotIdProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	product
+	    <where>
+	    		name_product = #{nameProduct}
+	    	AND id_product != #{idProduct}
+	    </where>
+	</select>
+	
+	
 </mapper>
