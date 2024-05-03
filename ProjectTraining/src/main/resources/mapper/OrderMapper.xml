@@ -7,10 +7,10 @@
  <select id="findByOrder" resultType='java.util.Map'>
         SELECT
              o.day_order_start       as  dayOrdrerStart,
-             o.price,
+             o.price                 as  prince,
              o.day_order_allocated   as  dayOrderAllocated,
-             o.address,
-             o.quantity,
+             o.address               as  address,
+             o.quantity              as  quantity,
              p.code_product          as  codeProduct,
              p.name_product          as  nameProduct,
              c.name_customer         as  nameCustomer,
@@ -44,7 +44,7 @@
         AND
              TRIM(phone_number_customer)   LIKE CONCAT(#{phoneNumberCustomer}, "%")
         AND
-             TRIM(day_order_start)         BETWEEN #{dayOrderStart} AND #{"9999-12-31"}
+             day_order_start               BETWEEN #{dayOrderStart} AND "2024-03-10"
         AND
              TRIM(name_status)             LIKE CONCAT(#{nameStatus}, "%")
         ORDER BY
@@ -56,7 +56,6 @@
 </select>
 
 <select id= "countOrder">
-		             
 		SELECT 
 			 count(*) 
 		FROM 

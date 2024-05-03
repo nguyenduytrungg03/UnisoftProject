@@ -4,26 +4,19 @@ package com.example.projecttraining.model;
 
 public class Account {
 
-    private Integer accountId;
+    private int accountId;
 
     private String accountName;
 
     private String password;
 
-    private String confirmPassword;
+    private int versionAccount;
+    
+ 
 
-    private Role role;
+	private Role role;
     private  boolean statusDelete ;
 
-
-    public Account(int accountId, String accountName, String password, String confirmPassword, Role role, boolean statusDelete) {
-        this.accountId = accountId;
-        this.accountName = accountName;
-        this.password = password;
-        this.confirmPassword = confirmPassword;
-        this.role = role;
-        this.statusDelete = statusDelete;
-    }
 
     public Account() {
 
@@ -52,15 +45,15 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+    public int getVersionAccount() {
+ 		return versionAccount;
+ 	}
 
-    public String getConfirmPassword() {
-        return confirmPassword;
-    }
+ 	public void setVersionAccount(int versionAccount) {
+ 		this.versionAccount = versionAccount;
+ 	}
 
-    public void setConfirmPassword(String confirmPassword) {
-        this.confirmPassword = confirmPassword;
-    }
-
+   
     public Role getRole() {
         return role;
     }

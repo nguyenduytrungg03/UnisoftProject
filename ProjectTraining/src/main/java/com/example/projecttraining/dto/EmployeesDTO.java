@@ -1,6 +1,5 @@
 package com.example.projecttraining.dto;
 
-import com.example.projecttraining.model.Account;
 import org.jetbrains.annotations.NotNull;
 import org.springframework.validation.Errors;
 import org.springframework.validation.Validator;
@@ -9,14 +8,25 @@ public class EmployeesDTO implements Validator {
     private int idEmployees;
     private String nameEmployees;
     private String phoneNumber;
-//    private Account account;
+
     private String accountName;
     private String password;
     private String confirmPassword;
+
+    private int versionAccount;
+    private int accountId;
     private int statusDelete;
     private int versionEmployees;
 
     public EmployeesDTO() {
+    }
+
+    public int getAccountId() {
+        return accountId;
+    }
+
+    public void setAccountId(int accountId) {
+        this.accountId = accountId;
     }
 
     public String getConfirmPassword() {
@@ -67,13 +77,14 @@ public class EmployeesDTO implements Validator {
         this.versionEmployees = versionEmployees;
     }
 
-//    public Account getAccount() {
-//        return account;
-//    }
-//
-//    public void setAccount(Account account) {
-//        this.account = account;
-//    }
+    public int getVersionAccount() {
+        return versionAccount;
+    }
+
+    public void setVersionAccount(int versionAccount) {
+        this.versionAccount = versionAccount;
+    }
+
 
     public String getAccountName() {
         return accountName;
@@ -100,13 +111,13 @@ public class EmployeesDTO implements Validator {
     public void validate(@NotNull Object target, @NotNull Errors errors) {
         EmployeesDTO employeesDTO = (EmployeesDTO) target;
         if (employeesDTO.getAccountName().isEmpty()) {
-            errors.rejectValue("account.username",null,"Tên đăng nhập không được để trống");
+            errors.rejectValue("accountName",null,"Tên đăng nhập không được để trống");
         }
         if (!employeesDTO.getPassword().matches("^(?=.*[a-z])(?=.*[A-Z])(?=.*\\d).{8,}$")) {
-            errors.rejectValue("account.password",null,"Mật khẩu không hợp lệ, Mật khẩu phải có ít nhất một chữ in hoa, và một kí tự số. Mật khẩu phải từ 8 kí tự trở lên");
+            errors.rejectValue("password",null,"Mật khẩu không hợp lệ, Mật khẩu phải có ít nhất một chữ in hoa, và một kí tự số. Mật khẩu phải từ 8 kí tự trở lên");
         }
         if (employeesDTO.getNameEmployees().isEmpty()) {
-            errors.rejectValue("name",null ,"Yêu cầu nhập tên nhân viên");
+            errors.rejectValue("nameEmployees",null ,"Yêu cầu nhập tên nhân viên");
         }
         if (!employeesDTO.getPhoneNumber().matches("^0[\\d]{9}$")){
             errors.rejectValue("phoneNumber",null,"Yêu cầu nhập số điện thoại");

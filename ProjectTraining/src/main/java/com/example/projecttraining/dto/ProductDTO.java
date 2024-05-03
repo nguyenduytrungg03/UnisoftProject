@@ -8,9 +8,11 @@ import javax.validation.constraints.Pattern;
 
 public class ProductDTO implements Validator {
     static final String REGEX_ID = "^HLE-[0-9]{4}$";
+    static final String REGEX_NAME_PRODUCT = "^[^\\s]+(\\s+[^\\s]+)*$";
     private int idProduct;
     @Pattern(regexp = REGEX_ID, message = "Wrong format HEL-xxxx")
     private String codeProduct;
+
 
     private String nameProduct;
 
@@ -91,8 +93,11 @@ public class ProductDTO implements Validator {
             errors.rejectValue("codeProduct", null, "Sai định dạng HLE-xxxx");
         }
         if (productDTO.getNameProduct() == null
-                || "".equals(productDTO.getNameProduct())) {
+                || productDTO.getNameProduct().isEmpty()) {
             errors.rejectValue("nameProduct", null, "Yêu cầu nhập tên sản phẩm!");
+        }
+        else if (!productDTO.getNameProduct().matches(REGEX_NAME_PRODUCT)){
+            errors.rejectValue("nameProduct", null,"Không được để trống");
         }
         if(productDTO.getSalePrice() <= 0){
             errors.rejectValue("salePrice","salePrice","Giá mua vào không hợp lệ");

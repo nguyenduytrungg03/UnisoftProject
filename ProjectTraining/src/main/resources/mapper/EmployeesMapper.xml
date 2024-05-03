@@ -81,7 +81,11 @@
     	UPDATE
     		employees
     	SET
-    			
+			name_employees = #{nameEmployees},
+			phone_number = #{phoneNumber},
+			version_employees = version_employees + 1
+    	WHERE
+    		id_employees = #{idEmployees}
     </update>
 
     <select id="getEmployeesByIdEmployees" resultType='java.util.Map' >
@@ -91,6 +95,8 @@
             e.phone_number      as phoneNumber,
             a.account_name      as accountName,
             a.password          as password,
+            a.account_id        as accountId,
+            a.version_account   as versionAccount,
             e.version_employees as versionEmployees
         FROM
             employees e

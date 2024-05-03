@@ -103,18 +103,23 @@ public class ProductController {
     public String updateProduct(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
-                                @RequestParam(required = false, defaultValue = "") String codeProduct,
-                                @RequestParam(required = false, defaultValue = "") String nameProduct,
                                 Errors errors,
+                                @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 RedirectAttributes redirectAttributes,
-                                BindingResult bindingResult) {
-    
+                                BindingResult bindingResult,Model model) {
+
         new ProductDTO().validate(productDTO, bindingResult);
-    	if (!iProductService.isCodeProductExitsToUpdate(productDTO.getCodeProduct(),productDTO.getIdProduct())) {
-    		errors.rejectValue("codeProduct", null,"Mã sản phẩm không được trùng");
-    	}if (!iProductService.isNameProductExitsToUpdate(productDTO.getNameProduct(),productDTO.getIdProduct())) {
-    		errors.rejectValue("nameProduct", null,"Tên sản phẩm không được trùng");
-    	}
+        if (!iProductService.isCodeProductExitsToUpdate(productDTO.getCodeProduct(),productDTO.getIdProduct())) {
+            errors.rejectValue("codeProduct", null,"Mã sản phẩm không được trùng");
+        }if (!iProductService.isNameProductExitsToUpdate(productDTO.getNameProduct(),productDTO.getIdProduct())) {
+            errors.rejectValue("nameProduct", null,"Tên sản phẩm không được trùng");
+        }
+        if (bindingResult.hasErrors()) {
+            model.addAttribute("productDTO", productDTO);
+            model.addAttribute("errors", bindingResult.getAllErrors());
+            return "product/product-update";
+        }
+
         Product product = new Product();
         BeanUtils.copyProperties(productDTO, product);
         int result = 0;
@@ -124,11 +129,13 @@ public class ProductController {
             System.out.println(e.getMessage());
         }
         if (result != 1) {
-            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");  
+            redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thất bại");
+            return "redirect:/product/list?page=" + page + "&codeProduct=" +codeProduct;
         } else {
             redirectAttributes.addFlashAttribute("message", "Chỉnh sửa thành công");
+            return "redirect:/product/list?page=" + page + "&codeProduct=" +codeProduct;
         }
-        return "redirect:/product/list?page=" + page;
+
     }
 
 
@@ -156,6 +163,7 @@ public class ProductController {
            }
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("productDTO", productDTO);
+            model.addAttribute("errors", bindingResult.getAllErrors());
             return "product/product-create";
         }
       

@@ -40,7 +40,7 @@
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    <button type="submit" class="btn btn-primary">Clear</button>
+                    <button type="submit" class="btn btn-primary" >Clear</button>
                 </div>
             </form>
         </div>
@@ -60,7 +60,7 @@
             </thead>
             <tbody>
             <tr th:each="product,loop : ${productList}">
-                <td th:text="${loop.count}"></td>
+                <td th:text="${loop.count + page * index}"></td>
                 <td hidden="hidden" th:text="${product['idProduct']}"></td>
                 <td th:text="${product['codeProduct']}"></td>
                 <td th:text="${product['nameProduct']}"></td>
@@ -69,7 +69,6 @@
                 <td th:text="${product['inventoryNumber']}"></td>
                 <td>
                     <a th:href="@{/product/formUpdate/{idProduct}(idProduct=${product['idProduct']})}">Chỉnh sửa</a>
-
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -93,7 +92,7 @@
                     </li>
                     <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
                         <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
-                            <span class="sr-only" th:text="${numberOfPage}"> </span></a>
+                            <span class="sr-only" th:text="${numberOfPage}">) </span></a>
                     </li>
                     <li th:if="${page + 1 != totalPage }" class="page-item">
                         <a class="page-link" th:href="@{/product/list(page=${page+1})}">Next</a>
@@ -147,6 +146,7 @@
     function createProduct(page) {
         localStorage.setItem("page",page+1);
     }
+
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
         integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"

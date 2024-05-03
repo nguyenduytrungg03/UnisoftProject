@@ -28,7 +28,6 @@ public class AccountService implements IAccountService {
         account.setAccountId((int) map.get("account_id"));
         account.setAccountName((String) map.get("account_name"));
         account.setPassword((String) map.get("password"));
-        account.setConfirmPassword((String) map.get("confirmPassword"));
         account.setStatusDelete((boolean) map.get("status_delete"));
         role.setIdRole((int) map.get("id_role"));
         role.setNameRole((String) map.get("name_role"));

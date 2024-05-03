@@ -13,7 +13,7 @@ import java.util.List;
 import java.util.Map;
 
 @Service
-public class EmployeesService implements IEmployeesService{
+public class EmployeesService implements IEmployeesService {
 
     @Autowired
     private EmployeesMapper employeesMapper;
@@ -23,14 +23,15 @@ public class EmployeesService implements IEmployeesService{
 
     @Autowired
     private AccountMapper accountMapper;
+
     @Override
-    public List<Map<String, Object>> findAllEmployees( String accountName,String nameEmployees, String phoneNumber,  int pageIndex, int pageSize) {
+    public List<Map<String, Object>> findAllEmployees(String accountName, String nameEmployees, String phoneNumber, int pageIndex, int pageSize) {
         return employeesMapper.getAllEmployees(accountName, nameEmployees, phoneNumber, pageIndex, pageSize);
     }
 
 
     @Override
-    public int countEmployees( String accountName, String nameEmployees, String phoneNumber) {
+    public int countEmployees(String accountName, String nameEmployees, String phoneNumber) {
         return employeesMapper.countEmployees(accountName, nameEmployees, phoneNumber);
     }
 
@@ -41,7 +42,7 @@ public class EmployeesService implements IEmployeesService{
 
     @Override
     public Employees getEmployeesByIdEmployees(int idEmployees) {
-        Map<String, Object>  map = employeesMapper.getEmployeesByIdEmployees(idEmployees);
+        Map<String, Object> map = employeesMapper.getEmployeesByIdEmployees(idEmployees);
         Employees employees = new Employees();
         Account account = new Account();
         employees.setIdEmployees((int) map.get("idEmployees"));
@@ -50,13 +51,15 @@ public class EmployeesService implements IEmployeesService{
         employees.setVersionEmployees((int) map.get("versionEmployees"));
         account.setAccountName((String) map.get("accountName"));
         account.setPassword((String) map.get("password"));
+        account.setAccountId((int) map.get("accountId"));
+        account.setVersionAccount((int) map.get("versionAccount"));
         employees.setAccount(account);
         return employees;
     }
 
     @Override
     @Transactional
-    public int createEmployees(String accountName,String password, Employees employees) {
+    public int createEmployees(String accountName, String password, Employees employees) {
         int role = 2;
         int rowCreateAccount = accountMapper.createAccount(accountName, encoder.encode(password), role);
 
@@ -68,7 +71,7 @@ public class EmployeesService implements IEmployeesService{
             if (rowCreateEmployees == 1) {
                 return 1;
             }
-      }
+        }
         return 0;
     }
 
@@ -78,11 +81,18 @@ public class EmployeesService implements IEmployeesService{
     }
 
 
-	@Override
-	public int updateEmployees(Employees employees) {
-		// TODO Auto-generated method stub
-		return 0;
-	}
-
-
+    @Override
+    public int updateEmployees(Employees employees) {
+        int rowUpdateAccount = accountMapper.updateAccount(employees.getAccount().getAccountName(), encoder.encode(employees.getAccount().getPassword()),
+                employees.getAccount().getVersionAccount(), employees.getAccount().getAccountId());
+        if (rowUpdateAccount == 1) {
+            int rowUpdateEmployees = employeesMapper.updateEmployees(employees.getNameEmployees(), employees.getPhoneNumber(), employees.getVersionEmployees(), employees.getIdEmployees());
+            if (rowUpdateEmployees == 1) {
+                return 1;
+            } else {
+                throw new RuntimeException("Không thể chỉnh sửa nhân viên");
+            }
+        }
+        return 0;
+    }
 }

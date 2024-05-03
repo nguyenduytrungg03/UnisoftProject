@@ -20,4 +20,5 @@ public interface EmployeesMapper {
 
     Employees getEmployeesByAccountId (int idAccount);
 
+    int updateEmployees(String nameEmployees, String phoneNumber, int versionEmployees, int idEmployees);
 }

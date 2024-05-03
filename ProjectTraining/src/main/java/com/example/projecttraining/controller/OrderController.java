@@ -62,7 +62,7 @@ public class OrderController {
             dayOrderStart = "2010-07-01";
         }
         if (dayOrderEnd.isEmpty()) {
-            dayOrderEnd = "9999-12-31";
+            dayOrderEnd = "2024-03-10";
         }
 //        if (allocatedStatus == 0 && orderedStatus == 0 ) {
 //            orderedStatus = 1;
@@ -89,6 +89,7 @@ public class OrderController {
         model.addAttribute("accountName", accountName);
         model.addAttribute("codeProduct", codeProduct);
         model.addAttribute("nameEmployees", nameEmployees);
+//        model.addAttribute("prince", prince);
         model.addAttribute("nameCustomer", nameCustomer);
         model.addAttribute("phoneNumberCustomer", phoneNumberCustomer);
         model.addAttribute("idEmployees", idEmployees);
