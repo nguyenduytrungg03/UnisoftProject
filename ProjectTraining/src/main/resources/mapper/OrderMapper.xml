@@ -6,8 +6,8 @@
 	
  <select id="findByOrder" resultType='java.util.Map'>
         SELECT
-             o.day_order_start       as  dayOrdrerStart,
-             o.price                 as  prince,
+             o.day_order_start       as  dayOrderStart,
+             o.price                 as  price,
              o.day_order_allocated   as  dayOrderAllocated,
              o.address               as  address,
              o.quantity              as  quantity,
@@ -20,15 +20,15 @@
              e.id_employees 		 as  idEmployees,
              e.name_employees        as  nameEmployees
         FROM
-            `order`    o
+            `orders`    o
         JOIN
-             product   p    on        o.id_product   =  p.id_product
+             products   p    on        o.id_product   =  p.id_product
         JOIN
-             customer  c    on        o.id_customer  =  c.id_customer
+             customers  c    on        o.id_customer  =  c.id_customer
         JOIN
              status    s    on        o.id_status    =  s.id_status
         JOIN
-             account   a    on        o.id_account   =  a.account_id
+             accounts   a    on        o.id_account   =  a.account_id
         JOIN
              employees e    on        o.id_employees =  e.id_employees
         AND
@@ -44,7 +44,7 @@
         AND
              TRIM(phone_number_customer)   LIKE CONCAT(#{phoneNumberCustomer}, "%")
         AND
-             day_order_start               BETWEEN #{dayOrderStart} AND "2024-03-10"
+             day_order_start               BETWEEN #{dayOrderStart} AND #{dayOrderEnd}
         AND
              TRIM(name_status)             LIKE CONCAT(#{nameStatus}, "%")
         ORDER BY
@@ -59,15 +59,15 @@
 		SELECT 
 			 count(*) 
 		FROM 
-			 `order` o
+			 `orders` o
 		JOIN
-             product   p    on        o.id_product   =  p.id_product
+             products   p    on        o.id_product   =  p.id_product
         JOIN
-             customer  c    on        o.id_customer  =  c.id_customer
+             customers  c    on        o.id_customer  =  c.id_customer
         JOIN
              status    s    on        o.id_status    =  s.id_status
         JOIN
-             account   a    on        o.id_account   =  a.account_id
+             accounts   a    on        o.id_account   =  a.account_id
         JOIN
              employees e    on        o.id_employees =  e.id_employees    
 </select>

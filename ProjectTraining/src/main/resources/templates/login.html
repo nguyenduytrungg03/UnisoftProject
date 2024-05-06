@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="en">
+<html lang="en" xmlns:th="http://www.w3.org/1999/xhtml">
 <head>
     <meta charset="UTF-8">
     <title>Đăng nhập</title>
@@ -17,11 +17,11 @@
                     <div class="card-body p-5 text-center">
                         <h3 class="mb-5">Sign in</h3>
                         <div class="mb-4">
-                            <input id="accountName" class="form-control form-control-lg" name="accountName"/>
+                            <input id="accountName" name="accountName" class="form-control form-control-lg"/>
                             <label class="form-label" >Tên đăng nhập</label>
                         </div>
                         <div class="mb-4">
-                            <input type="password" id="password" class="form-control form-control-lg" name="password"/>
+                            <input type="password" id="password" name="password" class="form-control form-control-lg"/>
                             <label class="form-label" >Password</label>
                         </div>
                         <button class="btn btn-primary btn-lg btn-block" name="submit" type="submit">Login</button>

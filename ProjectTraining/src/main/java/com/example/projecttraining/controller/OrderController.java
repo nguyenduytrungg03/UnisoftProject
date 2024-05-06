@@ -43,7 +43,7 @@ public class OrderController {
         return null;
     }
     @GetMapping("/list")
-    public String getAllListOrder(@RequestParam(required = false, defaultValue = "0") int    page,
+    public String getAllList(@RequestParam(required = false, defaultValue = "0") int    page,
                                   @RequestParam(required = false, defaultValue = "") String  accountName,
                                   @RequestParam(required = false, defaultValue = "") String  nameEmployees,
                                   @RequestParam(required = false, defaultValue = "") String  codeProduct,
@@ -62,13 +62,13 @@ public class OrderController {
             dayOrderStart = "2010-07-01";
         }
         if (dayOrderEnd.isEmpty()) {
-            dayOrderEnd = "2024-03-10";
+            dayOrderEnd = "9999-12-12";
         }
 //        if (allocatedStatus == 0 && orderedStatus == 0 ) {
 //            orderedStatus = 1;
 //            allocatedStatus =2 ;
 //        }
-        int index = 3;
+        int index = 2;
         List<Map<String,Object>> orderList = iOrderService.getAllOrder( accountName, nameEmployees,
                                                                         codeProduct, nameProduct,
                                                                         nameCustomer, phoneNumberCustomer,
@@ -89,14 +89,13 @@ public class OrderController {
         model.addAttribute("accountName", accountName);
         model.addAttribute("codeProduct", codeProduct);
         model.addAttribute("nameEmployees", nameEmployees);
-//        model.addAttribute("prince", prince);
         model.addAttribute("nameCustomer", nameCustomer);
         model.addAttribute("phoneNumberCustomer", phoneNumberCustomer);
         model.addAttribute("idEmployees", idEmployees);
         model.addAttribute("dayOrderStart", dayOrderStart);
         model.addAttribute("dayOrderEnd", dayOrderEnd);
         model.addAttribute("nameStatus", nameStatus);
-        return "order/order-list";
+        return "order/show";
     }
 }
 

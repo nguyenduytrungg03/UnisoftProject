@@ -1,10 +1,11 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-    <!--    <meta charset="UTF-8">-->
+        <meta charset="UTF-8">
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
     <style>
         .pagination {
             display: flex;
@@ -20,7 +21,7 @@
     <span th:text="${messages}"></span>
 </div>
 <div>
-    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp;</div>
+    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
     <div class="h-100 p-0 m-0" style="width: 80%; float: left">
         <div class="p-2">
             <form th:action="@{/order/list}"
@@ -92,28 +93,26 @@
                 <th>Tên nhân viên</th>
             </tr>
             </thead>
-            <tbody>
-            <tr th:each="order,loop:${orderList}">
+            <tbody id="bodyTable">
+            <tr th:each="order,loop:${orderList} ">
             	<td th:text="${loop.count + index * page}"></td>
-             	<td class="hidden" th:text="${order['idEmployees']}"></td>
-                <td th:contenteditable= "${(order['dayOrderAllocated'] == null)} ? 'true' : null" th:text="${order['codeProduct']}">
-<!--                            -->
-                </td>
-                <td th:text="${order['nameProduct']}"></td>
+             	<td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-yyyy')}"></td>
+                <td class="codeProduct" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['codeProduct']}"></td>
+                <td class="nameProduct" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['nameProduct']}"></td>
                 <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-                <td th:text="${order['quantity']}"></td>
-                <td th:text="${order['nameCustomer']}"></td>
-                <td th:text="${order['phoneNumberCustomer']}"></td>
+                <td class="quantity" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['quantity']}"></td>
+                <td class="nameCustomer" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['nameCustomer']}"></td>
+                <td class="phoneNumberCustomer" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['phoneNumberCustomer']}"></td>
                 <td th:text="${order['address']}"></td>
    				<td th:text="${order['nameStatus']}"></td>
-                <td th:text="${order['dayOrderAllocated']}"></td>
+                <td th:text="${#temporals.format(order['dayOrderAllocated'], 'dd-MM-yyyy')}"></td>
                 <td th:text="${order['accountName']}"></td>
                 <td th:text="${order['nameEmployees']}"></td>
             </tr>
             </tbody>
         </table>
 
-    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp;</div>
+    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
 </div>
 
 <script>
@@ -125,6 +124,43 @@
     function createCustomer(page) {
         localStorage.setItem("page",page+1);
     }
+</script>
+<script>
+    $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {
+        	  let nameProduct = $(this).text();
+              let row = $(this).closest("tr");
+              let codeProductCell = row.find("td:eq(2)");
+              let valueNameProduct = $(this);
+
+              $.ajax({
+                  contentType :"application/json",
+                  method : "GET",
+                  url : `http://localhost:8081/api/product/getCodeProduct?nameProduct=`+encodeURIComponent(nameProduct),
+                  success : function(data) {
+                      if (data === "") {
+                          codeProductCell.text('')
+                          valueNameProduct.text('')
+                      }
+                      else {
+                          codeProductCell.text(data)
+                      }
+                      let id = row.attr('id');
+                      let rowData = {
+                          id: id,
+                          codeProduct: row.find('td:eq(2)').text(),
+                          nameProduct: row.find('td:eq(3)').text(),
+                          quantity: row.find('td:eq(5)').text(),
+                          nameCustomer: row.find('td:eq(6)').text(),
+                          phoneNumberCustomer: row.find('td:eq(7)').text()
+                      };
+					  checkChangeValue(id,rowData);
+                  },
+                  error:function(xhr, textStatus, errorThrow){
+                      console.log("Error",errorThrow)
+                  }
+              })
+        });
+
   
 </script>
 <script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"

@@ -50,7 +50,7 @@ public class CustomerController {
     }
 
     @GetMapping("/list")
-    public String findAllCustomer(@RequestParam(required = false, defaultValue = "0") int page
+    public String getAllList(@RequestParam(required = false, defaultValue = "0") int page
             , @RequestParam(required = false, defaultValue = "") String nameCustomer
             , @RequestParam(required = false, defaultValue = "") String phoneNumberCustomer
             , Model model) {
@@ -66,24 +66,24 @@ public class CustomerController {
         model.addAttribute("index", index);
         model.addAttribute("nameCustomer", nameCustomer);
         model.addAttribute("phoneNumberCustomer", phoneNumberCustomer);
-        return "customer/customer-list";
+        return "customer/show";
     }
 
-    @PostMapping("/delete")
-    public String deleteCustomer(@RequestParam int idCustomer, RedirectAttributes redirectAttributes) {
+    @PostMapping("/destroy")
+    public String delete(@RequestParam int idCustomer, RedirectAttributes redirectAttributes) {
         iCustomerService.deleteCustomer(idCustomer);
         redirectAttributes.addFlashAttribute("message", "Xóa khách hàng thành công!");
         return "redirect:/customer/list";
     }
 
-    @GetMapping("/formCreate")
+    @GetMapping("/create")
     public String goFormCreate(Model model) {
         model.addAttribute("customer", new Customer());
-        return "customer/customer-create";
+        return "customer/create";
     }
 
-    @PostMapping("/createCustomer")
-    public String createCustomer(@ModelAttribute("customer") Customer customer,
+    @PostMapping("/store")
+    public String create(@ModelAttribute("customer") Customer customer,
                                  @RequestParam(required = false, defaultValue = "") String nameCustomer,
                                  @RequestParam(required = false, defaultValue = "") String phoneNumberCustomer,
                                  @RequestParam(required = false, defaultValue = "") String addressCustomer,
@@ -92,7 +92,7 @@ public class CustomerController {
                                  RedirectAttributes redirectAttributes, Model model) {
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("customer", customer);
-            return "customer/customer-create";
+            return "customer/create";
         }
         UserDetailImp userDetails = (UserDetailImp) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int result = 0;
@@ -109,7 +109,7 @@ public class CustomerController {
         return "redirect:/customer/list?page=" + page;
     }
 
-    @GetMapping("/formUpdate/{idCustomer}")
+    @GetMapping("/edit/{idCustomer}")
     public String goFormUpdate(@PathVariable("idCustomer") Integer idCustomer, Model model, RedirectAttributes redirectAttributes) {
         Account accountLogin = getAccountLogin();
         assert accountLogin != null;
@@ -131,12 +131,12 @@ public class CustomerController {
                 model.addAttribute("accountName", accountLogin.getAccountName());
             }
         }
-        return "customer/customer-update";
+        return "customer/update";
     }
 
 
-    @PostMapping("/updateCustomer")
-    public String updateCustomer(@Valid
+    @PostMapping("/update")
+    public String update(@Valid
                                  @ModelAttribute("customerDTO") CustomerDTO customerDTO,
                                  @RequestParam(required = false, defaultValue = "0") int page,
                                  @RequestParam(required = false, defaultValue = "") String nameCustomer,
@@ -146,7 +146,7 @@ public class CustomerController {
                                  BindingResult bindingResult, Model model) {
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("customerDTO", customerDTO);
-            return "customer/customer-create";
+            return "customer/create";
         }
         Customer customer = new Customer();
         BeanUtils.copyProperties(customerDTO, customer);

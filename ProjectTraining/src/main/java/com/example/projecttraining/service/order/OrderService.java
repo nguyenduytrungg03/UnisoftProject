@@ -19,6 +19,7 @@ public class OrderService implements IOrderService {
     @Override
     public List<Map<String, Object>> getAllOrder(String accountName, String nameEmployees,
                                                  String codeProduct, String nameProduct,
+
                                                  String nameCustomer, String phoneNumberCustomer,
                                                  int idEmployees, LocalDate dayOrderStart, LocalDate dayOrderEnd,
                                                  String nameStatus,
@@ -34,11 +35,13 @@ public class OrderService implements IOrderService {
     @Override
     public int countOrder(String accountName, String nameEmployees,
                           String codeProduct, String nameProduct,
+
                           String nameCustomer, String phoneNumberCustomer,
                           int idEmployees, LocalDate dayOrderStart, LocalDate dayOrderEnd,
                           String nameStatus) {
         return orderMapper.countOrder( accountName, nameEmployees,
                                        codeProduct, nameProduct,
+
                                        nameCustomer, phoneNumberCustomer,
                                        idEmployees, dayOrderStart, dayOrderEnd,
                                        nameStatus);

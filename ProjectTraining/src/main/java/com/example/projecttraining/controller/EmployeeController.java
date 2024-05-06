@@ -42,7 +42,7 @@ public class EmployeeController {
     }
 
     @GetMapping("/list")
-    public String getAllListEmployees(@RequestParam(required = false, defaultValue = "0") int page
+    public String getAllList(@RequestParam(required = false, defaultValue = "0") int page
                                     , @RequestParam(required = false, defaultValue = "") String accountName
                                     , @RequestParam(required = false, defaultValue = "") String nameEmployees
                                     , @RequestParam(required = false, defaultValue = "") String phoneNumber
@@ -59,11 +59,11 @@ public class EmployeeController {
         model.addAttribute("accountName", accountName);
         model.addAttribute("nameEmployees", nameEmployees);
         model.addAttribute("phoneNumber", phoneNumber);
-        return "employees/employees-list";
+        return "employees/show";
     }
 
     @PostMapping("/delete")
-    public String deleteEmployees(@RequestParam int idEmployees, RedirectAttributes redirectAttributes){
+    public String delete(@RequestParam int idEmployees, RedirectAttributes redirectAttributes){
         iEmployeesService.deleteEmployees(idEmployees);
         redirectAttributes.addFlashAttribute("message", "Xóa nhân viên thành công!");
         return "redirect:/employees/list";
@@ -73,18 +73,18 @@ public class EmployeeController {
     @GetMapping("/formCreate")
     public String goFormCreate(Model model) {
         model.addAttribute("employeesDTO", new EmployeesDTO());
-        return "employees/employees-create";
+        return "employees/create";
     }
 
 
     @PostMapping("/createEmployees")
-    public String createEmployees(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
+    public String create(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
                                   @RequestParam(required = false, defaultValue = "0") int page,
                                   RedirectAttributes redirectAttributes,
                                   BindingResult bindingResult, Model model){
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("employeesDTO", employeesDTO);
-			return "employees/employees-create";
+			return "employees/create";
 		}
         Employees employees = new Employees();
         BeanUtils.copyProperties(employeesDTO, employees);
@@ -114,11 +114,11 @@ public class EmployeeController {
         employeesDTO.setVersionAccount(employees.getAccount().getVersionAccount());
         model.addAttribute("employeesDTO",employeesDTO);
         model.addAttribute("accountName",account.getAccountName());
-        return "employees/employees-update";
+        return "employees/update";
     }
     
     @PostMapping("/updateEmployees")
-    public String updateEmployees( @ModelAttribute("employeesDTO")  EmployeesDTO employeesDTO,
+    public String update( @ModelAttribute("employeesDTO")  EmployeesDTO employeesDTO,
     							   @RequestParam(required = false, defaultValue = "0") int page,
     							   BindingResult bindingResult, Errors errors, RedirectAttributes redirectAttributes, Model model) {
     	
@@ -129,7 +129,7 @@ public class EmployeeController {
     	new EmployeesDTO().validate(employeesDTO, bindingResult);
 		if (bindingResult.hasErrors()) {
 			model.addAttribute("employeesDTO", employeesDTO);
-			return "employees/employees-update";
+			return "employees/update";
 		}
         System.out.println(employeesDTO);
 		Account account = new Account();

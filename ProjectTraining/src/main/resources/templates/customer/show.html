@@ -18,7 +18,7 @@
     Danh sách khách hàng
     <div>
         <button class="btn " th:attr ="onclick=|createCustomer(${page}|">
-            <a  th:href="@{/customer/formCreate}">Thêm mới sản phẩm</a>
+            <a  th:href="@{/customer/create}">Thêm mới sản phẩm</a>
         </button>
     </div>
 </nav>
@@ -64,7 +64,7 @@
                 <td th:text="${customer['addressCustomer']}"></td>
                 <td th:text="${customer['nameEmployees']}"></td>
                 <td>
-                    <a th:href="@{/customer/formUpdate/{idCustomer} (idCustomer = ${customer['idCustomer']})}">Chỉnh sửa</a>
+                    <a th:href="@{/customer/edit/{idCustomer} (idCustomer = ${customer['idCustomer']})}">Chỉnh sửa</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -109,7 +109,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/customer/delete}" method="post">
+                <form th:action="@{/customer/destroy}" method="post">
                     <div class="modal-body">
                         Bạn có muốn xóa khách hàng có tên <span id="nameCustomer" style="color:navy"></span> này không?
                         <input type="hidden" id="idCustomer" name="idCustomer" style="color:navy">

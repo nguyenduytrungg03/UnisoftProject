@@ -57,7 +57,7 @@ public class ProductController {
 
 
     @GetMapping("/list")
-    public String getAllProduct(@RequestParam(required = false, defaultValue = "") String codeProduct,
+    public String getAllList(@RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 Model model) {
@@ -72,11 +72,11 @@ public class ProductController {
         model.addAttribute("index", index);
         model.addAttribute("codeProduct", codeProduct);
         model.addAttribute("nameProduct", nameProduct);
-        return "product/product-list";
+        return "product/show";
     }
 
     @PostMapping("/delete")
-    public String deleteProduct(@RequestParam int idProduct,
+    public String delete(@RequestParam int idProduct,
                                 RedirectAttributes redirectAttributes) {
 
         iProductService.deleteProduct(idProduct);
@@ -97,10 +97,10 @@ public class ProductController {
         } catch (Throwable e) {
             System.out.println(e.getMessage());
         }
-        return "product/product-update";
+        return "product/update";
     }
     @PostMapping("/updateProduct")
-    public String updateProduct(@Valid
+    public String update(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 Errors errors,
@@ -117,7 +117,7 @@ public class ProductController {
         if (bindingResult.hasErrors()) {
             model.addAttribute("productDTO", productDTO);
             model.addAttribute("errors", bindingResult.getAllErrors());
-            return "product/product-update";
+            return "product/update";
         }
 
         Product product = new Product();
@@ -142,12 +142,12 @@ public class ProductController {
     @GetMapping("/formCreate")
     public String goFormCreate(Model model) {
     	model.addAttribute("productDTO",new ProductDTO());
-        return "product/product-create";
+        return "product/create";
     }
 
 
     @PostMapping("/createProduct")
-    public String createProduct(@Valid @ModelAttribute("productDTO") ProductDTO productDTO,
+    public String create(@Valid @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
                                 @RequestParam(required = false, defaultValue = "0") int page,
@@ -164,7 +164,7 @@ public class ProductController {
         if (bindingResult.hasFieldErrors()) {
             model.addAttribute("productDTO", productDTO);
             model.addAttribute("errors", bindingResult.getAllErrors());
-            return "product/product-create";
+            return "product/create";
         }
       
         Product product = new Product();

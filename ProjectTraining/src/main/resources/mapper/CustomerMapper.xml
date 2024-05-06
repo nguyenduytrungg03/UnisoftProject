@@ -12,7 +12,7 @@
             c.address_customer as addressCustomer,
             e.name_employees as nameEmployees
         FROM
-            customer c
+            customers c
         JOIN
             employees e on e.id_employees = c.id_employees
         WHERE
@@ -34,7 +34,7 @@
         SELECT
             count(*)
         FROM
-            customer c
+            customers c
         JOIN
             employees e on c.id_employees = e.id_employees
         WHERE
@@ -44,12 +44,11 @@
 
     <update id="deleteCustomer"  parameterType="com.example.projecttraining.model.Customer">
         UPDATE
-            customer c
+            customers c
         SET
             c.status_delete = 1
-        <where>
-            id_customer = #{idCustomer}
-        </where>
+        WHERE
+            c.id_customer = #{idCustomer}
     </update>
 
     <select id="getCustomerByIdCustomer" resultType='java.util.Map'>
@@ -61,7 +60,7 @@
             e.id_employees ,
             e.name_employees
         FROM
-            customer c
+            customers c
         JOIN
             employees e ON e.id_employees = c.id_employees
         WHERE
@@ -70,7 +69,7 @@
 
     <insert id="createCustomer">
         INSERT INTO
-            customer(name_customer, phone_number_customer, address_customer, id_employees)
+            customers(name_customer, phone_number_customer, address_customer, id_employees)
         values
             (#{nameCustomer},
              #{phoneNumberCustomer},
@@ -81,13 +80,13 @@
 
     <update id="updateCustomer">
         UPDATE
-            customer
+            customers c
         SET
-            name_customer = #{nameCustomer},
-            phone_number_customer = #{phoneNumberCustomer},
-            address_customer = #{addressCustomer},
-            version_customer = version_customer +1
+            c.name_customer = #{nameCustomer},
+            c.phone_number_customer = #{phoneNumberCustomer},
+            c.address_customer = #{addressCustomer},
+            c.version_customer = version_customer +1
         WHERE
-            id_customer = #{idCustomer}
+            c.id_customer = #{idCustomer}
     </update>
 </mapper>

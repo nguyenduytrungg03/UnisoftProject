@@ -3,7 +3,6 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.projecttraining.mapper.EmployeesMapper" >
-
     <select id='getAllEmployees' resultType='java.util.Map'>
         SELECT
             e.id_employees   as idEmployees,
@@ -79,11 +78,11 @@
     
     <update id="updateEmployees">
     	UPDATE
-    		employees
+    		employees e
     	SET
-			name_employees = #{nameEmployees},
-			phone_number = #{phoneNumber},
-			version_employees = version_employees + 1
+			e.name_employees = #{nameEmployees},
+            e.phone_number = #{phoneNumber},
+            e.version_employees = version_employees + 1
     	WHERE
     		id_employees = #{idEmployees}
     </update>
@@ -118,11 +117,6 @@
     WHERE
         e.id_account = #{accountId}
     </select>
-
-
-
-
-
 
 
 </mapper>
