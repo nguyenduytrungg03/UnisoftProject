@@ -5,7 +5,10 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.0/jquery.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.js"
+            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
+            crossorigin="anonymous"></script>
     <style>
         .pagination {
             display: flex;
@@ -14,6 +17,7 @@
     </style>
 </head>
 <body>
+<div th:insert = "navbar :: nav"></div>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách đơn hàng
 </nav>
@@ -75,7 +79,7 @@
                 </div>
             </form>
         </div>
-        <table class="table-striped table">
+        <table border="1" class="table-striped table" >
             <thead class="thead-dark">
             <tr class="w-100">
                 <th>No.</th>
@@ -93,8 +97,9 @@
                 <th>Tên nhân viên</th>
             </tr>
             </thead>
-            <tbody id="bodyTable">
-            <tr th:each="order,loop:${orderList} ">
+            <tbody th:id="bodyTable">
+
+            <tr th:if="${orderList.size() > 0}" th:each="order,loop:${orderList} " th:id="${order['idOrder']}">
             	<td th:text="${loop.count + index * page}"></td>
              	<td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-yyyy')}"></td>
                 <td class="codeProduct" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['codeProduct']}"></td>
@@ -108,6 +113,9 @@
                 <td th:text="${#temporals.format(order['dayOrderAllocated'], 'dd-MM-yyyy')}"></td>
                 <td th:text="${order['accountName']}"></td>
                 <td th:text="${order['nameEmployees']}"></td>
+            </tr>
+            <tr th:if="${orderList.size() == 0}">
+                <td colspan="13">Không tìm thấy đơn hàng</td>
             </tr>
             </tbody>
         </table>
@@ -125,41 +133,58 @@
         localStorage.setItem("page",page+1);
     }
 </script>
-<script>
-    $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {
-        	  let nameProduct = $(this).text();
-              let row = $(this).closest("tr");
-              let codeProductCell = row.find("td:eq(2)");
-              let valueNameProduct = $(this);
 
-              $.ajax({
-                  contentType :"application/json",
-                  method : "GET",
-                  url : `http://localhost:8081/api/product/getCodeProduct?nameProduct=`+encodeURIComponent(nameProduct),
-                  success : function(data) {
-                      if (data === "") {
-                          codeProductCell.text('')
-                          valueNameProduct.text('')
-                      }
-                      else {
-                          codeProductCell.text(data)
-                      }
-                      let id = row.attr('id');
-                      let rowData = {
-                          id: id,
-                          codeProduct: row.find('td:eq(2)').text(),
-                          nameProduct: row.find('td:eq(3)').text(),
-                          quantity: row.find('td:eq(5)').text(),
-                          nameCustomer: row.find('td:eq(6)').text(),
-                          phoneNumberCustomer: row.find('td:eq(7)').text()
-                      };
-					  checkChangeValue(id,rowData);
-                  },
-                  error:function(xhr, textStatus, errorThrow){
-                      console.log("Error",errorThrow)
-                  }
-              })
-        });
+
+
+<script>
+<!--    $(document).ready(function () {-->
+<!--            let data = JSON.parse(localStorage.getItem('myArray')) || [];-->
+<!--            render(data);-->
+<!--            let temp = JSON.parse(localStorage.getItem('cellErrors')) || [];-->
+<!--            if (temp.length !== 0) {-->
+<!--                handleCellErrors(temp);-->
+<!--            }-->
+<!--        });-->
+
+
+
+<!--        $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {-->
+<!--                  let nameProduct = $(this).text();-->
+<!--                  let row = $(this).closest("tr");-->
+<!--                  let codeProductCell = row.find("td:eq(2)");-->
+<!--                  let valueNameProduct = $(this);-->
+<!--                  $.ajax({-->
+<!--                      contentType :"application/json",-->
+<!--                      method : "GET",-->
+<!--                      url : `http://localhost:8081/api/product/getCodeProduct?nameProduct=`+encodeURIComponent(nameProduct),-->
+<!--                      success : function(data) {-->
+<!--                            console.log("Dữ liệu nhận được từ máy chủ:", data);-->
+<!--                            console.log("URL gọi:", url);-->
+<!--                            console.log("Đang thực hiện AJAX cho phần tử:", $(this));-->
+<!--                            console.log("Tên sản phẩm:", nameProduct);-->
+<!--                          if (data === "") {-->
+<!--                              codeProductCell.text('')-->
+<!--                              valueNameProduct.text('')-->
+<!--                          }-->
+<!--                          else {-->
+<!--                              codeProductCell.text(data)-->
+<!--                          }-->
+<!--                          let id = row.attr('idOrder');-->
+<!--                          let rowData = {-->
+<!--                              id: id,-->
+<!--                              codeProduct: row.find('td:eq(2)').text(),-->
+<!--                              nameProduct: row.find('td:eq(3)').text(),-->
+<!--                              quantity: row.find('td:eq(5)').text(),-->
+<!--                              nameCustomer: row.find('td:eq(6)').text(),-->
+<!--                              phoneNumberCustomer: row.find('td:eq(7)').text()-->
+<!--                          };-->
+<!--                          checkChangeValue(idOrder,rowData);-->
+<!--                      },-->
+<!--                      error:function(xhr, textStatus, errorThrow){-->
+<!--                          console.log("Error",errorThrow)-->
+<!--                      }-->
+<!--                  })-->
+<!--            });-->
 
   
 </script>

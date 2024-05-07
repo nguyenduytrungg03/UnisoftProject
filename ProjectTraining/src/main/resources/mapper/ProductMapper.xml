@@ -72,11 +72,10 @@
             UPDATE
                products p
             SET
-               p.status_delete = 1
-            WHERE
-               id_product = #{idProduct}
-            AND
+               p.status_delete = 1,
                p.version_product = version_product + 1
+            WHERE
+               p.id_product = #{idProduct}
     </update>
 
     <!--Update Product -->
@@ -115,7 +114,6 @@
 	    	products p
 	    WHERE
 	    	p.code_product = #{codeProduct}
-
 	</select>
 		
 	

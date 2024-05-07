@@ -10,7 +10,7 @@
             FROM
                 accounts a
             JOIN
-                role r ON r.id_role = a.role_id
+                roles r ON a.roles_id = r.id_role
             WHERE
                 a.account_name = #{accountName}
         </select>

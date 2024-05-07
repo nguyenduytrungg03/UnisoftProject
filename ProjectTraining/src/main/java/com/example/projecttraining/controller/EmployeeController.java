@@ -62,7 +62,7 @@ public class EmployeeController {
         return "employees/show";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/destroy")
     public String delete(@RequestParam int idEmployees, RedirectAttributes redirectAttributes){
         iEmployeesService.deleteEmployees(idEmployees);
         redirectAttributes.addFlashAttribute("message", "Xóa nhân viên thành công!");
@@ -70,14 +70,14 @@ public class EmployeeController {
     }
 
 
-    @GetMapping("/formCreate")
+    @GetMapping("/create")
     public String goFormCreate(Model model) {
         model.addAttribute("employeesDTO", new EmployeesDTO());
         return "employees/create";
     }
 
 
-    @PostMapping("/createEmployees")
+    @PostMapping("/store")
     public String create(@ModelAttribute("employeesDTO") EmployeesDTO employeesDTO,
                                   @RequestParam(required = false, defaultValue = "0") int page,
                                   RedirectAttributes redirectAttributes,
@@ -98,7 +98,7 @@ public class EmployeeController {
         return "redirect:/employees/list?page=" + page ;
     }
 
-    @GetMapping("/formUpdate/{idEmployees}")
+    @GetMapping("/edit/{idEmployees}")
     public String goFormUpdate(@PathVariable ("idEmployees") int idEmployees, Model model, RedirectAttributes redirectAttributes){
         Account account = getAccountLogin();
         Employees employees = iEmployeesService.getEmployeesByIdEmployees(idEmployees);
@@ -117,7 +117,7 @@ public class EmployeeController {
         return "employees/update";
     }
     
-    @PostMapping("/updateEmployees")
+    @PostMapping("/update")
     public String update( @ModelAttribute("employeesDTO")  EmployeesDTO employeesDTO,
     							   @RequestParam(required = false, defaultValue = "0") int page,
     							   BindingResult bindingResult, Errors errors, RedirectAttributes redirectAttributes, Model model) {

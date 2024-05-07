@@ -6,6 +6,7 @@
     <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
           integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <style>
         .pagination {
             display: flex;
@@ -14,17 +15,19 @@
     </style>
 </head>
 <body>
+<div th:insert = "navbar :: nav"></div>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách sản phẩm
     <div>
         <button class="btn " th:attr ="onclick=|createProduct(${page}|">
-            <a  th:href="@{/product/formCreate}">Thêm mới sản phẩm</a>
+            <a  th:href="@{/product/create}">Thêm mới sản phẩm</a>
         </button>
     </div>
 </nav>
 <div id="successMessage" th:if="${message}" class="alert alert-success" role="alert">
     <span th:text="${message}"></span>
 </div>
+
 <div>
     <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
     <div class="h-100 p-0 m-0" style="width: 60%; float: left">
@@ -68,7 +71,7 @@
                 <td th:text="${#numbers.formatDecimal(product['purchasePrice'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
                 <td th:text="${product['inventoryNumber']}"></td>
                 <td>
-                    <a th:href="@{/product/formUpdate/{idProduct}(idProduct=${product['idProduct']})}">Chỉnh sửa</a>
+                    <a th:href="@{/product/edit/{idProduct}(idProduct=${product['idProduct']})}">Chỉnh sửa</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -90,11 +93,11 @@
                     <li th:if="${page != 0 }" class="page-item">
                         <a class="page-link" th:href="@{/product/list(page=${page -1})}">Previous</a>
                     </li>
-                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
+                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage-1)}">
                         <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
                             <span class="sr-only" th:text="${numberOfPage}">) </span></a>
                     </li>
-                    <li th:if="${page + 1 != totalPage }" class="page-item">
+                    <li th:if="${page != totalPage}" class="page-item">
                         <a class="page-link" th:href="@{/product/list(page=${page+1})}">Next</a>
                     </li>
                 </ul>
@@ -117,7 +120,7 @@
                     <span aria-hidden="true">&times;</span>
                 </button>
             </div>
-            <form th:action="@{/product/delete}" method="post">
+            <form th:action="@{/product/destroy}" method="post">
                 <div class="modal-body">
                     Bạn có muốn xóa sản phẩm <span id="nameProduct" style="color:navy"></span> có mã là <span id="codeProduct" style="color:navy"></span> này không?
                     <input type="hidden" id="idProduct" name="idProduct">

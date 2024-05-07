@@ -6,6 +6,7 @@
 	
  <select id="findByOrder" resultType='java.util.Map'>
         SELECT
+             o.id_order              as idOrder,
              o.day_order_start       as  dayOrderStart,
              o.price                 as  price,
              o.day_order_allocated   as  dayOrderAllocated,
@@ -22,13 +23,13 @@
         FROM
             `orders`    o
         JOIN
-             products   p    on        o.id_product   =  p.id_product
+             products   p    on        o.id_products   =  p.id_product
         JOIN
-             customers  c    on        o.id_customer  =  c.id_customer
+             customers  c    on        o.id_customers  =  c.id_customer
         JOIN
              status    s    on        o.id_status    =  s.id_status
         JOIN
-             accounts   a    on        o.id_account   =  a.account_id
+             accounts   a    on        o.id_accounts   =  a.account_id
         JOIN
              employees e    on        o.id_employees =  e.id_employees
         AND
@@ -61,13 +62,13 @@
 		FROM 
 			 `orders` o
 		JOIN
-             products   p    on        o.id_product   =  p.id_product
+             products   p    on        o.id_products   =  p.id_product
         JOIN
-             customers  c    on        o.id_customer  =  c.id_customer
+             customers  c    on        o.id_customers  =  c.id_customer
         JOIN
              status    s    on        o.id_status    =  s.id_status
         JOIN
-             accounts   a    on        o.id_account   =  a.account_id
+             accounts   a    on        o.id_accounts   =  a.account_id
         JOIN
              employees e    on        o.id_employees =  e.id_employees    
 </select>

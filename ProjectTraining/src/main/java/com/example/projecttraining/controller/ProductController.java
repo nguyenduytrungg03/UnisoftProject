@@ -61,21 +61,26 @@ public class ProductController {
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,
                                 @RequestParam(required = false, defaultValue = "0") int page,
                                 Model model) {
+        try{
         int index = 3;
         List<Map<String, Object>> productList = iProductService.getAllProduct(codeProduct, nameProduct, index, index * page);
         int countProduct = iProductService.countProduct();
-        double a = (double) countProduct / index;
-        int totalPage = (int) Math.ceil(a);
+//        double a = (double) countProduct / index;
+//        int totalPage = (int) Math.ceil(a);
+        int totalPage = countProduct % index == 0 ? countProduct / index : countProduct / index + 1;
         model.addAttribute("productList", productList);
         model.addAttribute("totalPage", totalPage);
         model.addAttribute("page", page);
         model.addAttribute("index", index);
         model.addAttribute("codeProduct", codeProduct);
         model.addAttribute("nameProduct", nameProduct);
+        }catch(Throwable e) {
+            System.out.println(e.getMessage());
+        }
         return "product/show";
     }
 
-    @PostMapping("/delete")
+    @PostMapping("/destroy")
     public String delete(@RequestParam int idProduct,
                                 RedirectAttributes redirectAttributes) {
 
@@ -84,7 +89,7 @@ public class ProductController {
         return "redirect:/product/list";
     }
 
-    @GetMapping("/formUpdate/{idProduct}")
+    @GetMapping("/edit/{idProduct}")
     public String goFromUpdate(@PathVariable("idProduct") int idProduct, Model model) {
         Account account = getAccountLogin();
         try {
@@ -99,7 +104,7 @@ public class ProductController {
         }
         return "product/update";
     }
-    @PostMapping("/updateProduct")
+    @PostMapping("/update")
     public String update(@Valid
                                 @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "0") int page,
@@ -139,14 +144,14 @@ public class ProductController {
     }
 
 
-    @GetMapping("/formCreate")
+    @GetMapping("/create")
     public String goFormCreate(Model model) {
     	model.addAttribute("productDTO",new ProductDTO());
         return "product/create";
     }
 
 
-    @PostMapping("/createProduct")
+    @PostMapping("/store")
     public String create(@Valid @ModelAttribute("productDTO") ProductDTO productDTO,
                                 @RequestParam(required = false, defaultValue = "") String codeProduct,
                                 @RequestParam(required = false, defaultValue = "") String nameProduct,

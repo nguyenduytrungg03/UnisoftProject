@@ -14,11 +14,12 @@
     </style>
 </head>
 <body>
+<div th:insert = "navbar :: nav"></div>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách nhân viên
     <div>
         <button class="btn " th:attr ="onclick=|createEmployees(${page}|">
-            <a  th:href="@{/employees/formCreate}">Thêm mới nhân viên</a>
+            <a  th:href="@{/employees/create}">Thêm mới nhân viên</a>
         </button>
     </div>
 </nav>
@@ -66,7 +67,7 @@
                 <td th:text="${employees['nameEmployees']}"></td>
                 <td th:text="${employees['phoneNumber']}"></td>
                 <td>
-                    <a th:href="@{/employees/formUpdate/{idEmployees} (idEmployees = ${employees['idEmployees']})}">Chỉnh sửa</a>
+                    <a th:href="@{/employees/edit/{idEmployees} (idEmployees = ${employees['idEmployees']})}">Chỉnh sửa</a>
                 </td>
                 <td>
                     <button type="button" class="btn btn-primary" data-toggle="modal" data-target="#exampleModal"
@@ -89,7 +90,7 @@
                     <li th:if="${page != 0 }" class="page-item">
                         <a class="page-link" th:href="@{/employees/list(page=${page -1})}">Previous</a>
                     </li>
-                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
+                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage-1)}">
                         <a th:href="@{/employees/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
                             <span class="sr-only" th:text="${numberOfPage}"> </span>
                         </a>
@@ -113,7 +114,7 @@
                         <span aria-hidden="true">&times;</span>
                     </button>
                 </div>
-                <form th:action="@{/employees/delete}" method="post">
+                <form th:action="@{/employees/destroy}" method="post">
                     <div class="modal-body">
                         Bạn có muốn xóa nhân viên có tên <span id="nameEmployees" style="color:navy"></span> này không?
                         <input type="hidden" id="idEmployees" name="idEmployees" style="color:navy">

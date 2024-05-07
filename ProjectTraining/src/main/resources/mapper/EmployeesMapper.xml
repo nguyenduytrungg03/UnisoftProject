@@ -12,7 +12,7 @@
         FROM
             employees e
        JOIN
-            account a ON e.id_account = a.account_id
+            accounts a ON e.id_accounts = a.account_id
         WHERE
             e.status_delete = 0
         AND
@@ -36,7 +36,7 @@
         FROM
             employees e
         JOIN
-            account a on e.id_account = a.account_id
+            accounts a on e.id_accounts = a.account_id
         WHERE
             e.status_delete = 0
     </select>
@@ -46,10 +46,10 @@
         UPDATE
             employees e
         SET
-            e.status_delete = 1
-        <where>
-            id_employees = #{idEmployees}
-        </where>
+            e.status_delete = 1,
+            e.version_employees = version_employees+1
+        WHERE
+            e.id_employees = #{idEmployees}
     </update>
 
 
@@ -67,9 +67,9 @@
             e.status_delete = 0
     </select>
 
-    <insert id="createEmployees"  >
+    <insert id="createEmployees">
         INSERT INTO
-            employees(name_employees, phone_number, id_account)
+            employees(name_employees, phone_number, id_accounts)
         VALUES
             (#{nameEmployees},
              #{phoneNumber},
@@ -100,7 +100,7 @@
         FROM
             employees e
         JOIN
-            account a on e.id_account = a.account_id
+            accounts a on e.id_accounts = a.account_id
         WHERE
             e.id_employees = #{idEmployees}
     </select>
@@ -115,7 +115,7 @@
     FROM
         employees e
     WHERE
-        e.id_account = #{accountId}
+        e.id_accounts = #{accountId}
     </select>
 
 
