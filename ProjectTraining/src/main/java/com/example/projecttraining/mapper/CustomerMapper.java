@@ -20,4 +20,9 @@ public interface CustomerMapper {
     int createCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int idEmployees);
 
     int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int idCustomer);
+
+    String getNameByPhone(String phoneNumberCustomer);
+
+    String getPhoneByName(String nameCustomer);
+
 }

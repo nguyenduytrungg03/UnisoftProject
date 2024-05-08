@@ -51,8 +51,17 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer , int versionCustomer, int idCustomer) {
-
         return customerMapper.updateCustomer(nameCustomer, phoneNumberCustomer, addressCustomer , versionCustomer, idCustomer);
+    }
+
+    @Override
+    public String getNameByPhone(String phoneNumberCustomer) {
+        return customerMapper.getNameByPhone(phoneNumberCustomer);
+    }
+
+    @Override
+    public String getPhoneByName(String nameCustomer) {
+        return customerMapper.getPhoneByName(nameCustomer);
     }
 
 

@@ -89,4 +89,27 @@
         WHERE
             c.id_customer = #{idCustomer}
     </update>
+
+    <select id="getNameByPhone" resultType="String">
+        SELECT
+            c.name_customer
+        FROM
+            customers c
+        WHERE
+            c.status_delete = 0
+        AND
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
+
+
+    <select id="getPhoneByName" resultType="String">
+        SELECT
+            c.phone_number_customer
+        FROM
+            customers c
+        WHERE
+            c.status_delete = 0
+        AND
+            c.name_customer = #{nameCustomer}
+    </select>
 </mapper>

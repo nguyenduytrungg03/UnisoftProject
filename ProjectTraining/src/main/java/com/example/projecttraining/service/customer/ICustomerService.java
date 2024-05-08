@@ -21,5 +21,7 @@ public interface ICustomerService {
 
     int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int idCustomer);
 
+    String getNameByPhone(String phoneNumberCustomer);
 
+    String getPhoneByName(String nameCustomer);
 }

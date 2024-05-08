@@ -58,7 +58,17 @@ public class ProductService implements IProductService {
 		return result == 0;
 	}
 
-	@Override
+    @Override
+    public String getCodeByName(String nameProduct) {
+        return productMapper.getCodeByName(nameProduct);
+    }
+
+    @Override
+    public String getNameByCode(String codeProduct) {
+        return productMapper.getNameByCode(codeProduct);
+    }
+
+    @Override
 	public boolean isNameProductExitsToUpdate(String nameProduct, int idProduct) {
 		int result = productMapper.exitsByNameProductNotIdProduct(nameProduct, idProduct);
 		return result == 0;

@@ -148,6 +148,28 @@
         AND
             id_product != #{idProduct}
 	</select>
-	
+
+    <select id="getCodeByName" resultType="String">
+        SELECT
+            p.code_product
+        FROM
+            products p
+        WHERE
+            p.status_delete = 0
+        AND
+            p.name_product = #{nameProduct}
+    </select>
+
+
+    <select id="getNameByCode" resultType="String" >
+        SELECT
+            p.name_product
+        FROM
+            products p
+        WHERE
+            p.status_delete = 0
+        AND
+            p.code_product = #{codeProduct}
+    </select>
 	
 </mapper>

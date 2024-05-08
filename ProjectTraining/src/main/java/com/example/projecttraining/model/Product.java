@@ -1,33 +1,29 @@
 package com.example.projecttraining.model;
 
 import jakarta.persistence.*;
-@Entity(name = "product")
 public class Product {
 
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Column(name = "id_product")
+
     private int idProduct;
 
-    @Column(name = "code_product")
+
     private String codeProduct;
 
-    @Column(name = "name_product")
+
     private String nameProduct;
 
-    @Column(name = "sale_price")
+
     private double salePrice;
 
-    @Column(name = "purchase_price")
+
     private double purchasePrice;
 
-    @Column(name = "inventory_number")
+
     private int inventoryNumber;
 
-    @Column(name = "version_product", columnDefinition = "INT DEFAULT 0")
+
     private int versionProduct;
 
-    @Column(name = "status_delete", columnDefinition = "BIT DEFAULT b'0'")
     private int statusDelete = 0 ;
 
     public Product() {

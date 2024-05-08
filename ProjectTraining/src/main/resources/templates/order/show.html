@@ -1,23 +1,14 @@
 ﻿<!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 <head>
-        <meta charset="UTF-8">
-    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script
-            src="https://code.jquery.com/jquery-3.7.1.js"
-            integrity="sha256-eKhayi8LEQwp4NKxN+CfCh+3qOVUtJn3QNZ0TciWLP4="
-            crossorigin="anonymous"></script>
-    <style>
-        .pagination {
-            display: flex;
-            justify-content: center
-        }
-    </style>
+    <meta charset="UTF-8">
+    <script src="https://code.jquery.com/jquery-3.6.0.js" integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+<!--    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"-->
+<!--          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">-->
+    <title>ORDER</title>
 </head>
 <body>
-<div th:insert = "navbar :: nav"></div>
+<div th:insert="navbar :: nav"></div>
 <nav class="navbar navbar-light bg-dark text-white head-text">
     Danh sách đơn hàng
 </nav>
@@ -51,7 +42,7 @@
                     <input name="nameCustomer" id="nameCustomer" placeholder="Nhập tên khách hàng">
                 </div>
                 <div class="form-group">
-                    <label>Số điện thoại  </label>
+                    <label>Số điện thoại </label>
                     <input name="phoneNumberCustomer" id="phoneNumberCustomer" placeholder="Nhập số điện thoại">
                 </div>
                 <div class="form-group">
@@ -66,20 +57,20 @@
                     <label>Trạng thái:</label>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="allocatedStatus">
-                        <label class="form-check-label" >đã đặt hàng</label>
+                        <label class="form-check-label">đã đặt hàng</label>
                     </div>
                     <div class="form-check form-check-inline">
                         <input class="form-check-input" type="checkbox" name="orderedStatus">
-                        <label class="form-check-label" >đã phân bổ</label>
+                        <label class="form-check-label">đã phân bổ</label>
                     </div>
                 </div>
                 <div>
                     <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                    <button  class="btn btn-primary">Clear</button>
+                    <button class="btn btn-primary">Clear</button>
                 </div>
             </form>
         </div>
-        <table border="1" class="table-striped table" >
+        <table border="1" class="table-striped table">
             <thead class="thead-dark">
             <tr class="w-100">
                 <th>No.</th>
@@ -100,16 +91,17 @@
             <tbody th:id="bodyTable">
 
             <tr th:if="${orderList.size() > 0}" th:each="order,loop:${orderList} " th:id="${order['idOrder']}">
-            	<td th:text="${loop.count + index * page}"></td>
-             	<td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-yyyy')}"></td>
-                <td class="codeProduct" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['codeProduct']}"></td>
-                <td class="nameProduct" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['nameProduct']}"></td>
+                <td th:text="${loop.count + index * page}"></td>
+                <td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-yyyy')}"></td>
+                <td class="codeProduct" th:contenteditable="true" th:text="${order['codeProduct']}"></td>
+                <td class="nameProduct" th:contenteditable="true" th:text="${order['nameProduct']}"></td>
                 <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
-                <td class="quantity" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['quantity']}"></td>
-                <td class="nameCustomer" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['nameCustomer']}"></td>
-                <td class="phoneNumberCustomer" th:contenteditable= "${(order['dayOrderAllocated'] == null) ? 'true' : null}" th:text="${order['phoneNumberCustomer']}"></td>
+                <td class="quantity" th:contenteditable="true" th:text="${order['quantity']}"></td>
+                <td class="nameCustomer" th:contenteditable="true" th:text="${order['nameCustomer']}"></td>
+                <td class="phoneNumberCustomer" th:contenteditable="true"
+                    th:text="${order['phoneNumberCustomer']}"></td>
                 <td th:text="${order['address']}"></td>
-   				<td th:text="${order['nameStatus']}"></td>
+                <td th:text="${order['nameStatus']}"></td>
                 <td th:text="${#temporals.format(order['dayOrderAllocated'], 'dd-MM-yyyy')}"></td>
                 <td th:text="${order['accountName']}"></td>
                 <td th:text="${order['nameEmployees']}"></td>
@@ -120,82 +112,81 @@
             </tbody>
         </table>
 
-    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
+        <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
+    </div>
+
+
 </div>
-
-<script>
-    // Tự động ẩn thông báo sau 4 giây
-    setTimeout(function() {
-        document.getElementById("successMessage").style.display = "none";
-    }, 4000);// 4000 milliseconds = 4 giây
-
-    function createCustomer(page) {
-        localStorage.setItem("page",page+1);
-    }
-</script>
-
-
-
-<script>
-<!--    $(document).ready(function () {-->
-<!--            let data = JSON.parse(localStorage.getItem('myArray')) || [];-->
-<!--            render(data);-->
-<!--            let temp = JSON.parse(localStorage.getItem('cellErrors')) || [];-->
-<!--            if (temp.length !== 0) {-->
-<!--                handleCellErrors(temp);-->
-<!--            }-->
-<!--        });-->
-
-
-
-<!--        $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {-->
-<!--                  let nameProduct = $(this).text();-->
-<!--                  let row = $(this).closest("tr");-->
-<!--                  let codeProductCell = row.find("td:eq(2)");-->
-<!--                  let valueNameProduct = $(this);-->
-<!--                  $.ajax({-->
-<!--                      contentType :"application/json",-->
-<!--                      method : "GET",-->
-<!--                      url : `http://localhost:8081/api/product/getCodeProduct?nameProduct=`+encodeURIComponent(nameProduct),-->
-<!--                      success : function(data) {-->
-<!--                            console.log("Dữ liệu nhận được từ máy chủ:", data);-->
-<!--                            console.log("URL gọi:", url);-->
-<!--                            console.log("Đang thực hiện AJAX cho phần tử:", $(this));-->
-<!--                            console.log("Tên sản phẩm:", nameProduct);-->
-<!--                          if (data === "") {-->
-<!--                              codeProductCell.text('')-->
-<!--                              valueNameProduct.text('')-->
-<!--                          }-->
-<!--                          else {-->
-<!--                              codeProductCell.text(data)-->
-<!--                          }-->
-<!--                          let id = row.attr('idOrder');-->
-<!--                          let rowData = {-->
-<!--                              id: id,-->
-<!--                              codeProduct: row.find('td:eq(2)').text(),-->
-<!--                              nameProduct: row.find('td:eq(3)').text(),-->
-<!--                              quantity: row.find('td:eq(5)').text(),-->
-<!--                              nameCustomer: row.find('td:eq(6)').text(),-->
-<!--                              phoneNumberCustomer: row.find('td:eq(7)').text()-->
-<!--                          };-->
-<!--                          checkChangeValue(idOrder,rowData);-->
-<!--                      },-->
-<!--                      error:function(xhr, textStatus, errorThrow){-->
-<!--                          console.log("Error",errorThrow)-->
-<!--                      }-->
-<!--                  })-->
-<!--            });-->
-
-  
-</script>
-<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"
-        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
-        crossorigin="anonymous"></script>
-<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"
-        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"
-        crossorigin="anonymous">
-
-</script>
- </div>
 </body>
+<script>
+    $(document).ready(function() {
+    $("#bodyTable").on('blur', '[contenteditable=true]', function() {
+       let cell = $(this);
+       let classList = cell.attr('class');
+       let classArray = classList.split(" ");
+       let columnName = classArray[0];
+       let type = '';
+       if (columnName === 'codeProduct' || columnName === 'nameProduct') {
+           type = (columnName === 'codeProduct') ? 'name' : 'code';
+           fillDataProduct(cell, type).then(() => {});
+       } else if (columnName === 'nameCustomer' || columnName === 'phoneNumberCustomer') {
+           type = (columnName === 'nameCustomer') ? 'phone' : 'name';
+           fillDataCustomer(cell, type).then(() => {});
+       }
+    });
+    });
+
+   function fillDataProduct(cellData, type) {
+   const data = $(cellData).text().trim();
+   if(type == 'code'){
+       cellInsert = $(cellData).closest("tr").find('.codeProduct');
+   } else {
+       cellInsert = $(cellData).closest("tr").find('.nameProduct');
+   }try{
+       const response = $.ajax({
+           url: `http://localhost:8081/api/product/${type}`,
+           method: "GET",
+           data: {
+               [type === 'name' ? 'codeProduct' : 'nameProduct']: data
+           },
+           dataType: 'json',
+           contentType:'application/json; charset="UTF-8 '
+       });
+       cellInsert.text(response);
+   } catch(error){
+       console.error('Error:', error);
+   }
+
+
+ function fillDataCustomer(cellData, type) {
+   const data = $(cellData).text().trim();
+   if(type == 'phone'){
+       cellInsert = $(cellData).closest("tr").find(".phoneNumberCustomer");
+   } else {
+       cellInsert = $(cellData).closest("tr").find(".nameCustomer");
+   }
+   try{
+       const response = $.ajax({
+           url: `http://localhost:8081/api/customer/${type}`,
+           method: 'GET',
+           data: {
+               [type === 'name' ? 'phoneNumberCustomer' : 'nameCustomer'] : data
+           },
+           dataType: 'json'
+       });
+       cellInsert.text(response);
+   } catch(error){
+      console.error('Error:', error);
+    }
+  }
+}
+</script>
+<!--<script src="https://cdn.jsdelivr.net/npm/jquery@3.5.1/dist/jquery.slim.min.js"-->
+<!--        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"-->
+<!--        crossorigin="anonymous"></script>-->
+<!--<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/js/bootstrap.bundle.min.js"-->
+<!--        integrity="sha384-Fy6S3B9q64WdZWQUiU+q4/2Lc9npb8tCaSX9FK7E8HnRr0Jz8D6OP9dO5Vg3Q9ct"-->
+<!--        crossorigin="anonymous">-->
+
+<!--</script>-->
 </html>

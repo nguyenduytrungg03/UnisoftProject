@@ -30,4 +30,8 @@ public interface ProductMapper {
     int exitsByCodeProduct(String codeProduct);
     
     int exitsByNameProduct(String nameProduct);
+
+    String getCodeByName(String nameProduct);
+
+    String getNameByCode(String codeProduct);
 }
