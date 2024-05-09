@@ -56,12 +56,12 @@ public class CustomerService implements ICustomerService {
 
     @Override
     public String getNameByPhone(String phoneNumberCustomer) {
-        return customerMapper.getNameByPhone(phoneNumberCustomer);
+     return customerMapper.getNameByPhone(phoneNumberCustomer);
     }
 
     @Override
     public String getPhoneByName(String nameCustomer) {
-        return customerMapper.getPhoneByName(nameCustomer);
+      return customerMapper.getPhoneByName(nameCustomer);
     }
 
 

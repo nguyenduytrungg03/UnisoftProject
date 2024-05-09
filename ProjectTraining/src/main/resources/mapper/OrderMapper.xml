@@ -72,4 +72,21 @@
         JOIN
              employees e    on        o.id_employees =  e.id_employees    
 </select>
+
+<select id="listCustomerNotBuyProduct">
+    SELECT
+        c.name_customer, c.phone_number_customer, c.address_customer
+    FROM
+        customers c
+    LEFT JOIN
+        orders o on c.id_customer =  o.id_customers
+    WHERE
+        o.id_order IS NULL
+    AND
+        c.status_delete =0
+</select>
+
+
+
+
 </mapper>
