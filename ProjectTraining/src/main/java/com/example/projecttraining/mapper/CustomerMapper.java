@@ -21,10 +21,8 @@ public interface CustomerMapper {
 
     int updateCustomer(String nameCustomer, String phoneNumberCustomer, String addressCustomer, int versionCustomer, int idCustomer);
 
-    String getPhoneByName(String nameCustomer);
+   String getPhoneByName(String nameCustomer);
 
-    String getNameByPhone(String phoneNumberCustomer);
-
-
+   String getNameByPhone(String phoneNumberCustomer);
 
 }

@@ -55,13 +55,13 @@ public class CustomerService implements ICustomerService {
     }
 
     @Override
-    public String getNameByPhone(String phoneNumberCustomer) {
-     return customerMapper.getNameByPhone(phoneNumberCustomer);
+    public String getPhoneByName(String nameCustomer) {
+        return customerMapper.getPhoneByName(nameCustomer);
     }
 
     @Override
-    public String getPhoneByName(String nameCustomer) {
-      return customerMapper.getPhoneByName(nameCustomer);
+    public String getNameByPhone(String phoneNumberCustomer) {
+        return customerMapper.getNameByPhone(phoneNumberCustomer);
     }
 
 
