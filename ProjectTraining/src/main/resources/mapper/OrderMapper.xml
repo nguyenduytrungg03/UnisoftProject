@@ -73,6 +73,36 @@
              employees e    on        o.id_employees =  e.id_employees    
 </select>
 
+<insert id="insertOrders" >
+        INSERT INTO
+                orders(day_order_start, id_products, id_customers, address, id_employees, id_status, quantity, price,id_accounts)
+        VALUES
+                (#{dayOrderStart},
+                 #{idProduct},
+                 #{idCustomer},
+                 #{address},
+                 #{idEmployees},
+                 #{idStatus},
+                 #{quantity},
+                 #{salePrice},
+                 #{idAccounts})
+</insert>
+
+
+<update id="updateOrder">
+    UPDATE
+        orders o
+    SET
+        o.id_customers = #{idCustomer},
+        o.id_products = #{idProduct},
+        o.quantity = #{quantity},
+        o.version_order = version_order +1,
+        o.price = #{price}
+    WHERE
+        o.id_order = #{idOrder}
+</update>
+
+
 <select id="listCustomerNotBuyProduct">
     SELECT
         c.name_customer, c.phone_number_customer, c.address_customer

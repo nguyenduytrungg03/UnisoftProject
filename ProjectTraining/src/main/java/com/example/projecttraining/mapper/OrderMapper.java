@@ -10,7 +10,7 @@ import java.util.Map;
 @Mapper
 public interface OrderMapper {
 
-	int insertOrders(int idCustomer, int idEmployees, int idProduct, int idStatus, LocalDateTime dayOrderStart, double price, int quantity );
+	int insertOrders(int idCustomer, String address, int idEmployees, int idProduct, int idStatus, LocalDateTime dayOrderStart, double salePrice, int quantity, int idAccounts );
 
 
 	int updateOrder(int idCustomer, int idProduct, int quantity, int versionOrder, double price ,int idOrder);

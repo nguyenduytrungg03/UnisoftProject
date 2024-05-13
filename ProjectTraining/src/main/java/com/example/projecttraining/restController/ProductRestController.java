@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/product")
 public class ProductRestController {
+
+
     @Autowired
     private IProductService iProductService;
 
@@ -19,7 +21,7 @@ public class ProductRestController {
     }
 
     @GetMapping("/name")
-    private String getNameProductByCodeProduct(@RequestParam String codeProduct){
+    private String getNameProductByCodeProduct(@RequestParam String codeProduct) {
         return iProductService.getNameByCode(codeProduct);
     }
 

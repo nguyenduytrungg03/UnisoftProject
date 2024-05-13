@@ -26,4 +26,6 @@ public interface ICustomerService {
     String getNameByPhone(String phoneNumberCustomer);
 
     int getIdCustomerByPhoneNumberCustomer(String phoneNumberCustomer);
+
+    String getAddressCustomerByPhoneNumberCustomer(String phoneNumberCustomer);
 }

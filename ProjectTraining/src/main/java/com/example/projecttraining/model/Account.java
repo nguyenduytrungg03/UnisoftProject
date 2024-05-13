@@ -45,6 +45,7 @@ public class Account {
     public void setPassword(String password) {
         this.password = password;
     }
+
     public int getVersionAccount() {
  		return versionAccount;
  	}
@@ -52,7 +53,6 @@ public class Account {
  	public void setVersionAccount(int versionAccount) {
  		this.versionAccount = versionAccount;
  	}
-
    
     public Role getRole() {
         return role;

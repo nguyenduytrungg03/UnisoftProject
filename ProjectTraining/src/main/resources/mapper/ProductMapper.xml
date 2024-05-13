@@ -88,9 +88,8 @@
              p.sale_price = #{salePrice},
              p.purchase_price = #{purchasePrice},
              p.version_product = version_product + 1
-       <where>
+          WHERE
              p.id_product = #{idProduct}
-       </where>
     </update>
 
 
@@ -181,6 +180,6 @@
         FROM
             products p
         WHERE
-            p.codeProduct = #{codeProduct}
+            p.code_product = #{codeProduct}
     </select>
 </mapper>

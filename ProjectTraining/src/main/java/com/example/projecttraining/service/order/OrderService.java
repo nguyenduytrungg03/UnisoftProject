@@ -36,7 +36,9 @@ public class OrderService implements IOrderService {
     @Override
     public int insertAndUpdateOrders(int accountId, List<OrderDTO> orderDTO) {
         int count= 0;
+        System.out.println("orderDTO: " +orderDTO);
         for(OrderDTO dto : orderDTO){
+            System.out.println("dto:"+dto.getCodeProduct() );
             if (dto.getIdOrder().matches("^\\d+$")){
                 int orderId = Integer.parseInt(dto.getIdOrder());
                 Product product = iProductService.getProductByCodeProduct(dto.getCodeProduct());
@@ -50,11 +52,13 @@ public class OrderService implements IOrderService {
                 }
             }else {
                 int customerId = iCustomerService.getIdCustomerByPhoneNumberCustomer(dto.getPhoneNumberCustomer());
+                String address = iCustomerService.getAddressCustomerByPhoneNumberCustomer(dto.getPhoneNumberCustomer());
                 Employees employees = iEmployeeService.getEmployeesByAccountId(accountId);
                 Product product = iProductService.getProductByCodeProduct(dto.getCodeProduct());
-                LocalDateTime dateStart = LocalDateTime.now();
+                LocalDateTime dayOrderStart = LocalDateTime.now();
                 int statusId = 1;
-                int insertOrders = orderMapper.insertOrders(customerId, employees.getIdEmployees(),product.getIdProduct(),statusId, dateStart, product.getSalePrice(), dto.getQuantity());
+                int idAccount = iEmployeeService.getAccountIdByIdEmployees(employees.getIdEmployees());
+                int insertOrders = orderMapper.insertOrders(customerId, address, employees.getIdEmployees(),product.getIdProduct(),statusId, dayOrderStart, product.getSalePrice(), dto.getQuantity(), idAccount);
                 if (insertOrders != 1) {
                     throw new RuntimeException("Không thêm được đơn hàng");
                 }else {

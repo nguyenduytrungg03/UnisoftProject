@@ -59,7 +59,7 @@ public class OrderController {
         Employees employees = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
         int idEmployees = employees.getIdEmployees();
         if (dayOrderStart.isEmpty()) {
-            dayOrderStart = "2010-07-01";
+            dayOrderStart = "2000-07-01";
         }
         if (dayOrderEnd.isEmpty()) {
             dayOrderEnd = "9999-12-12";
@@ -68,7 +68,7 @@ public class OrderController {
 //            orderedStatus = 1;
 //            allocatedStatus =2 ;
 //        }
-        int index = 2;
+        int index = 5;
         List<Map<String,Object>> orderList = iOrderService.getAllOrder( accountName, nameEmployees,
                                                                         codeProduct, nameProduct,
                                                                         nameCustomer, phoneNumberCustomer,

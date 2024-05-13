@@ -10,16 +10,18 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 @RequestMapping("/api/customer")
 public class CustomerRestController {
+
+
     @Autowired
     private ICustomerService iCustomerService;
 
     @GetMapping("/phone")
-    private String getPhoneNumberCustomerByNameCustomer(String nameCustomer){
+    private String getPhoneNumberCustomerByNameCustomer(String nameCustomer) {
         return iCustomerService.getPhoneByName(nameCustomer);
     }
 
     @GetMapping("/name")
-    private  String getNameCustomerByPhoneNumberCustomer(String phoneNumberCustomer){
+    private String getNameCustomerByPhoneNumberCustomer(String phoneNumberCustomer) {
         return iCustomerService.getNameByPhone(phoneNumberCustomer);
     }
 

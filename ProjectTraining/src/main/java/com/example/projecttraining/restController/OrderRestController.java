@@ -10,10 +10,14 @@ import org.springframework.security.core.Authentication;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.util.List;
 import java.util.Map;
 
+@RestController
+@RequestMapping("api/orders")
 public class OrderRestController {
 
     @Autowired
@@ -22,25 +26,24 @@ public class OrderRestController {
     @Autowired
     private IAccountService accountService;
 
-    private Account getAccountLogin () {
+    private Account getAccountLogin() {
         Authentication authentication = SecurityContextHolder.getContext().getAuthentication();
         if (!(authentication instanceof AnonymousAuthenticationToken)) {
             String accountNameLogin = authentication.getName();
-            Account account  = accountService.findByAccountName(accountNameLogin);
+            Account account = accountService.findByAccountName(accountNameLogin);
             return account;
         }
         return null;
     }
 
 
-    @PostMapping("/save")
-    public Map<String, List<String>> saveOrder(@RequestBody List<OrderDTO> data){
-        Map<String,List<String>> errorsList  = new OrderDTO().validate(data);
+    @PostMapping("/store")
+    public Map<String, List<String>> storeOrders(@RequestBody List<OrderDTO> data) {
+        Map<String, List<String>> errorsList = new OrderDTO().validate(data);
         if (errorsList.isEmpty()) {
             Account account = getAccountLogin();
             int rowEffect = orderService.insertAndUpdateOrders(account.getAccountId(), data);
         }
-
         return errorsList;
     }
 }

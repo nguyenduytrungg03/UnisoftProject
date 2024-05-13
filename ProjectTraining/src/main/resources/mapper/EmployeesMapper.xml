@@ -119,4 +119,16 @@
     </select>
 
 
+    <select id="getIdAccountsByIdEmployees" resultType="int">
+        SELECT
+             e.id_accounts
+        FROM
+             employees e
+        WHERE
+             e.id_employees = #{idEmployees}
+        AND
+             e.status_delete = 0
+    </select>
+
+
 </mapper>

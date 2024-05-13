@@ -122,4 +122,14 @@
         WHERE
             c.phone_number_customer = #{phoneNumberCustomer}
     </select>
+
+
+    <select id="getAddressByPhoneNumberCustomer">
+        SELECT
+            c.address_customer
+        FROM
+            customers c
+        WHERE
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
 </mapper>

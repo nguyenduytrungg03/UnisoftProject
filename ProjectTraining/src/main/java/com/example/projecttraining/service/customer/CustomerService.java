@@ -68,4 +68,9 @@ public class CustomerService implements ICustomerService {
     public int getIdCustomerByPhoneNumberCustomer(String phoneNumberCustomer) {
         return customerMapper.getIdCustomerByPhoneNumberCustomer(phoneNumberCustomer);
     }
+
+    @Override
+    public String getAddressCustomerByPhoneNumberCustomer(String phoneNumberCustomer) {
+        return customerMapper.getAddressByPhoneNumberCustomer(phoneNumberCustomer);
+    }
 }

@@ -20,5 +20,5 @@ public interface IEmployeesService {
     
     int updateEmployees (Employees employees);
    
-
+    int getAccountIdByIdEmployees(int idEmployees);
 }

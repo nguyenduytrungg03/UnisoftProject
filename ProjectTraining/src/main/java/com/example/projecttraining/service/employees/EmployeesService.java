@@ -95,4 +95,9 @@ public class EmployeesService implements IEmployeesService {
         }
         return 0;
     }
+
+    @Override
+    public int getAccountIdByIdEmployees(int idEmployees) {
+        return employeesMapper.getIdAccountsByIdEmployees(idEmployees);
+    }
 }
