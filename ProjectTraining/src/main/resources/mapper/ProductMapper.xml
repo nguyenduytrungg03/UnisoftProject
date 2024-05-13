@@ -171,5 +171,16 @@
         AND
             p.code_product = #{codeProduct}
     </select>
-	
+
+
+
+    <select id="getProductByCodeProduct">
+        SELECT
+            p.id_product as idProduct,
+            p.sale_price as salePrice
+        FROM
+            products p
+        WHERE
+            p.codeProduct = #{codeProduct}
+    </select>
 </mapper>

@@ -30,5 +30,7 @@ public interface IProductService {
     String getCodeByName(String nameProduct);
 
     String getNameByCode(String codeProduct);
+
+    Product getProductByCodeProduct(String codeProduct);
 }
 

@@ -136,10 +136,10 @@
             </tbody>
         </table>
         <div style="float:left">
-            <button class="btn btn-primary" style="border-radius: 5px" id="add">
+            <button class="btn btn-primary" id="add">
                 Lưu
             </button>
-            <button class="btn btn-primary" style="border-radius: 5px" id="reset">Reset</button>
+            <button class="btn btn-primary" id="reset">Reset</button>
         </div>
 
     </div>
@@ -149,102 +149,24 @@
 </body>
 <script>
 
-    $('#clear').on('click',function () {
-           $('.input').val(null);
-       });
-       $('#reset').on('click',function () {
-           localStorage.clear();
-           location.reload();
-       });
 
 
-       $(document).ready(function() {
-       $("#bodyTable").on('blur', '[contenteditable=true]', function() {
-       let cell = $(this);
-       let classList = cell.attr('class');
-       let classArray = classList.split(" ");
-       let columnName = classArray[0];
-       let type = '';
-       if (columnName === 'codeProduct' || columnName === 'nameProduct') {
-           type = (columnName === 'codeProduct') ? 'name' : 'code';
-           fillDataProduct(cell, type);
+$(document).ready(function () {
+    let data = JSON.parse(localStorage.getItem('myArray')) || [];
+    render(data);
+    let temp = JSON.parse(localStorage.getItem('cellErrors')) || [];
+    if (temp.length !== 0) {
+        handleCellErrors(temp);
+    }
 
-       } else if (columnName === 'nameCustomer' || columnName === 'phoneNumberCustomer') {
-           type = (columnName === 'nameCustomer') ? 'phone' : 'name';
-           fillDataCustomer(cell, type);
-           console.log(fillDataCustomer);
-       }
-      });
-      });
-       //autoFill sản phẩm
-       async  function fillDataProduct(cellData, type) {
-       const data = $(cellData).text().trim();
-       if(type == 'code'){
-           cellInsert = $(cellData).closest("tr").find('.codeProduct');
-       } else {
-           cellInsert = $(cellData).closest("tr").find('.nameProduct');
-       } try {
-           const response = await $.ajax({
-           url: `http://localhost:8081/api/product/${type}`,
-           method: "GET",
-           data: {
-               [type === 'name' ? 'codeProduct' : 'nameProduct']: data
-           }
-       });
-           cellInsert.text(response);
-       } catch(error) {
-                 console.error('Error:', error);
-       }
-   }
-       //autoFill Khach hàng
-       async function fillDataCustomer(cellData, type) {
-       const data = $(cellData).text().trim();
-       if(type == 'name'){
-           cellInsert = $(cellData).closest("tr").find('.nameCustomer');
-       } else {
-           cellInsert = $(cellData).closest("tr").find('.phoneNumberCustomer');
-       }
-       try {
-               const response = await $.ajax({
-               url: `http://localhost:8081/api/customer/${type}`,
-               method: "GET",
-               data: {
-                   [type === 'phone' ? 'nameCustomer' : 'phoneNumberCustomer']: data
-               }
-           });
-                  cellInsert.text(response);
-       } catch (error) {
-           console.error('Error:', error);
-       }
-   }
+});
 
-       $('#addRow').on('click',function(){
-           $('#bodyTable').append('<tr>' +
-                                 '<td></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td class="codeProduct" contenteditable="true"></td>\n' +
-                                 '<td class="nameProduct" contenteditable="true"></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td class="quantity" contenteditable="true"></td>\n' +
-                                 '<td class="nameCustomer" contenteditable="true"></td>\n' +
-                                 '<td class="phoneNumberCustomer" contenteditable="true"></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td></td>\n' +
-                                 '<td></td>\n' +
-                                 '</tr>');
-       });
-
-
-
-   $(document).ready(function(){
-     let data = JSON.parse(localStorage.getItem('myArray')) || [];
-     render(data);
-    });
+function createId() {
+    return Math.random().toString(36).substr(2, 9); // Trả về một chuỗi ngẫu nhiên
+}
 
     function compareObjectValue (oldObject, newObject){
-    return oldObject.id === newObject.id &&
+    return oldObject.idOrder === newObject.idOrder &&
            oldObject.productCode === newObject.productCode &&
            oldObject.productName === newObject.productName &&
            oldObject.quantity === newObject.quantity &&
@@ -253,11 +175,11 @@
 }
 
 
-   function checkValue(id, rowData){
+   function checkValue(idOrder, rowData){
     let currentArray = JSON.parse(localStorage.getItem('myArray')) || [];
-    let recordHidden = $('#myTable').find('tr.hidden[id="' + id + '"]');
+    let recordHidden = $('#bodyTable').find('tr.hidden[id="' + idOrder + '"]');
     let oldValue = {
-        id : id,
+        idOrder : idOrder,
         productCode: recordHidden.find('.codeProductHidden').text(),
         productName: recordHidden.find('.nameProductHidden').text(),
         quantity: recordHidden.find('.quantityHidden').text(),
@@ -265,14 +187,14 @@
         customerName: recordHidden.find('.nameCustomer').text()
     };
     if (!compareObjectValue(oldValue,rowData)){
-        let existingIndex = currentArray.findIndex(item => item.id === id);
+        let existingIndex = currentArray.findIndex(item => item.idOrder === idOrder);
         if (existingIndex !== -1) {
             currentArray[existingIndex] = rowData;
         }else {
             currentArray.push(rowData);
         }
     }else {
-        let existingIndex = currentArray.findIndex(item => item.id === id);
+        let existingIndex = currentArray.findIndex(item => item.idOrder === idOrder);
         if (existingIndex !== -1){
             currentArray.splice(existingIndex,1)
         }
@@ -288,21 +210,260 @@
    }
 
 
+    $(document).ready(function () {
+
+        $('#clear').on('click',function () {
+            $('.input').val(null);
+        });
+
+        $('#reset').on('click',function () {
+            localStorage.clear();
+            location.reload();
+        });
+
+
+        $('#addRow').on('click',function(){
+            let newId = createId()
+            $('#bodyTable').append('<tr id='+newId + ' >' +
+                '<td></td>\n' +
+                '<td></td>\n' +
+                '<td class="codeProduct" contenteditable="true"></td>\n' +
+                '<td class="nameProduct" contenteditable="true"></td>\n' +
+                '<td></td>\n' +
+                '<td class="quantity" contenteditable="true"></td>\n' +
+                '<td class="nameCustomer" contenteditable="true"></td>\n' +
+                '<td class="phoneNumberCustomer" contenteditable="true"></td>\n' +
+                '<td></td>\n' +
+                '<td></td>\n' +
+                '<td></td>\n' +
+                '<td></td>\n' +
+                '<td></td>\n' +
+                '</tr>');
+        });
+
+        $('#add').on('click',function (){
+            $('#bodyTable td').css('background-color','white')
+            let temp = localStorage.getItem('myArray') || [];
+            if(temp.length === 0){
+               console.log("co loi")
+            }else {
+                $.ajax({
+                    type: "POST",
+                    contentType: "application/json",
+                    url: "/api/orders/save",
+                    data: temp,
+                    success : function(response){
+                        if (JSON.stringify(response) === "{}"){
+                         console.log("cap nhap thanh cong")
+                        }else {
+                            localStorage.setItem('cellErrors',JSON.stringify(response))
+                            for (let key in response){
+                                if (response.hasOwnProperty(key)){
+                                    let valueList = response[key];
+                                    console.log(key);
+                                    console.log(valueList);
+                                    valueList.forEach(function (value) {
+                                        let table = $('#bodyTable');
+                                        table.find('tr[id="' + key + '"]').find('td.'+value)
+                                    })
+                                }
+                            }
+                        }
+                    }
+                })
+            }
+
+        });
+
+        $('#bodyTable').on('focusout','td.codeProduct[contenteditable="true"]',function () {
+            let codeProduct = $(this).text();
+            let row = $(this).closest("tr");
+            let nameProductCell = row.find('.nameProduct');
+            let valueCodeProduct = $(this);
+            $.ajax({
+                contentType :"application/json",
+                method : "GET",
+                url : `http://localhost:8081/api/product/name?codeProduct=`+encodeURIComponent(codeProduct),
+                success : function(data) {
+                    if (data === "") {
+                        nameProductCell.text('')
+                        valueCodeProduct.text('')
+                    }
+                    else {
+                        nameProductCell.text(data)
+                    }
+                    let idOrder = row.attr('id');
+                    let rowData = {
+                        idOrder: idOrder,
+                        codeProduct: row.find('.codeProduct').text(),
+                        nameProduct: row.find('.nameProduct').text(),
+                        quantity: row.find('.quantity').text(),
+                        nameCustomer: row.find('.nameCustomer').text(),
+                        phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                        version : row.find('.hidden').text()
+                    };
+                    console.log(rowData);
+                    checkValue(idOrder,rowData);
+                },
+                error:function(xhr, textStatus, errorThrow){
+                    console.log("Error",errorThrow)
+                }
+            })
+        });
+
+        $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {
+            let nameProduct = $(this).text();
+            let row = $(this).closest("tr");
+            let codeProductCell = row.find("td:eq(2)");
+            let valueNameProduct = $(this);
+            $.ajax({
+                contentType :"application/json",
+                method : "GET",
+                url : `http://localhost:8081/api/product/?code=`+encodeURIComponent(nameProduct),
+                success : function(data) {
+                    if (data === "") {
+                        codeProductCell.text('')
+                        valueNameProduct.text('')
+                        console.log("Khong tim dc du lieu")
+                    }
+                    else {
+                        codeProductCell.text(data)
+                    }
+                    let idOrder = row.attr('id');
+                    let rowData = {
+                        idOrder: idOrder,
+                        codeProduct: row.find('.codeProduct').text(),
+                        nameProduct: row.find('.nameProduct').text(),
+                        quantity: row.find('.quantity').text(),
+                        nameCustomer: row.find('.nameCustomer').text(),
+                        phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                        version : row.find('.hidden').text()
+                    };
+                    checkValue(idOrder,rowData);
+                },
+                error:function(xhr, textStatus, errorThrow){
+                    console.log("Error",errorThrow)
+                }
+            })
+        });
+
+        $('#bodyTable').on('focusout','td.nameCustomer[contenteditable="true"]',function () {
+            let nameCustomer = $(this).text();
+            let row = $(this).closest("tr");
+            let phoneNumberCustomerCell = row.find("td:eq(7)");
+            let valueCurrentNameCustomer = $(this);
+            $.ajax({
+                contentType :"application/json",
+                method : "GET",
+                url: `http://localhost:8081/api/customer/phone?nameCustomer=`+encodeURIComponent(nameCustomer),
+                success:function (data) {
+
+                    if (data === ""){
+                        valueCurrentNameCustomer.text('')
+                        phoneNumberCustomerCell.text('');
+                        console.log("KH cos du lieu")
+                    }else {
+                        phoneNumberCustomerCell.text(data);
+                    }
+                    let idOrder = row.attr('id');
+                    let rowData = {
+                        idOrder: idOrder,
+                        codeProduct: row.find('.codeProduct').text(),
+                        nameProduct: row.find('.nameProduct').text(),
+                        quantity: row.find('.quantity').text(),
+                        nameCustomer: row.find('.nameCustomer').text(),
+                        phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                        version : row.find('.hidden').text()
+                    };
+                    console.log(rowData);
+                    checkValue(idOrder,rowData)
+                },
+                error:function (xhr,textStatus,errorThrow) {
+                    console.log("Error",errorThrow)
+                }
+
+            })
+        });
+
+        $('#bodyTable').on('focusout','td.phoneNumberCustomer[contenteditable="true"]',function () {
+            let phoneNumberCustomer = $(this).text();
+            let row = $(this).closest("tr");
+            let nameCustomer = row.find("td:eq(6)");
+            let valueCurrentPhoneNumberCustomer = $(this);
+            $.ajax({
+                contentType :"application/json",
+                method : "GET",
+                url : `http://localhost:8081/api/customer/name?phoneNumberCustomer=`+encodeURIComponent(phoneNumberCustomer),
+                success:function (data) {
+                    if (data === ""){
+                        valueCurrentPhoneNumberCustomer.text('');
+                        nameCustomer.text('');
+                        console.log("kh co du lieu")
+                    }else {
+                        nameCustomer.text(data);
+                    }
+                    let idOrder = row.attr('id');
+                    let rowData = {
+                        idOrder: idOrder,
+                        codeProduct: row.find('.codeProduct').text(),
+                        nameProduct: row.find('.nameProduct').text(),
+                        quantity: row.find('.quantity').text(),
+                        nameCustomer: row.find('.nameCustomer').text(),
+                        phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                        version : row.find('.hidden').text()
+                    };
+                    checkValue(idOrder,rowData);
+                },
+                error:function (xhr,textStatus,errorThrow) {
+                    console.log("Error",errorThrow)
+                }
+
+            })
+        });
+
+        $('#bodyTable').on('focusout','td.quantity[contenteditable="true"]',function () {
+            let row = $(this).closest("tr");
+            console.log(row)
+            let idOrder = row.attr('id');
+            let rowData = {
+                idOrder: idOrder,
+                codeProduct: row.find('.codeProduct').text(),
+                nameProduct: row.find('.nameProduct').text(),
+                quantity: row.find('.quantity').text(),
+                nameCustomer: row.find('.nameCustomer').text(),
+                phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                version : row.find('.hidden').text()
+            };
+            checkValue(idOrder,rowData);
+        })
+        window.addEventListener('storage',function (event) {
+            if(event.key === "myArray"){
+                localStorage.removeItem('myArray');
+                location.reload();
+                console.log("Đã chỉnh sửa local storage ")
+            }
+        })
+    });
+
+
+
+
+
 
 function render(data) {
     let tBody = $('#bodyTable');
     data.forEach(function (row) {
-        if (isNaN(Number(`${row.id}`))) {
-            console.log(isNaN(Number(`${row.id}`)));
-            tBody.append(`<tr id=${row.id}>
+        if (isNaN(Number(`${row.idOrder}`))) {
+            console.log(isNaN(Number(`${row.idOrder}`)));
+            tBody.append(`<tr id=${row.idOrder}>
 									<td></td>
 									<td></td>
-									<td class="productCode" contenteditable="true">${row.productCode}</td>
-									<td class="productName" contenteditable="true">${row.productName}</td>
+									<td class="codeProduct" contenteditable="true">${row.codeProduct}</td>
+									<td class="nameProduct" contenteditable="true">${row.nameProduct}</td>
 									<td></td>
 									<td class="quantity" contenteditable="true">${row.quantity}</td>
-									<td class="customerName" contenteditable="true">${row.customerName}</td>
-									<td class="customerPhone"  contenteditable="true">${row.customerPhone}</td>
+									<td class="nameCustomer" contenteditable="true">${row.nameCustomer}</td>
+									<td class="phoneNumberCustomer"  contenteditable="true">${row.phoneNumberCustomer}</td>
 									<td></td>
 									<td></td>
 									<td></td>
@@ -310,14 +471,27 @@ function render(data) {
 									<td></td>
 								  </tr>`)
         } else {
-            let id = `${row.id}`;
-            tBody.find('tr[id="' + id + '"]').find('.productCode').text(`${row.productCode}`);
-            tBody.find('tr[id="' + id + '"]').find('.productName').text(`${row.productName}`);
-            tBody.find('tr[id="' + id + '"]').find('.quantity').text(`${row.quantity}`);
-            tBody.find('tr[id="' + id + '"]').find('.customerName').text(`${row.customerName}`);
-            tBody.find('tr[id="' + id + '"]').find('.customerPhone').text(`${row.customerPhone}`);
+            let idOrder = `${row.idOrder}`;
+            tBody.find('tr[idOrder="' + idOrder + '"]').find('.codeProduct').text(`${row.codeProduct}`);
+            tBody.find('tr[idOrder="' + idOrder + '"]').find('.nameProduct').text(`${row.nameProduct}`);
+            tBody.find('tr[idOrder="' + idOrder + '"]').find('.quantity').text(`${row.quantity}`);
+            tBody.find('tr[idOrder="' + idOrder + '"]').find('.nameCustomer').text(`${row.nameCustomer}`);
+            tBody.find('tr[idOrder="' + idOrder + '"]').find('.phoneNumberCustomer').text(`${row.phoneNumberCustomer}`);
         }
     })
+}
+function handleCellErrors(response) {
+    for (let key in response){
+        if (response.hasOwnProperty(key)){
+            let  valueList = response[key];
+            console.log(key);
+            console.log(valueList);
+            valueList.forEach(function (value) {
+                let table = $('#bodyTable');
+                table.find('tr[id="' + key + '"]').find('td.'+value).css('background-color','red');
+            })
+        }
+    }
 }
 
 

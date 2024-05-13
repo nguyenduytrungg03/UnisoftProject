@@ -112,4 +112,14 @@
         AND
             c.name_customer = #{nameCustomer}
     </select>
+
+
+    <select id="getIdCustomerByPhoneNumberCustomer" resultType="int">
+        SELECT
+            c.id_customer
+        FROM
+            customers c
+        WHERE
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
 </mapper>

@@ -24,5 +24,5 @@ public interface CustomerMapper {
    String getPhoneByName(String nameCustomer);
 
    String getNameByPhone(String phoneNumberCustomer);
-
+   int getIdCustomerByPhoneNumberCustomer(String phoneNumberCustomer);
 }
