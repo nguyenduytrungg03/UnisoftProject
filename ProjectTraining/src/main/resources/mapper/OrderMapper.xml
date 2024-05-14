@@ -3,17 +3,17 @@
         PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
         "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.example.projecttraining.mapper.OrderMapper" >
-	
- <select id="findByOrder" resultType='java.util.Map'>
+
+    <select id="findByOrder" resultType='java.util.Map'>
         SELECT
              o.id_order              as idOrder,
              o.day_order_start       as  dayOrderStart,
              o.price                 as  price,
              o.day_order_allocated   as  dayOrderAllocated,
-             o.address               as  address,
              o.quantity              as  quantity,
              p.code_product          as  codeProduct,
              p.name_product          as  nameProduct,
+             c.address_customer      as  address,
              c.name_customer         as  nameCustomer,
              c.phone_number_customer as  phoneNumberCustomer,
              s.name_status           as  nameStatus,
@@ -23,15 +23,15 @@
         FROM
             `orders`    o
         JOIN
-             products   p    on        o.id_products   =  p.id_product
+             products   p    on            o.id_products   =  p.id_product
         JOIN
-             customers  c    on        o.id_customers  =  c.id_customer
+             customers  c    on            o.id_customers  =  c.id_customer
         JOIN
-             status    s    on        o.id_status    =  s.id_status
+             status     s    on            o.id_status    =  s.id_status
         JOIN
-             accounts   a    on        o.id_accounts   =  a.account_id
+             accounts   a    on            o.id_accounts   =  a.account_id
         JOIN
-             employees e    on        o.id_employees =  e.id_employees
+             employees  e    on            o.id_employees =  e.id_employees
         AND
              TRIM(account_name)            LIKE CONCAT(#{accountName}, "%")
         AND
@@ -54,26 +54,26 @@
              #{pageIndex}
         OFFSET
              #{pageSize}
-</select>
+    </select>
 
-<select id= "countOrder">
-		SELECT 
-			 count(*) 
-		FROM 
-			 `orders` o
+    <select id= "countOrder">
+		SELECT
+			 count(*)
+		FROM
+			 `orders`   o
 		JOIN
-             products   p    on        o.id_products   =  p.id_product
+             products   p    on         o.id_products   =  p.id_product
         JOIN
-             customers  c    on        o.id_customers  =  c.id_customer
+             customers  c    on         o.id_customers  =  c.id_customer
         JOIN
-             status    s    on        o.id_status    =  s.id_status
+             status     s    on         o.id_status    =  s.id_status
         JOIN
-             accounts   a    on        o.id_accounts   =  a.account_id
+             accounts   a    on         o.id_accounts   =  a.account_id
         JOIN
-             employees e    on        o.id_employees =  e.id_employees    
-</select>
+             employees  e    on         o.id_employees =  e.id_employees
+    </select>
 
-<insert id="insertOrders" >
+    <insert id="insertOrders">
         INSERT INTO
                 orders(day_order_start, id_products, id_customers, address, id_employees, id_status, quantity, price,id_accounts)
         VALUES
@@ -86,37 +86,104 @@
                  #{quantity},
                  #{salePrice},
                  #{idAccounts})
-</insert>
+    </insert>
 
 
-<update id="updateOrder">
-    UPDATE
-        orders o
-    SET
-        o.id_customers = #{idCustomer},
-        o.id_products = #{idProduct},
-        o.quantity = #{quantity},
-        o.version_order = version_order +1,
-        o.price = #{price}
-    WHERE
-        o.id_order = #{idOrder}
-</update>
+    <update id="updateOrder">
+        UPDATE
+            orders o
+        SET
+            o.id_customers = #{idCustomer},
+            o.id_products = #{idProduct},
+            o.quantity = #{quantity},
+            o.version_order = version_order +1,
+            o.price = #{price}
+        WHERE
+            o.id_order = #{idOrder}
+    </update>
 
 
-<select id="listCustomerNotBuyProduct">
-    SELECT
-        c.name_customer, c.phone_number_customer, c.address_customer
-    FROM
-        customers c
-    LEFT JOIN
-        orders o on c.id_customer =  o.id_customers
-    WHERE
-        o.id_order IS NULL
-    AND
-        c.status_delete =0
-</select>
 
+    <select id="countCustomerNotBuyProduct">
+        SELECT
+            COUNT(*)
+        FROM
+            customers c
+        LEFT JOIN
+            orders o ON c.id_customer = o.id_customers
+        WHERE
+            o.id_order IS NULL
+    </select>
 
+    <select id="listCustomerNotBuyProduct">
+        SELECT
+            c.name_customer, c.phone_number_customer, c.address_customer
+        FROM
+            customers c
+        LEFT JOIN
+            orders o ON c.id_customer =  o.id_customers
+        WHERE
+            o.id_order IS NULL
+        AND
+            c.status_delete =0
+    </select>
+
+    <select id="countProductBestSeller">
+        SELECT
+            COUNT(*)
+        FROM
+            products p
+        LEFT JOIN
+            orders o ON p.id_customer = o.id_customers
+        WHERE
+            p.status_delete = 0
+
+    </select>
+
+    <select id="listProductBestSeller">
+        SELECT
+            p.id_product, p.nameProduct, sum(o.quantity) as totalSold
+        FROM
+            products p
+        LEFT JOIN
+            orders o ON p.id_product = o.id_products
+        WHERE
+            o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd} AND
+            p.status_delete = 0
+        GROUP BY
+            p.id_product
+        ORDER BY
+            totalSold DESC
+    </select>
+
+    <select id="countListProductHasNoOrder">
+        SELECT
+            COUNT(*)
+        FROM
+            products p
+        LEFT JOIN
+            orders o ON p.id_product = o.id_products
+        WHERE
+            o.id_accounts IS NULL
+        AND
+            p.status_delete = 0
+    </select>
+    
+    <select id="listProductHasNoOrder">
+        SELECT
+               p.code_product as CodeProduct,
+               p.name_product as NameProduct
+        FROM
+               products p
+        LEFT JOIN
+               orders o ON p.id_product = o.id_products
+        AND
+               o.day_order_start BETWEEN '2024-05-13' AND '9999-10-10'
+        WHERE
+               o.id_order IS NULL
+        AND
+               p.status_delete = 0;
+    </select>
 
 
 </mapper>

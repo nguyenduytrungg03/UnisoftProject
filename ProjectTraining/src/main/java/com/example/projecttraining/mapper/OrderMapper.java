@@ -24,4 +24,8 @@ public interface OrderMapper {
 				   String nameCustomer, String phoneNumberCustomer, int idEmployees, LocalDate dayOrderStart,
 				   LocalDate dayOrderEnd, String nameStatus);
 
+
+	List<Map<String, Object>> getListProductBestSeller();
+	List<Map<String, Object>> listProductHasNoOrder();
+	List<Map<String,Object>> listCustomerNotBuyProduct();
 }

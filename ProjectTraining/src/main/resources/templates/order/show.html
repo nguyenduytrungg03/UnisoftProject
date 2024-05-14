@@ -176,19 +176,24 @@
         if (temp.length !== 0) {
             handleCellErrors(temp);
         }
-
     });
 
 
-    function reset() {
-        localStorage.removeItem("myArray");
-        window.location.href = "http://localhost:8081/order/list";
-    }
 
     //chuyển đổi id thành các kí từ từ 0-9, a-z
     function createId() {
-        return Math.random().toString(36).substr(2, 9);
+        return Math.random().toString(36).substr(2,9);
     }
+
+
+
+
+    function reset(){
+        localStorage.removeItem("myArray");
+	    window.location.reload()
+    }
+
+
 
         function compareObjectValue (oldObject, newObject){
         return oldObject.idOrder === newObject.idOrder &&
@@ -223,9 +228,7 @@
             if (existingIndex !== -1){
                 currentArray.splice(existingIndex,1)
             }
-
         }
-
         if (currentArray.length === 0){
             localStorage.removeItem('myArray');
             localStorage.removeItem('cellErrors');
@@ -235,18 +238,16 @@
        }
 
 
-        $(document).ready(function () {
 
+
+            $(document).ready(function () {
             $('#clear').on('click',function () {
                 $('.input').val(null);
             });
-
             $('#reset').on('click',function () {
                 localStorage.clear();
                 location.reload();
             });
-
-
             $('#addRow').on('click',function(){
                 let newId = createId()
                 $('#bodyTable').append('<tr id='+newId + ' >' +
@@ -271,7 +272,8 @@
                 let temp = localStorage.getItem('myArray') || [];
                 if(temp.length === 0){
                     alert("Không có gì để cập nhập!");
-                }else {
+                }
+                else {
                     $.ajax({
                         type: "POST",
                         contentType: "application/json",
@@ -280,7 +282,9 @@
                         success : function(response){
                             if (JSON.stringify(response) === "{}"){
                                 alert("Cập nhật thành công!");
-                            }else {
+                                reset();
+                            }
+                            else {
                                 localStorage.setItem('cellErrors',JSON.stringify(response))
                                 for (let key in response){
                                     if (response.hasOwnProperty(key)){
@@ -289,16 +293,16 @@
                                         console.log(valueList);
                                         valueList.forEach(function (value) {
                                             let table = $('#bodyTable');
-                                            table.find('tr[id="' + key + '"]').find('td.'+value)
+                                            table.find('tr[id="' + key + '"]').find('td.'+value).css('background-color','red');                                            
                                         })
+                                        alert("sai dữ liệu")
                                     }
                                 }
                             }
-                            reset();
+                            
                         }
-                    })
+                    });
                 }
-
             });
 
             $('#bodyTable').on('focusout','td.codeProduct[contenteditable="true"]',function () {
@@ -383,7 +387,6 @@
                     method : "GET",
                     url: `http://localhost:8081/api/customer/phone?nameCustomer=`+encodeURIComponent(nameCustomer),
                     success:function (data) {
-
                         if (data === ""){
                             valueCurrentNameCustomer.text('')
                             phoneNumberCustomerCell.text('');
@@ -403,6 +406,7 @@
                         };
                         console.log(rowData);
                         checkValue(idOrder,rowData)
+
                     },
                     error:function (xhr,textStatus,errorThrow) {
                         console.log("Error",errorThrow)
@@ -471,15 +475,10 @@
             })
         });
 
-
-
-
-
-
     function render(data) {
         let tBody = $('#bodyTable');
         data.forEach(function (row) {
-            if (isNaN(Number(`${row.id}`))) {
+            if (isNaN(Number(`${row.idOrder}`))) {
                 console.log(isNaN(Number(`${row.idOrder}`)));
                 tBody.append(`<tr id=${row.idOrder}>
                                         <td></td>

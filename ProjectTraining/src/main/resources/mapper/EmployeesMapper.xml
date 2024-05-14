@@ -106,16 +106,16 @@
     </select>
 
     <select id="getEmployeesByAccountId"  resultType="com.example.projecttraining.model.Employees">
-    SELECT
-        e.id_employees      as idEmployees,
-        e.name_employees    as nameEmployees,
-        e.phone_number      as phoneNumber,
-        e.version_employees as versionEmployees,
-        e.status_delete     as statusDelete
-    FROM
-        employees e
-    WHERE
-        e.id_accounts = #{accountId}
+        SELECT
+                e.id_employees      as idEmployees,
+                e.name_employees    as nameEmployees,
+                e.phone_number      as phoneNumber,
+                e.version_employees as versionEmployees,
+                e.status_delete     as statusDelete
+        FROM
+                employees e
+        WHERE
+                e.id_accounts = #{accountId}
     </select>
 
 

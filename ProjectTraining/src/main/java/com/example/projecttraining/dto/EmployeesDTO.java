@@ -119,10 +119,10 @@ public class EmployeesDTO implements Validator {
         if (employeesDTO.getNameEmployees().isEmpty()) {
             errors.rejectValue("nameEmployees",null ,"Yêu cầu nhập tên nhân viên");
         }
-        if (!employeesDTO.getPhoneNumber().matches("^0[\\d]{9}$")){
-            errors.rejectValue("phoneNumber",null,"Yêu cầu nhập số điện thoại");
-        }        if(!employeesDTO.getConfirmPassword().equals(employeesDTO.getPassword())) {
+        if(!employeesDTO.getConfirmPassword().equals(employeesDTO.getPassword())) {
            errors.rejectValue("confirmPassword",null, "Xác nhận mật khẩu không trùng khớp.");
+        }if (!employeesDTO.getPhoneNumber().matches("^0[\\d]{9}$")){
+            errors.rejectValue("phoneNumber",null,"Yêu cầu nhập số điện thoại");
         }
     }
 

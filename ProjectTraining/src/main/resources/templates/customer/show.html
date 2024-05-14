@@ -86,8 +86,8 @@
                     <li th:if="${page != 0 }" class="page-item">
                         <a class="page-link" th:href="@{/customer/list(page=${page -1})}">Previous</a>
                     </li>
-                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
-                        <a th:href="@{/customer/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
+                    <li class="page-item " th:each="numberOfPage : ${#numbers.sequence(1, totalPage)}">
+                        <a th:href="@{/customer/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link ">Page
                             <span class="sr-only" th:text="${numberOfPage}"> </span>
                         </a>
                     </li>
