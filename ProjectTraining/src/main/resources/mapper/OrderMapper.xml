@@ -104,85 +104,146 @@
 
 
 
-    <select id="countCustomerNotBuyProduct">
+    <select id="countCustomerNotBuyProduct" resultType="int">
         SELECT
             COUNT(*)
         FROM
             customers c
-        LEFT JOIN
-            orders o ON c.id_customer = o.id_customers
+        LEFT JOIN (
+                   SELECT
+                        o.id_customers
+                   FROM
+                        orders o
+                   WHERE
+                               o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}
+                                 ) as temp
+        ON
+                   temp.id_customers = c.id_customer
         WHERE
-            o.id_order IS NULL
+                   temp.id_customers IS NULL
     </select>
 
-    <select id="listCustomerNotBuyProduct">
+    <select id="getListCustomerNotBuyProduct" resultType="java.util.Map">
         SELECT
-            c.name_customer, c.phone_number_customer, c.address_customer
+                c.id_customer as idCustomer,
+                c.name_customer as nameCustomer,
+                c.phone_number_customer as phoneNumberCustomer,
+                c.address_customer as addressCustomer
         FROM
-            customers c
-        LEFT JOIN
-            orders o ON c.id_customer =  o.id_customers
+                customers c
+        LEFT JOIN (
+                SELECT
+                        o.id_customers
+                FROM
+                        orders o
+                WHERE
+                        o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}
+                ) as temp
+        ON
+            temp.id_customers = c.id_customer
         WHERE
-            o.id_order IS NULL
+            temp.id_customers IS NULL
         AND
-            c.status_delete =0
+            c.status_delete = 0
+        ORDER BY
+            c.name_customer
+        LIMIT
+            #{pageIndex}
+        OFFSET
+            #{pageSize}
     </select>
 
-    <select id="countProductBestSeller">
+    <select id="countListProductBestSeller" resultType="int">
         SELECT
             COUNT(*)
         FROM
-            products p
-        LEFT JOIN
-            orders o ON p.id_customer = o.id_customers
-        WHERE
-            p.status_delete = 0
-
+            (SELECT
+                    p.code_product as codeProduct,
+                    p.name_product as nameProduct,
+                    SUM(o.quantity) AS totalSold
+            FROM
+                    products p
+            LEFT JOIN
+                    orders o ON p.id_product = o.id_products
+            WHERE
+                    o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}
+            AND
+                    p.status_delete = 0
+            GROUP BY
+                    p.id_product
+            ORDER BY
+                    totalSold DESC
+        ) as temp
     </select>
 
-    <select id="listProductBestSeller">
+    <select id="getListProductBestSeller" resultType="java.util.Map">
         SELECT
-            p.id_product, p.nameProduct, sum(o.quantity) as totalSold
+            p.code_product AS codeProduct,
+            p.name_product AS nameProduct,
+            sum(o.quantity) as totalSold
         FROM
             products p
         LEFT JOIN
             orders o ON p.id_product = o.id_products
         WHERE
-            o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd} AND
+            o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}
+        AND
             p.status_delete = 0
         GROUP BY
             p.id_product
         ORDER BY
             totalSold DESC
+        LIMIT
+            #{pageIndex}
+        OFFSET
+            #{pageSize}
     </select>
 
-    <select id="countListProductHasNoOrder">
+
+
+    <select id="countListProductNoOrder" resultType="int">
         SELECT
-            COUNT(*)
+                COUNT(*)
         FROM
-            products p
+                products p
         LEFT JOIN
-            orders o ON p.id_product = o.id_products
+                (SELECT
+                        o.id_products
+                FROM
+                        orders o
+                WHERE
+                        o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}) as temp
+        ON
+            p.id_product = temp.id_products
         WHERE
-            o.id_accounts IS NULL
+            temp.id_products is NULL
         AND
             p.status_delete = 0
     </select>
     
-    <select id="listProductHasNoOrder">
+    <select id="getListProductNoOrder" resultType="java.util.Map">
         SELECT
-               p.code_product as CodeProduct,
-               p.name_product as NameProduct
+                p.code_product AS codeProduct,
+                p.name_product AS nameProduct
         FROM
-               products p
+                products p
         LEFT JOIN
-               orders o ON p.id_product = o.id_products
-        AND
-               o.day_order_start BETWEEN '2024-05-13' AND '9999-10-10'
+                (SELECT
+                        o.id_products
+                FROM
+                        orders o
+                WHERE
+                        o.day_order_start BETWEEN #{dayOrderStart} AND #{dayOrderEnd}) as temp
+        ON
+            p.id_product = temp.id_products
         WHERE
-               o.id_order IS NULL
+            temp.id_products is NULL
         AND
-               p.status_delete = 0;
+            p.status_delete = 0
+        LIMIT
+            #{pageIndex}
+        OFFSET
+            #{pageSize}
     </select>
 
 

@@ -18,6 +18,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
 import java.time.LocalDate;
+import java.time.LocalDateTime;
 import java.util.List;
 import java.util.Map;
 
@@ -43,7 +44,7 @@ public class OrderController {
         return null;
     }
     @GetMapping("/list")
-    public String getAllList(@RequestParam(required = false, defaultValue = "0") int    page,
+    public String getAllList(@RequestParam(required = false, defaultValue = "0") int page,
                                   @RequestParam(required = false, defaultValue = "") String  accountName,
                                   @RequestParam(required = false, defaultValue = "") String  nameEmployees,
                                   @RequestParam(required = false, defaultValue = "") String  codeProduct,
@@ -66,7 +67,7 @@ public class OrderController {
         }
 //        if (allocatedStatus == 0 && orderedStatus == 0 ) {
 //            orderedStatus = 1;
-//            allocatedStatus =2 ;
+//            allocatedStatus = 2 ;
 //        }
         int index = 5;
         List<Map<String,Object>> orderList = iOrderService.getAllOrder( accountName, nameEmployees,

@@ -2,8 +2,9 @@ package com.example.projecttraining.mapper;
 
 import org.apache.ibatis.annotations.Mapper;
 
-import java.time.LocalDate;
+
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -25,7 +26,17 @@ public interface OrderMapper {
 				   LocalDate dayOrderEnd, String nameStatus);
 
 
-	List<Map<String, Object>> getListProductBestSeller();
-	List<Map<String, Object>> listProductHasNoOrder();
-	List<Map<String,Object>> listCustomerNotBuyProduct();
+	List<Map<String, Object>> getListCustomerNotBuyProduct(LocalDate dayOrderStart, LocalDate dayOrderEnd , int pageIndex, int pageSize);
+
+	List<Map<String, Object>> getListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd , int pageIndex, int pageSize);
+
+	List<Map<String, Object>> getListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd , int pageIndex, int pageSize);
+
+
+
+	int countCustomerNotBuyProduct(LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	int countListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	int countListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd);
 }

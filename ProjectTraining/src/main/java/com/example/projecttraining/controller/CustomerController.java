@@ -7,7 +7,7 @@ import com.example.projecttraining.model.Employees;
 import com.example.projecttraining.service.account.IAccountService;
 import com.example.projecttraining.service.customer.ICustomerService;
 import com.example.projecttraining.service.employees.IEmployeesService;
-import com.example.projecttraining.service.security.UserDetailImp;
+import com.example.projecttraining.service.security.UserDetailImpl;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
@@ -94,7 +94,7 @@ public class CustomerController {
             model.addAttribute("customer", customer);
             return "customer/create";
         }
-        UserDetailImp userDetails = (UserDetailImp) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
+        UserDetailImpl userDetails = (UserDetailImpl) SecurityContextHolder.getContext().getAuthentication().getPrincipal();
         int result = 0;
         try {
             result = iCustomerService.createCustomer(customer.getNameCustomer(), customer.getPhoneNumberCustomer(), customer.getAddressCustomer(), userDetails.getAccountId() - 1);

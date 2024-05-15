@@ -15,9 +15,23 @@ public interface IOrderService {
              								int idEmployees, LocalDate dayOrderStart, LocalDate dayOrderEnd,
              								String nameStatus, int pageIndex, int pageSize);
 
-             int countOrder(				String accountName, String nameEmployees,
-            		 						String codeProduct, String nameProduct,
-            		 						String nameCustomer, String phoneNumberCustomer,
-            		 						int idEmployees, LocalDate dayOrderStart, LocalDate dayOrderEnd,
-            		 						String nameStatus);                             
+     int countOrder(				String accountName, String nameEmployees,
+									String codeProduct, String nameProduct,
+									String nameCustomer, String phoneNumberCustomer,
+									int idEmployees, LocalDate dayOrderStart, LocalDate dayOrderEnd,
+									String nameStatus);
+
+
+
+	int countCustomerNotBuyProduct (LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	int countListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	int countListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	List<Map<String,Object>> getListCustomerNotBuyProduct(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize);
+
+	List<Map<String, Object>> getListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize);
+
+	List<Map<String, Object>> getListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize);
 }

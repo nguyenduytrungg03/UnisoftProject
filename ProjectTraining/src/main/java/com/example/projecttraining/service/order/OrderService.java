@@ -1,7 +1,7 @@
 package com.example.projecttraining.service.order;
 
-import java.time.LocalDate;
 import java.time.LocalDateTime;
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Map;
 
@@ -97,5 +97,36 @@ public class OrderService implements IOrderService {
                                        idEmployees, dayOrderStart, dayOrderEnd,
                                        nameStatus);
     }
+
+    @Override
+    public int countCustomerNotBuyProduct(LocalDate dayOrderStart, LocalDate dayOrderEnd) {
+        return orderMapper.countCustomerNotBuyProduct(dayOrderStart, dayOrderEnd);
+    }
+
+    @Override
+    public int countListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd) {
+        return orderMapper.countListProductBestSeller(dayOrderStart, dayOrderEnd);
+    }
+
+    @Override
+    public int countListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd) {
+        return orderMapper.countListProductNoOrder(dayOrderStart,dayOrderEnd);
+    }
+
+    @Override
+    public List<Map<String, Object>> getListCustomerNotBuyProduct(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize) {
+        return orderMapper.getListCustomerNotBuyProduct(dayOrderStart, dayOrderEnd, pageIndex, pageSize);
+    }
+
+    @Override
+    public List<Map<String, Object>> getListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize) {
+        return orderMapper.getListProductBestSeller(dayOrderStart, dayOrderEnd, pageIndex, pageSize);
+    }
+
+    @Override
+    public List<Map<String, Object>> getListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize) {
+        return orderMapper.getListProductNoOrder(dayOrderStart, dayOrderEnd, pageIndex, pageSize);
+    }
+
 
 }

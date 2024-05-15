@@ -19,6 +19,6 @@ public class UserDetailService implements UserDetailsService {
         if (account==null) {
             throw new UsernameNotFoundException("Không tìm thấy tài khoản: " + accountName);
         }
-        return UserDetailImp.convertAccountToAccountDetail(account);
+        return UserDetailImpl.convertAccountToAccountDetail(account);
     }
 }

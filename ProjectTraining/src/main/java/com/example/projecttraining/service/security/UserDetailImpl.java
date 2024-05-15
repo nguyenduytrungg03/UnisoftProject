@@ -1,17 +1,15 @@
 package com.example.projecttraining.service.security;
 
 import com.example.projecttraining.model.Account;
-import org.jetbrains.annotations.NotNull;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.stereotype.Service;
 
 
 import java.util.Collection;
 import java.util.List;
 
-public class UserDetailImp implements UserDetails {
+public class UserDetailImpl implements UserDetails {
 
         private int accountId;
         private String accountName;
@@ -19,11 +17,11 @@ public class UserDetailImp implements UserDetails {
         private boolean statusDelete;
         private List<? extends GrantedAuthority> authorities;
 
-    public UserDetailImp() {
+    public UserDetailImpl() {
     }
-    public static UserDetailImp convertAccountToAccountDetail(Account account){
+    public static UserDetailImpl convertAccountToAccountDetail(Account account){
         List<GrantedAuthority> authorities = List.of(new SimpleGrantedAuthority(account.getRole().getNameRole()));
-        return new UserDetailImp(
+        return new UserDetailImpl(
                 account.getAccountId(),
                 account.getAccountName(),
                 account.getPassword(),
@@ -34,7 +32,7 @@ public class UserDetailImp implements UserDetails {
     
 
 
-    public UserDetailImp(int accountId, String accountName, String password, boolean statusDelete, List<? extends GrantedAuthority> authorities) {
+    public UserDetailImpl(int accountId, String accountName, String password, boolean statusDelete, List<? extends GrantedAuthority> authorities) {
         this.accountId = accountId;
         this.accountName = accountName;
         this.password = password;
