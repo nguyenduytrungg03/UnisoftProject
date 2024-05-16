@@ -97,7 +97,7 @@
                         <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
                             <span class="sr-only" th:text="${numberOfPage}">) </span></a>
                     </li>
-                    <li th:if="${page != totalPage}" class="page-item">
+                    <li th:if="${page + 1 != totalPage}" class="page-item">
                         <a class="page-link" th:href="@{/product/list(page=${page+1})}">Next</a>
                     </li>
                 </ul>

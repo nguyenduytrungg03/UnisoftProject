@@ -128,5 +128,10 @@ public class OrderService implements IOrderService {
         return orderMapper.getListProductNoOrder(dayOrderStart, dayOrderEnd, pageIndex, pageSize);
     }
 
+    @Override
+    public void allocationManager(int idProduct, Integer quantity) {
+        orderMapper.allocationManager(idProduct, quantity);
+    }
+
 
 }

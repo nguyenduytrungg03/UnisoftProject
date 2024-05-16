@@ -59,6 +59,7 @@ public class OrderController {
         assert accountLogin != null;
         Employees employees = iEmployeesService.getEmployeesByAccountId(accountLogin.getAccountId());
         int idEmployees = employees.getIdEmployees();
+
         if (dayOrderStart.isEmpty()) {
             dayOrderStart = "2000-07-01";
         }

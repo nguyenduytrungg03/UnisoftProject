@@ -43,28 +43,28 @@ public class AnalyticController {
 			}else if (dayOrderEnd.length() == 10) {
 				model.addAttribute("dayOrderEnd", dayOrderEnd);
 			} else {
-				dayOrderEnd = "2000-01-01";
+				dayOrderEnd = "9999-01-01";
 				model.addAttribute("dayOrderEnd", "");
 			}
-        int index = 2 ;
-        List<Map<String, Object>> listProductBestSeller = iOrderService.getListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageProductBestSeller);
+            int index = 3 ;
         List<Map<String, Object>> listCustomerNotBuyProduct= iOrderService.getListCustomerNotBuyProduct(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageCustomerNotBuyProduct );
+        List<Map<String, Object>> listProductBestSeller = iOrderService.getListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageProductBestSeller);
         List<Map<String, Object>> listProductNoOrder = iOrderService.getListProductNoOrder(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageProductNoOrder);
 
-        int countListProductBestSeller = iOrderService.countListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
-        double totalProductBestSeller = (double) countListProductBestSeller / index;
-        int totalPageProductBestSeller = (int) Math.ceil(totalProductBestSeller);
 
         int countCustomerNotBuyProduct = iOrderService.countCustomerNotBuyProduct(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
         double totalCustomerNotBuyProduct = (double) countCustomerNotBuyProduct /index;
         int totalPageCustomerNotBuyProduct = (int) Math.ceil(totalCustomerNotBuyProduct);
 
+
+        int countListProductBestSeller = iOrderService.countListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
+        double totalProductBestSeller = (double) countListProductBestSeller / index;
+        int totalPageProductBestSeller = (int) Math.ceil(totalProductBestSeller);
+
+
         int countListProductNoOrder = iOrderService.countListProductNoOrder(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
         double totalProductNoOrder = (double) countListProductNoOrder / index;
         int totalPageProductNoOrder = (int) Math.ceil(totalProductNoOrder);
-
-
-
 
         model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
         model.addAttribute("listProductBestSeller", listProductBestSeller);
@@ -78,65 +78,5 @@ public class AnalyticController {
         model.addAttribute("index", index);
 
         return "analytic/show";
-
-
-
-
-
-
-//        double totalCustomerNotBuyProduct = (double) countCustomerNotBuyProduct / index;
-//        int totalPageCustomerNotBuyProduct = (int) Math.ceil(totalCustomerNotBuyProduct);
-//        model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
-//        model.addAttribute("totalPageCustomerNotBuyProduct", totalPageCustomerNotBuyProduct);
-//        model.addAttribute("page", page);
-//        model.addAttribute("index", index);
-
-
-
-
-
-
-//
-//
-//        double totalProductNoOrder = (double) countListProductNoOrder / index;
-//        int totalPageProductNoOrder = (int) Math.ceil(totalProductNoOrder);
-//        model.addAttribute("listProductNoOrder", listProductNoOrder);
-//        model.addAttribute("totalPageProductNoOrder", totalPageProductNoOrder);
-//        model.addAttribute("page", page);
-//        model.addAttribute("index", index);
-
-
-
-//List<Customer> customers = orderService.customerZeroOrder(beginDate, endDate, (pageCustomer-1)*LIMIT);
-//		List<ProductBestSellerResponse> productBestSeller = orderService.productBestSeller(beginDate, endDate, (pageProductBestSeller-1)*LIMIT);
-//		List<Product> products = orderService.productZeroOrder(beginDate, endDate, (pageProduct-1)*LIMIT);
-//		int totalRecord = orderService.totalCustomerZeroOrder(beginDate, endDate);
-//		int totalCustomerZeroOrder = totalRecord % LIMIT == 0 ? totalRecord / LIMIT : totalRecord / LIMIT + 1;
-//		totalRecord = orderService.totalProductBestSeller(beginDate, endDate);
-//		int totalProductBestSeller =  totalRecord % LIMIT == 0 ? totalRecord / LIMIT : totalRecord / LIMIT + 1;
-//		totalRecord = orderService.totalProductZeroOrder(beginDate, endDate);
-//		int totalProductZeroOrder =  totalRecord % LIMIT == 0 ? totalRecord / LIMIT : totalRecord / LIMIT + 1;
-//
-//		model.addAttribute("customers", customers);
-//		model.addAttribute("productBestSeller", productBestSeller);
-//		model.addAttribute("products", products);
-//		model.addAttribute("totalCustomerZeroOrder", totalCustomerZeroOrder);
-//		model.addAttribute("totalProductBestSeller", totalProductBestSeller);
-//		model.addAttribute("totalProductZeroOrder", totalProductZeroOrder);
-//		model.addAttribute("isAdmin", authService.isAdmin());
-//    	model.addAttribute("url","report");
-//    	model.addAttribute("beginDate",beginDate);
-//    	model.addAttribute("endDate",endDate);
-//    	model.addAttribute("pageCustomer",pageCustomer);
-//    	model.addAttribute("pageProductBestSeller",pageProductBestSeller);
-//    	model.addAttribute("pageProduct",pageProduct);
-//		return "analytics/show";
-
     }
-
-
-
-
-
-
 }

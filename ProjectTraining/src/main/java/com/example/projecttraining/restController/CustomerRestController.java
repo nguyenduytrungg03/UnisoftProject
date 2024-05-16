@@ -16,12 +16,12 @@ public class CustomerRestController {
     private ICustomerService iCustomerService;
 
     @GetMapping("/phone")
-    private String getPhoneNumberCustomerByNameCustomer(String nameCustomer) {
+    private String getPhoneNumberCustomerByNameCustomer(@RequestParam String nameCustomer) {
         return iCustomerService.getPhoneByName(nameCustomer);
     }
 
     @GetMapping("/name")
-    private String getNameCustomerByPhoneNumberCustomer(String phoneNumberCustomer) {
+    private String getNameCustomerByPhoneNumberCustomer(@RequestParam String phoneNumberCustomer) {
         return iCustomerService.getNameByPhone(phoneNumberCustomer);
     }
 

@@ -247,4 +247,9 @@
     </select>
 
 
+
+    <select id="allocationManager" statementType="CALLABLE">
+            {call orderAllocation(#{productId, mode=IN, jdbcType=INTEGER},
+                                 #{quantityToAdd, mode=IN, jdbcType=INTEGER})}
+    </select>
 </mapper>

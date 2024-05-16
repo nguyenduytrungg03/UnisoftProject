@@ -39,4 +39,6 @@ public interface OrderMapper {
 	int countListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd);
 
 	int countListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd);
+
+	void allocationManager(int idProduct, int quantity);
 }

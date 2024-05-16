@@ -40,8 +40,6 @@
            </div>
        </form>
 
-
-
         <table class="table-striped table">
             <h3>Danh sách khách hàng không mua sản phẩm nào</h3>
             <thead class="thead-dark">
@@ -52,21 +50,60 @@
                 <th>Địa chỉ</th>
             </tr>
             </thead>
-            <tbody th:id="tableNotBuyProduct">
-            <tr th:each="analyticNotBuyProduct,loop : ${listCustomerNotBuyProduct}">
+            <tbody th:id="tableCustomerNotBuy">
+            <tr th:each="item,loop : ${listCustomerNotBuyProduct}">
                 <td th:text="${loop.count + pageCustomerNotBuyProduct * index}"></td>
-                <td th:text="${analyticNotBuyProduct['nameCustomer']}"></td>
-                <td th:text="${analyticNotBuyProduct['phoneNumberCustomer']}"></td>
-                <td th:text="${analyticNotBuyProduct['addressCustomer']}"></td>
-            </tr>
-            <tr th:if="${listCustomerNotBuyProduct.size() == 0}">
-                <td colspan="4">Không tìm khách hàng nào</td>
+                <td th:text="${item['nameCustomer']}"></td>
+                <td th:text="${item['phoneNumberCustomer']}"></td>
+                <td th:text="${item['addressCustomer']}"></td>
             </tr>
             </tbody>
         </table>
 
+        <div th:if="${listCustomerNotBuyProduct.size() > 0}">
+            <nav  aria-label="Page navigation example">
+                <ul class="pagination display-flex" >
+                    <li th:if="${pageCustomerNotBuyProduct != 0 }" class="page-item">
+                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct -1})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPageCustomerNotBuyProduct-1)}">
+                        <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
+                            <span class="sr-only" th:text="${numberOfPage}"> </span></a>
+                    </li>
+                    <li th:if="${pageCustomerNotBuyProduct +1 != totalPageCustomerNotBuyProduct}" class="page-item">
+                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct+1})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
 
+<!--        <div id="customerPage" th:if="${listCustomerNotBuyProduct.size() > 0}">-->
+<!--        <nav aria-label="Page navigation example" >-->
+<!--            <ul class="pagination" style="display: flex;justify-content: center">-->
+<!--                <li th:if="${page > 0}" class="page-item" >-->
+<!--                        <button  id="" class="page-link" th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + ${page} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">Previous</button>-->
+<!--                </li>-->
+<!--                <li class="page-item">-->
+<!--                    <span class="p">...</span>-->
+<!--                </li>-->
+<!--                <th:block th:each="pageNumber : ${#numbers.sequence(startPageCustomerNoOrder, endPageCustomerNoOrder)}">-->
+<!--                    <li class="page-item active" th:if="${pageNumber -1 == page}">-->
+<!--                        <a class="page-link "  th:text="${pageNumber}"></a>-->
+<!--                    </li>-->
+<!--                    <li class="page-item" th:if="${pageNumber -1 != page}">-->
+<!--                        <button class="page-link" th:text="${pageNumber}"  th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + ${pageNumber} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}"></button>-->
+<!--                    </li>-->
+<!--                </th:block>-->
+<!--                <li class="page-item"  th:if="${showEndEllipsisCustomerNoOrder}">-->
+<!--                    <span  class="page-link">...</span>-->
+<!--                </li>-->
+<!--                <li class="page-item" th:if="${page + 1 != totalPageByCustomerNoOrder }">-->
+<!--                         <button id="customerNotBuyProduct" class="page-link" th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + (${page} + 2) + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">Next</button>-->
+<!--                </li>-->
+<!--            </ul>-->
+<!--        </nav>-->
+<!--        </div>-->
 
 
         <table class="table-striped table">
@@ -91,7 +128,22 @@
             </tr>
             </tbody>
         </table>
-
+        <div th:if="${listProductBestSeller.size() > 0}">
+            <nav  aria-label="Page navigation example">
+                <ul class="pagination display-flex" >
+                    <li th:if="${pageProductBestSeller != 0 }" class="page-item">
+                        <a class="page-link" th:href="@{/product/list(page=${pageProductBestSeller -1})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPageProductBestSeller-1)}">
+                        <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
+                            <span class="sr-only" th:text="${numberOfPage}">) </span></a>
+                    </li>
+                    <li th:if="${pageProductBestSeller +1 != totalPageProductBestSeller}" class="page-item">
+                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct+1})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+        </div>
 
         <table class="table-striped table">
             <h3>Danh sách sản phẩm không có đơn đặt hàng</h3>
@@ -102,14 +154,14 @@
                 <th>Tên sản phẩm</th>
             </tr>
             </thead>
-            <tbody th:id="tableNoOrder">
+            <tbody th:id="tableProductNoOrder">
             <tr th:each="analyticNoOrder,loop : ${listProductNoOrder}">
                 <td th:text="${loop.count + pageProductNoOrder * index}"></td>
                 <td th:text="${analyticNoOrder['codeProduct']}"></td>
                 <td th:text="${analyticNoOrder['nameProduct']}"></td>
             </tr>
             <tr th:if="${listProductNoOrder.size() == 0}">
-                <td colspan="4">Không tìm sản phẩm nào</td>
+                <td colspan="3">Không tìm sản phẩm nào</td>
             </tr>
             </tbody>
         </table>
@@ -122,14 +174,9 @@
 
 
 </body>
-</html>
-
-<script>
 
 
 
-
-</script>
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
         integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
         crossorigin="anonymous"></script>

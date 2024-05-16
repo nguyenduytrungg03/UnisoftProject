@@ -34,4 +34,6 @@ public interface IOrderService {
 	List<Map<String, Object>> getListProductBestSeller(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize);
 
 	List<Map<String, Object>> getListProductNoOrder(LocalDate dayOrderStart, LocalDate dayOrderEnd, int pageIndex, int pageSize);
+
+	void allocationManager(int idProduct, Integer quantity);
 }
