@@ -1,6 +1,7 @@
 package com.example.projecttraining.controller;
 
 
+import com.example.projecttraining.common.Page;
 import com.example.projecttraining.service.order.IOrderService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,7 +47,7 @@ public class AnalyticController {
 				dayOrderEnd = "9999-01-01";
 				model.addAttribute("dayOrderEnd", "");
 			}
-            int index = 3 ;
+            int index = 1 ;
         List<Map<String, Object>> listCustomerNotBuyProduct= iOrderService.getListCustomerNotBuyProduct(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageCustomerNotBuyProduct );
         List<Map<String, Object>> listProductBestSeller = iOrderService.getListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageProductBestSeller);
         List<Map<String, Object>> listProductNoOrder = iOrderService.getListProductNoOrder(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd), index, index * pageProductNoOrder);
@@ -66,16 +67,32 @@ public class AnalyticController {
         double totalProductNoOrder = (double) countListProductNoOrder / index;
         int totalPageProductNoOrder = (int) Math.ceil(totalProductNoOrder);
 
-        model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
+
+        Map<String,Object> pagination = Page.handlePaging(pageCustomerNotBuyProduct,totalPageCustomerNotBuyProduct);
+        int startPage = (int) pagination.get("startPage");
+        int endPage = (int) pagination.get("endPage");
+        boolean showThreeDotStart = (boolean) pagination.get("showThreeDotStart");
+        boolean showThreeDotEnd = (boolean) pagination.get("showThreeDotEnd");
+
         model.addAttribute("listProductBestSeller", listProductBestSeller);
+        model.addAttribute("totalPageCustomerNotBuyProduct", totalPageCustomerNotBuyProduct);
+        model.addAttribute("pageCustomerNotBuyProduct", pageCustomerNotBuyProduct);
+        model.addAttribute("index", index);
+        model.addAttribute("startPage",startPage);
+        model.addAttribute("endPage",endPage);
+        model.addAttribute("showThreeDotStart", showThreeDotStart);
+        model.addAttribute("showThreeDotEnd", showThreeDotEnd);
+
+
+
+        model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
+
         model.addAttribute("listProductNoOrder", listProductNoOrder);
         model.addAttribute("totalPageProductBestSeller", totalPageProductBestSeller);
-        model.addAttribute("totalPageCustomerNotBuyProduct", totalPageCustomerNotBuyProduct);
         model.addAttribute("totalPageProductNoOrder", totalPageProductNoOrder);
-        model.addAttribute("pageCustomerNotBuyProduct", pageCustomerNotBuyProduct);
         model.addAttribute("pageProductBestSeller", pageProductBestSeller);
         model.addAttribute("pageProductNoOrder", pageProductNoOrder);
-        model.addAttribute("index", index);
+
 
         return "analytic/show";
     }

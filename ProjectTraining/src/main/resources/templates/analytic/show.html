@@ -2,17 +2,21 @@
 <html xmlns:th="http://www.thymeleaf.org" lang="">
 
 <head>
-        <meta charset="UTF-8">
-        <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
-        <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
-              integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-        <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
-        <style>
-            .pagination {
-                display: flex;
-                justify-content: center
-            }
-        </style>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <script
+            src="https://code.jquery.com/jquery-3.7.1.min.js"
+            integrity="sha256-/JqT3SQfawRcv/BIHPThkBvs0OEvtFFmqPF/lYI/Cxo="
+            crossorigin="anonymous"></script>
+    <style>
+        .pagination {
+            display: flex;
+            justify-content: center
+        }
+    </style>
     <title>THỐNG KÊ</title>
 </head>
 <body>
@@ -23,24 +27,24 @@
 <div>
     <div class="p-0 m-0" style="width: 20%; float: left">&nbsp;</div>
     <div class="h-100 p-0 m-0" style="width: 60%; float: left">
-       <form>
-           <div class="p-2">
-               <div class="form-group">
-                   <label>Ngày đặt hàng bắt đầu </label>
-                   <input type="date" name="dayOrderStart" id="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
-               </div>
-               <div class="form-group">
-                   <label>Ngày đặt hàng kết thúc </label>
-                   <input type="date" name="dayOrderEnd" id="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
-               </div>
-               <div>
-                   <button type="submit" class="btn btn-primary">Tìm kiếm</button>
-                   <button class="btn btn-primary">Clear</button>
-               </div>
-           </div>
-       </form>
+        <form>
+            <div class="p-2">
+                <div class="form-group">
+                    <label>Ngày đặt hàng bắt đầu </label>
+                    <input type="date" name="dayOrderStart" id="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
+                </div>
+                <div class="form-group">
+                    <label>Ngày đặt hàng kết thúc </label>
+                    <input type="date" name="dayOrderEnd" id="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    <button class="btn btn-primary">Clear</button>
+                </div>
+            </div>
+        </form>
 
-        <table class="table-striped table">
+        <table th:id="tableCustomerNotBuy" class="table-striped table">
             <h3>Danh sách khách hàng không mua sản phẩm nào</h3>
             <thead class="thead-dark">
             <tr class="w-100">
@@ -50,7 +54,7 @@
                 <th>Địa chỉ</th>
             </tr>
             </thead>
-            <tbody th:id="tableCustomerNotBuy">
+            <tbody >
             <tr th:each="item,loop : ${listCustomerNotBuyProduct}">
                 <td th:text="${loop.count + pageCustomerNotBuyProduct * index}"></td>
                 <td th:text="${item['nameCustomer']}"></td>
@@ -60,50 +64,39 @@
             </tbody>
         </table>
 
-        <div th:if="${listCustomerNotBuyProduct.size() > 0}">
-            <nav  aria-label="Page navigation example">
-                <ul class="pagination display-flex" >
-                    <li th:if="${pageCustomerNotBuyProduct != 0 }" class="page-item">
-                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct -1})}">Previous</a>
+        <div id="customerNotBuyPage" th:if="${listProductBestSeller.size() > 0}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination display-flex">
+                    <li th:if="${pageCustomerNotBuyProduct > 0}" class="page-item">
+                        <button id="customerNotBuyProduct" class="page-link"
+                                th:attr="data-page='/api/analytics/customernotbuyproduct?page=' + ${pageCustomerNotBuyProduct} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">
+                            Previous
+                        </button>
                     </li>
-                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPageCustomerNotBuyProduct-1)}">
-                        <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
-                            <span class="sr-only" th:text="${numberOfPage}"> </span></a>
+                    <li class="page-item" th:if="${showThreeDotStart}">
+                        <span class="page-link ">...</span>
                     </li>
-                    <li th:if="${pageCustomerNotBuyProduct +1 != totalPageCustomerNotBuyProduct}" class="page-item">
-                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct+1})}">Next</a>
+                    <th:block th:each="pageNumber : ${#numbers.sequence(startPage, endPage)}">
+                        <li class="page-item active" th:if="${pageNumber -1 == pageCustomerNotBuyProduct}">
+                            <a class="page-link " th:text="${pageNumber}"></a>
+                        </li>
+                        <li class="page-item" th:if="${pageNumber -1 != pageCustomerNotBuyProduct}">
+                            <button id="customerNotBuyProduct" class="page-link" th:text="${pageNumber}"
+                                    th:attr="data-page='/api/analytics/customernotbuyproduct?page=' + ${pageNumber} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}"></button>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:if="${showThreeDotEnd}">
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item" th:if="${pageCustomerNotBuyProduct + 1 != totalPageCustomerNotBuyProduct }">
+                        <button id="customerNotBuyProduct" class="page-link"
+                                th:attr="data-page='/api/analytics/customernotbuyproduct?page=' + (${pageCustomerNotBuyProduct} + 2) + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">
+                            Next
+                        </button>
                     </li>
                 </ul>
             </nav>
         </div>
-
-
-<!--        <div id="customerPage" th:if="${listCustomerNotBuyProduct.size() > 0}">-->
-<!--        <nav aria-label="Page navigation example" >-->
-<!--            <ul class="pagination" style="display: flex;justify-content: center">-->
-<!--                <li th:if="${page > 0}" class="page-item" >-->
-<!--                        <button  id="" class="page-link" th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + ${page} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">Previous</button>-->
-<!--                </li>-->
-<!--                <li class="page-item">-->
-<!--                    <span class="p">...</span>-->
-<!--                </li>-->
-<!--                <th:block th:each="pageNumber : ${#numbers.sequence(startPageCustomerNoOrder, endPageCustomerNoOrder)}">-->
-<!--                    <li class="page-item active" th:if="${pageNumber -1 == page}">-->
-<!--                        <a class="page-link "  th:text="${pageNumber}"></a>-->
-<!--                    </li>-->
-<!--                    <li class="page-item" th:if="${pageNumber -1 != page}">-->
-<!--                        <button class="page-link" th:text="${pageNumber}"  th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + ${pageNumber} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}"></button>-->
-<!--                    </li>-->
-<!--                </th:block>-->
-<!--                <li class="page-item"  th:if="${showEndEllipsisCustomerNoOrder}">-->
-<!--                    <span  class="page-link">...</span>-->
-<!--                </li>-->
-<!--                <li class="page-item" th:if="${page + 1 != totalPageByCustomerNoOrder }">-->
-<!--                         <button id="customerNotBuyProduct" class="page-link" th:attr="data-pages='/api/analytics/customernotbuyproduct?page=' + (${page} + 2) + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">Next</button>-->
-<!--                </li>-->
-<!--            </ul>-->
-<!--        </nav>-->
-<!--        </div>-->
 
 
         <table class="table-striped table">
@@ -128,22 +121,7 @@
             </tr>
             </tbody>
         </table>
-        <div th:if="${listProductBestSeller.size() > 0}">
-            <nav  aria-label="Page navigation example">
-                <ul class="pagination display-flex" >
-                    <li th:if="${pageProductBestSeller != 0 }" class="page-item">
-                        <a class="page-link" th:href="@{/product/list(page=${pageProductBestSeller -1})}">Previous</a>
-                    </li>
-                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPageProductBestSeller-1)}">
-                        <a th:href="@{/product/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
-                            <span class="sr-only" th:text="${numberOfPage}">) </span></a>
-                    </li>
-                    <li th:if="${pageProductBestSeller +1 != totalPageProductBestSeller}" class="page-item">
-                        <a class="page-link" th:href="@{/product/list(page=${pageCustomerNotBuyProduct+1})}">Next</a>
-                    </li>
-                </ul>
-            </nav>
-        </div>
+
 
         <table class="table-striped table">
             <h3>Danh sách sản phẩm không có đơn đặt hàng</h3>
@@ -175,6 +153,81 @@
 
 </body>
 
+<script>
+
+    $(document).ready(function (){
+         $(document).on('click','#customerNotBuyProduct', function(){
+             let url = $(this).data('page');
+             console.log("url :" + url);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    console.log(response +"ahahaha");
+                    $('#tableCustomerNotBuy tbody').empty();
+                    if(response.customerList.length === 0){ //kiểm tra xem danh sách khách hàng có rỗng không
+                        $('#tableCustomerNotBuy tbody').html('<tr><td cospan="4">Không có khách hàng nào</td></tr>')
+                        if(response.messageError !== ''){
+                            alert("Kh có dữ liệu")
+                        }
+                    }else{
+                        $.each(response.customerList, function(index,item){
+                            let rowHTML = '<tr>' +
+                  '<td>' + (index + 1 + (response.page * response.index)) + '<td>' +
+                  '<td>' + item['nameCustomer'] + '<td>' +
+                  '<td>' + item['phoneNumberCustomer'] + '<td>' +
+                  '<td>' + item['addressCustomer'] + '<td>' +
+                                         '<tr>';
+                            $('#tableCustomerNotBuy tbody').append(rowHTML);
+                        });
+                        }
+                        $('#customerNotBuyPage').empty();
+                        if(response.customerList.length > 0){
+                        	let pageNavigation = '<nav aria-label="Page navigation example">' +
+                            '<ul class="pagination display-flex">'
+                        	if(response.page>0 ){
+                        		pageNavigation += '<li class="page-item">' +
+                                 	          '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + response.page + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">Previous</button>' +
+                                			  '</li>';
+                        	}
+                            if(response.showThreeDotStart){
+                            	pageNavigation +=	'<li class="page-item">' +
+                                               		'<span class="page-link">...</span >\n' +
+                                					'</li>';
+                            }
+                            for(let pageNumber = response.startPage; pageNumber <= response.endPage; pageNumber++){
+                            	if (pageNumber - 1 === response.page){
+                            		pageNavigation += '<li class="page-item active">' +
+                                    				  '<span  class="page-link">' + pageNumber + ' </span>' +
+                                    				  '</li>';
+                            	}else{
+                            		pageNavigation += '<li class="page-item">' +
+                                    				  '<button id="customerNotBuyProduct" class="page-link"  data-page="/api/analytics/customernotbuyproduct?page=' + pageNumber + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">' + pageNumber + '</button>' +
+                                    				  '</li>';
+                            	}
+                            }
+                            if(response.showThreeDotEnd){
+                            	pageNavigation += '<li class="page-item">' +
+                                                  '<span  class="page-link">...</span>' +
+                                                  '</li>';
+                            }
+                            if (response.page + 1 !== response.totalPage){
+                            	 pageNavigation += '<li class="page-item">' +
+                                  				   '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + (response.page + 2) + '&dayOrderStart=' + response.dayOrderStart + '&orderDayEnd=' + response.orderDayEnd + '">Next</button>' +
+                                 				   '</li>';
+                            }
+                            $('#customerNotBuyPage').html(pageNavigation);
+                        }
+                    },
+                    error: function (xhr, status, error) {
+                        console.error(error);
+                    }
+                });
+            });
+        });
+
+
+</script>
 
 
 <script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"

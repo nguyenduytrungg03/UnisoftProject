@@ -1,36 +1,27 @@
 package com.example.projecttraining.dto;
 
-import java.time.LocalDate;
-import java.util.List;
+
 import java.util.Map;
+import java.util.List;
 
 public class AnalyticsDTO {
-
     private List<Map<String, Object>> customerList;
-
     private List<Map<String, Object>> productList;
-
     private int totalPage;
-
-    private int startPage;
-
     private int endPage;
-
+    private int startPage;
     private int index;
-
     private int page;
-
     private String dayOrderStart;
-
     private String dayOrderEnd;
+    private Boolean showThreeDotStart;
+    private Boolean showThreeDotEnd;
 
-    private boolean showStartEllipsis;
-
-    private boolean showEndEllipsis;
+    private String messageError;
 
     public AnalyticsDTO() {
-    }
 
+    }
 
     public List<Map<String, Object>> getCustomerList() {
         return customerList;
@@ -54,6 +45,22 @@ public class AnalyticsDTO {
 
     public void setTotalPage(int totalPage) {
         this.totalPage = totalPage;
+    }
+
+    public int getEndPage() {
+        return endPage;
+    }
+
+    public void setEndPage(int endPage) {
+        this.endPage = endPage;
+    }
+
+    public int getStartPage() {
+        return startPage;
+    }
+
+    public void setStartPage(int startPage) {
+        this.startPage = startPage;
     }
 
     public int getIndex() {
@@ -88,35 +95,27 @@ public class AnalyticsDTO {
         this.dayOrderEnd = dayOrderEnd;
     }
 
-    public boolean isShowStartEllipsis() {
-        return showStartEllipsis;
+    public Boolean getShowThreeDotStart() {
+        return showThreeDotStart;
     }
 
-    public void setShowStartEllipsis(boolean showStartEllipsis) {
-        this.showStartEllipsis = showStartEllipsis;
+    public void setShowThreeDotStart(Boolean showThreeDotStart) {
+        this.showThreeDotStart = showThreeDotStart;
     }
 
-    public boolean isShowEndEllipsis() {
-        return showEndEllipsis;
+    public Boolean getShowThreeDotEnd() {
+        return showThreeDotEnd;
     }
 
-    public void setShowEndEllipsis(boolean showEndEllipsis) {
-        this.showEndEllipsis = showEndEllipsis;
+    public void setShowThreeDotEnd(Boolean showThreeDotEnd) {
+        this.showThreeDotEnd = showThreeDotEnd;
     }
 
-    public int getStartPage() {
-        return startPage;
+    public String getMessageError() {
+        return messageError;
     }
 
-    public void setStartPage(int startPage) {
-        this.startPage = startPage;
-    }
-
-    public int getEndPage() {
-        return endPage;
-    }
-
-    public void setEndPage(int endPage) {
-        this.endPage = endPage;
+    public void setMessageError(String messageError) {
+        this.messageError = messageError;
     }
 }
