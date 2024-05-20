@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Sản Phẩm</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <style>
+        .center-box {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+        .error {
+            color: red;
+        }
+    </style>
+</head>
+<body class="bg-dark">
+<div class="container">
+    <div class=" bg-light">
+        <div class="h1 center-box"> Chỉnh sửa khách hàng</div>
+        <form th:object="${customerDTO}"
+              th:action="@{/customer/update}"
+              method="post" class="p-3">
+
+            <div class="form-group">
+                <label>Nhập tên khách hàng</label>
+                <input th:field ="*{nameCustomer}" id="nameCustomer" name="nameCustomer" class="form-control">
+                <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{codeProduct}"></div>-->
+            </div>
+            <div class="form-group">
+                <label>Nhập số điện thoại khách hàng</label>
+                <input  th:field ="*{phoneNumberCustomer}" id="phoneNumberCustomer" name="phoneNumberCustomer"  class="form-control">
+                <!--                <div class="form-text" th:if="${#fields.hasErrors()}" th:errors="*{nameProduct}"></div>-->
+            </div>
+
+            <div class="form-group">
+                <label>Nhập địa chỉ của khách hàng</label>
+                <input th:field ="*{addressCustomer}" id="addressCustomer" name="addressCustomer" class="form-control" >
+            </div>
+            <input type ="hidden" th:field ="*{nameEmployees}" class="form-control" >
+            <input type ="hidden" th:field ="*{idCustomer}" class="form-control" >
+            <input type ="hidden" th:field ="*{versionCustomer}" class="form-control" >
+
+
+
+            <div class="d-flex">
+                <button type="submit" class="btn btn-dark w-50">Chỉnh sửa</button>
+                <button type="button" class="btn btn-dark w-50">
+                    <a th:href="@{/customer/list}">Cancel</a>
+                </button>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+
+<script src="https://code.jquery.com/jquery-3.2.1.slim.min.js"
+        integrity="sha384-KJ3o2DKtIkvYIK3UENzmM7KCkRr/rE9/Qpg6aAZGJwFDMVNA/GpGFF93hXpG5KkN"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+
+</html>

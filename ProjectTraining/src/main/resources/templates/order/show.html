@@ -1,0 +1,532 @@
+﻿<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+    <title>ORDER</title>
+</head>
+
+<body>
+<div th:insert="~{navbar :: nav}"></div>
+<nav class="navbar navbar-light bg-dark text-white head-text">
+    Danh sách đơn hàng
+</nav>
+<div id="successMessage" th:if="${messages}" class="alert alert-success" role="alert">
+    <span th:text="${messages}"></span>
+</div>
+<div>
+    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
+    <div class="h-100 p-0 m-0" style="width: 80%; float: left">
+        <div class="p-2">
+            <form th:action="@{/order/list}"
+                  method="get">
+                <div class="form-group">
+                    <label>Tên đăng nhập</label>
+                    <input name="accountName" id="accountName" placeholder="Nhập tên đăng nhập">
+                </div>
+                <div class="form-group">
+                    <label>Tên nhân viên</label>
+                    <input name="nameEmployees" id="nameEmployees" placeholder="Nhập tên nhân viên">
+                </div>
+                <div class="form-group">
+                    <label>Mã sản phẩm </label>
+                    <input name="codeProduct" id="codeProduct" placeholder="Nhập mã sản phẩm">
+                </div>
+                <div class="form-group">
+                    <label>Tên sản phẩm </label>
+                    <input name="nameProduct" id="nameProduct" placeholder="Nhập tên sản phẩm">
+                </div>
+                <div class="form-group">
+                    <label>Tên khách hàng </label>
+                    <input name="nameCustomer" id="nameCustomer" placeholder="Nhập tên khách hàng">
+                </div>
+                <div class="form-group">
+                    <label>Số điện thoại </label>
+                    <input name="phoneNumberCustomer" id="phoneNumberCustomer" placeholder="Nhập số điện thoại">
+                </div>
+                <div class="form-group">
+                    <label>Ngày đặt hàng bắt đầu </label>
+                    <input type="date" name="dayOrderStart" id="dayOrderStart" placeholder="Nhập ngày đặt hàng bắt đầu">
+                </div>
+                <div class="form-group">
+                    <label>Ngày đặt hàng kết thúc </label>
+                    <input type="date" name="dayOrderEnd" id="dayOrderEnd" placeholder="Nhập ngày đặt hàng kết thúc">
+                </div>
+                <div class="form-group">
+                    <label>Trạng thái:</label>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="allocatedStatus">
+                        <label class="form-check-label">đã đặt hàng</label>
+                    </div>
+                    <div class="form-check form-check-inline">
+                        <input class="form-check-input" type="checkbox" name="orderedStatus">
+                        <label class="form-check-label">đã phân bổ</label>
+                    </div>
+                </div>
+                <div>
+                    <button type="submit" class="btn btn-primary">Tìm kiếm</button>
+                    <button class="btn btn-primary">Clear</button>
+                </div>
+            </form>
+        </div>
+        <div class="p-2">
+            <button type="submit" class="btn btn-primary" th:id="addRow">Thêm dòng</button>
+        </div>
+        <table border="1" class="table-striped table">
+            <thead class="thead-dark">
+            <tr class="w-100">
+                <th>No.</th>
+                <th>Ngày đặt hàng</th>
+                <th>Mã sản phẩm</th>
+                <th>Tên sản phẩm</th>
+                <th>Giá bán</th>
+                <th>Số lượng</th>
+                <th>Tên khách hàng</th>
+                <th>Số điện thoại</th>
+                <th>Địa chỉ</th>
+                <th>Trạng thái</th>
+                <th>Ngày phân bổ</th>
+                <th>Tên đăng nhập</th>
+                <th>Tên nhân viên</th>
+            </tr>
+            </thead>
+            <tbody th:id="bodyTable">
+            <tr th:if="${orderList.size() > 0}" th:each="order,loop:${orderList} " th:id="${order['idOrder']}"
+                class="id">
+                <td th:text="${loop.count + index * page}"></td>
+                <td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-yyyy')}"></td>
+                <td class="codeProduct" th:contenteditable="${(order['dayOrderAllocated'] == null) ? 'true' : null}"
+                    th:text="${order['codeProduct']}"></td>
+                <td class="nameProduct" th:contenteditable="${(order['dayOrderAllocated'] == null) ? 'true' : null}"
+                    th:text="${order['nameProduct']}"></td>
+                <td th:text="${#numbers.formatDecimal(order['price'], 0, 'COMMA', 0, 'POINT')} + ' VND'"></td>
+                <td class="quantity" th:contenteditable="${(order['dayOrderAllocated'] == null) ? 'true' : null}"
+                    th:text="${order['quantity']}"></td>
+                <td class="nameCustomer" th:contenteditable="${(order['dayOrderAllocated'] == null) ? 'true' : null}"
+                    th:text="${order['nameCustomer']}"></td>
+                <td class="phoneNumberCustomer"
+                    th:contenteditable="${(order['dayOrderAllocated'] == null) ? 'true' : null}"
+                    th:text="${order['phoneNumberCustomer']}"></td>
+                <td th:text="${order['address']}"></td>
+                <td th:text="${order['nameStatus']}"></td>
+                <td th:text="${#temporals.format(order['dayOrderAllocated'], 'dd-MM-yyyy')}"></td>
+                <td th:text="${order['accountName']}"></td>
+                <td th:text="${order['nameEmployees']}"></td>
+            </tr>
+            <tr th:if="${orderList.size()>0}" th:each="order, loop:${orderList}" th:id="${order['idOrder']}"
+                hidden="hidden">
+                <td th:text="${loop.count + index * page}"></td>
+                <td th:text="${#temporals.format(order['dayOrderStart'], 'dd-MM-YYYY')}"></td>
+                <td th:text="${order['codeProduct']}" class="codeProductHidden"></td>
+                <td th:text="${order['nameProduct']}" class="nameProductHidden"></td>
+                <td th:text="${order['quantity']}" class="quantityHidden"></td>
+                <td th:text="${order['nameCustomer']}" class="nameCustomerHidden"></td>
+                <td th:text="${order['phoneNumberCustomer']}" class="phoneNumberCustomerHidden"></td>
+                <td th:text="${order['address']}"></td>
+                <td th:text="${order['nameStatus']}"></td>
+                <td th:text="${#temporals.format(order['dayOrderAllocated'], 'dd-MM-yyyy')}"></td>
+                <td th:text="${order['accountName']}"></td>
+                <td th:text="${order['nameEmployees']}"></td>
+            </tr>
+            <tr th:if="${orderList.size() == 0}">
+                <td colspan="13">Không tìm thấy đơn hàng</td>
+            </tr>
+            </tbody>
+        </table>
+        <div th:if="${orderList.size() > 0}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination display-flex">
+                    <li th:if="${page != 0 }" class="page-item">
+                        <a class="page-link" th:href="@{/order/list(page=${page -1})}">Previous</a>
+                    </li>
+                    <li class="page-item" th:each="numberOfPage : ${#numbers.sequence(1, totalPage-1)}">
+                        <a th:href="@{/order/list(page=${numberOfPage})}" th:text="${numberOfPage}" class="page-link">Page
+                            <span class="sr-only" th:text="${numberOfPage}"> </span>
+                        </a>
+                    </li>
+                    <li th:if="${page + 1 != totalPage }" class="page-item">
+                        <a class="page-link" th:href="@{/order/list(page=${page+1})}">Next</a>
+                    </li>
+                </ul>
+            </nav>
+            <div style="float:left">
+                <button class="btn btn-primary" id="add">
+                    Lưu
+                </button>
+                <button class="btn btn-primary" id="reset">Reset</button>
+            </div>
+        </div>
+    </div>
+
+    <div class="p-0 m-0" style="width: 10%; float: left">&nbsp</div>
+</div>
+
+
+</body>
+    <script>
+
+
+        $(document).ready(function () {
+            let data = JSON.parse(localStorage.getItem('myArray')) || [];
+            render(data);
+            let temp = JSON.parse(localStorage.getItem('cellErrors')) || [];
+            if (temp.length !== 0) {
+                handleCellErrors(temp);
+            }
+        });
+
+
+
+        //chuyển đổi id thành các kí từ từ 0-9, a-z
+        function createId() {
+            return Math.random().toString(36).substr(2,9);
+        }
+
+        function checkValidate(){
+
+        }
+
+
+        function reset(){
+            localStorage.removeItem("myArray");
+            window.location.reload()
+        }
+
+
+
+            function compareObjectValue (oldObject, newObject){
+            return oldObject.idOrder === newObject.idOrder &&
+                   oldObject.productCode === newObject.productCode &&
+                   oldObject.productName === newObject.productName &&
+                   oldObject.quantity === newObject.quantity &&
+                   oldObject.customerPhone === newObject.customerPhone &&
+                   oldObject.customerName === newObject.customerName;
+        }
+
+
+           function checkValue(idOrder, rowData){
+            let currentArray = JSON.parse(localStorage.getItem('myArray')) || [];
+            let recordHidden = $('#bodyTable').find('tr.hidden[id="' + idOrder + '"]');
+            let oldValue = {
+                idOrder : idOrder,
+                productCode: recordHidden.find('.codeProductHidden').text(),
+                productName: recordHidden.find('.nameProductHidden').text(),
+                quantity: recordHidden.find('.quantityHidden').text(),
+                customerPhone: recordHidden.find('.phoneNumberCustomer').text(),
+                customerName: recordHidden.find('.nameCustomer').text()
+            };
+            if (!compareObjectValue(oldValue,rowData)){
+                let existingIndex = currentArray.findIndex(item => item.idOrder === idOrder);
+                if (existingIndex !== -1) {
+                    currentArray[existingIndex] = rowData;
+                }else {
+                    currentArray.push(rowData);
+                }
+            }else {
+                let existingIndex = currentArray.findIndex(item => item.idOrder === idOrder);
+                if (existingIndex !== -1){
+                    currentArray.splice(existingIndex,1)
+                }
+            }
+            if (currentArray.length === 0){
+                localStorage.removeItem('myArray');
+                localStorage.removeItem('cellErrors');
+            }else{
+                localStorage.setItem('myArray', JSON.stringify(currentArray));
+            }
+           }
+
+
+
+
+                $(document).ready(function () {
+                $('#clear').on('click',function () {
+                    $('.input').val(null);
+                });
+                $('#reset').on('click',function () {
+                    localStorage.clear();
+                    location.reload();
+                });
+                $('#addRow').on('click',function(){
+                    let newId = createId()
+                    $('#bodyTable').append('<tr id='+newId + ' >' +
+                        '<td></td>\n' +
+                        '<td></td>\n' +
+                        '<td class="codeProduct" contenteditable="true"></td>\n' +
+                        '<td class="nameProduct" contenteditable="true"></td>\n' +
+                        '<td></td>\n' +
+                        '<td class="quantity" contenteditable="true"></td>\n' +
+                        '<td class="nameCustomer" contenteditable="true"></td>\n' +
+                        '<td class="phoneNumberCustomer" contenteditable="true"></td>\n' +
+                        '<td></td>\n' +
+                        '<td></td>\n' +
+                        '<td></td>\n' +
+                        '<td></td>\n' +
+                        '<td></td>\n' +
+                        '</tr>');
+                });
+
+                $('#add').on('click',function (){
+                    $('#bodyTable')
+                    let temp = localStorage.getItem('myArray') || [];
+                    if(temp.length === 0){
+                        alert("Không có gì để cập nhập!");
+                    }
+                    else {
+                        $.ajax({
+                            type: "POST",
+                            contentType: "application/json",
+                            url: "/api/orders/store",
+                            data: temp,
+                            success : function(response){
+                                if (JSON.stringify(response) === "{}"){
+                                    alert("Cập nhật thành công!");
+                                    reset();
+                                }
+                                else {
+                                    localStorage.setItem('cellErrors',JSON.stringify(response))
+                                    for (let key in response){
+                                        if (response.hasOwnProperty(key)){
+                                            let valueList = response[key];
+                                            console.log(key);
+                                            console.log(valueList);
+                                            valueList.forEach(function (value) {
+                                                let table = $('#bodyTable');
+                                                table.find('tr[id="' + key + '"]').find('td.'+value).css('background-color','red');
+                                            })
+                                            alert("sai dữ liệu")
+                                        }
+                                    }
+                                }
+
+                            }
+                        });
+                    }
+                });
+
+                $('#bodyTable').on('focusout','td.codeProduct[contenteditable="true"]',function () {
+                    let codeProduct = $(this).text();
+                    let row = $(this).closest("tr");
+                    let nameProductCell = row.find('.nameProduct');
+                    let valueCodeProduct = $(this);
+                    $.ajax({
+                        contentType :"application/json",
+                        method : "GET",
+                        url : `http://localhost:8081/api/product/name?codeProduct=`+encodeURIComponent(codeProduct),
+                        success : function(data) {
+                            if (data === "") {
+                                nameProductCell.text('')
+                                valueCodeProduct.text('')
+                            }
+                            else {
+                                nameProductCell.text(data)
+                            }
+                            let idOrder = row.attr('id');
+                            let rowData = {
+                                idOrder: idOrder,
+                                codeProduct: row.find('.codeProduct').text(),
+                                nameProduct: row.find('.nameProduct').text(),
+                                quantity: row.find('.quantity').text(),
+                                nameCustomer: row.find('.nameCustomer').text(),
+                                phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                                version : row.find('.hidden').text()
+                            };
+
+                            checkValue(idOrder,rowData);
+                        },
+                        error:function(xhr, textStatus, errorThrow){
+                            console.log("Error",errorThrow)
+                        }
+                    })
+                });
+
+                $('#bodyTable').on('focusout','td.nameProduct[contenteditable="true"]',function () {
+                    let nameProduct = $(this).text();
+                    let row = $(this).closest("tr");
+                    let codeProductCell = row.find("td:eq(2)");
+                    let valueNameProduct = $(this);
+                    $.ajax({
+                        contentType :"application/json",
+                        method : "GET",
+                        url : `http://localhost:8081/api/product/code?nameProduct=`+encodeURIComponent(nameProduct),
+                        success : function(data) {
+                            if (data === "") {
+                                codeProductCell.text('')
+                                valueNameProduct.text('')
+                                console.log("Khong tim dc du lieu")
+                            }
+                            else {
+                                codeProductCell.text(data)
+                            }
+                            let idOrder = row.attr('id');
+                            let rowData = {
+                                idOrder: idOrder,
+                                codeProduct: row.find('.codeProduct').text(),
+                                nameProduct: row.find('.nameProduct').text(),
+                                quantity: row.find('.quantity').text(),
+                                nameCustomer: row.find('.nameCustomer').text(),
+                                phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                                version : row.find('.hidden').text()
+                            };
+                            checkValue(idOrder,rowData);
+                        },
+                        error:function(xhr, textStatus, errorThrow){
+                            console.log("Error",errorThrow)
+                        }
+                    })
+                });
+
+                $('#bodyTable').on('focusout','td.nameCustomer[contenteditable="true"]',function () {
+                    let nameCustomer = $(this).text();
+                    let row = $(this).closest("tr");
+                    let phoneNumberCustomerCell = row.find("td:eq(7)");
+                    let valueCurrentNameCustomer = $(this);
+                    $.ajax({
+                        contentType :"application/json",
+                        method : "GET",
+                        url: `http://localhost:8081/api/customer/phone?nameCustomer=`+encodeURIComponent(nameCustomer),
+                        success:function (data) {
+                            if (data === ""){
+                                valueCurrentNameCustomer.text('')
+                                phoneNumberCustomerCell.text('');
+                                console.log("KH cos du lieu")
+                            }else {
+                                phoneNumberCustomerCell.text(data);
+                            }
+                            let idOrder = row.attr('id');
+                            let rowData = {
+                                idOrder: idOrder,
+                                codeProduct: row.find('.codeProduct').text(),
+                                nameProduct: row.find('.nameProduct').text(),
+                                quantity: row.find('.quantity').text(),
+                                nameCustomer: row.find('.nameCustomer').text(),
+                                phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                                version : row.find('.hidden').text()
+                            };
+                            console.log(rowData);
+                            checkValue(idOrder,rowData)
+
+                        },
+                        error:function (xhr,textStatus,errorThrow) {
+                            console.log("Error",errorThrow)
+                        }
+
+                    })
+                });
+
+                $('#bodyTable').on('focusout','td.phoneNumberCustomer[contenteditable="true"]',function () {
+                    let phoneNumberCustomer = $(this).text();
+                    let row = $(this).closest("tr");
+                    let nameCustomer = row.find("td:eq(6)");
+                    let valueCurrentPhoneNumberCustomer = $(this);
+                    $.ajax({
+                        contentType :"application/json",
+                        method : "GET",
+                        url : `http://localhost:8081/api/customer/name?phoneNumberCustomer=`+encodeURIComponent(phoneNumberCustomer),
+                        success:function (data) {
+                            if (data === ""){
+                                valueCurrentPhoneNumberCustomer.text('');
+                                nameCustomer.text('');
+                                console.log("kh co du lieu")
+                            }else {
+                                nameCustomer.text(data);
+                            }
+                            let idOrder = row.attr('id');
+                            let rowData = {
+                                idOrder: idOrder,
+                                codeProduct: row.find('.codeProduct').text(),
+                                nameProduct: row.find('.nameProduct').text(),
+                                quantity: row.find('.quantity').text(),
+                                nameCustomer: row.find('.nameCustomer').text(),
+                                phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                                version : row.find('.hidden').text()
+                            };
+                            checkValue(idOrder,rowData);
+                        },
+                        error:function (xhr,textStatus,errorThrow) {
+                            console.log("Error",errorThrow)
+                        }
+
+                    })
+                });
+
+                $('#bodyTable').on('focusout','td.quantity[contenteditable="true"]',function () {
+                    let row = $(this).closest("tr");
+                    console.log(row)
+                    let idOrder = row.attr('id');
+                    let rowData = {
+                        idOrder: idOrder,
+                        codeProduct: row.find('.codeProduct').text(),
+                        nameProduct: row.find('.nameProduct').text(),
+                        quantity: row.find('.quantity').text(),
+                        nameCustomer: row.find('.nameCustomer').text(),
+                        phoneNumberCustomer: row.find('.phoneNumberCustomer').text(),
+                        version : row.find('.hidden').text()
+                    };
+                    checkValue(idOrder,rowData);
+                })
+                window.addEventListener('storage',function (event) {
+                    if(event.key === "myArray"){
+                        localStorage.removeItem('myArray');
+                        location.reload();
+                        console.log("Đã chỉnh sửa local storage ")
+                    }
+                })
+            });
+
+        function render(data) {
+            let tBody = $('#bodyTable');
+            data.forEach(function (row) {
+                if (isNaN(Number(`${row.idOrder}`))) {
+                    console.log(isNaN(Number(`${row.idOrder}`)));
+                    tBody.append(`<tr id=${row.idOrder}>
+                                            <td></td>
+                                            <td></td>
+                                            <td class="codeProduct" contenteditable="true">${row.codeProduct}</td>
+                                            <td class="nameProduct" contenteditable="true">${row.nameProduct}</td>
+                                            <td></td>
+                                            <td class="quantity" contenteditable="true">${row.quantity}</td>
+                                            <td class="nameCustomer" contenteditable="true">${row.nameCustomer}</td>
+                                            <td class="phoneNumberCustomer"  contenteditable="true">${row.phoneNumberCustomer}</td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                            <td></td>
+                                          </tr>`)
+                } else {
+                    let idOrder = `${row.idOrder}`;
+                    tBody.find('tr[id="' + idOrder + '"]').find('.codeProduct').text(`${row.codeProduct}`);
+                    tBody.find('tr[id="' + idOrder + '"]').find('.nameProduct').text(`${row.nameProduct}`);
+                    tBody.find('tr[id="' + idOrder + '"]').find('.quantity').text(`${row.quantity}`);
+                    tBody.find('tr[id="' + idOrder + '"]').find('.nameCustomer').text(`${row.nameCustomer}`);
+                    tBody.find('tr[id="' + idOrder + '"]').find('.phoneNumberCustomer').text(`${row.phoneNumberCustomer}`);
+                }
+            })
+        }
+        function handleCellErrors(response) {
+            for (let key in response){
+                if (response.hasOwnProperty(key)){
+                    let  valueList = response[key];
+                    console.log(key);
+                    console.log(valueList);
+                    valueList.forEach(function (value) {
+                        let table = $('#bodyTable');
+                        table.find('tr[id="' + key + '"]').find('td.'+value)
+                    })
+                }
+            }
+        }
+
+
+</script>
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>
+</html>

@@ -1,0 +1,135 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.projecttraining.mapper.CustomerMapper" >
+
+    <select id="findAllCustomer" resultType='java.util.Map'>
+        SELECT
+            c.id_customer as idCustomer,
+            c.name_customer as nameCustomer,
+            c.phone_number_customer as phoneNumberCustomer,
+            c.address_customer as addressCustomer,
+            e.name_employees as nameEmployees
+        FROM
+            customers c
+        JOIN
+            employees e on e.id_employees = c.id_employees
+        WHERE
+            c.status_delete = 0
+        AND
+            TRIM(name_customer) LIKE CONCAT(#{nameCustomer}, '%')
+        AND
+            TRIM(phone_number_customer) LIKE CONCAT(#{phoneNumberCustomer}, '%')
+        ORDER BY
+            c.name_customer
+        LIMIT
+            #{pageIndex}
+        OFFSET
+            #{pageSize}
+    </select>
+
+
+    <select id="countCustomer" resultType="int">
+        SELECT
+            count(*)
+        FROM
+            customers c
+        JOIN
+            employees e on c.id_employees = e.id_employees
+        WHERE
+            c.status_delete = 0
+    </select>
+
+
+    <update id="deleteCustomer"  parameterType="com.example.projecttraining.model.Customer">
+        UPDATE
+            customers c
+        SET
+            c.status_delete = 1
+        WHERE
+            c.id_customer = #{idCustomer}
+    </update>
+
+    <select id="getCustomerByIdCustomer" resultType='java.util.Map'>
+        SELECT
+            c.id_customer,
+            c.name_customer ,
+            c.phone_number_customer ,
+            c.address_customer ,
+            e.id_employees ,
+            e.name_employees
+        FROM
+            customers c
+        JOIN
+            employees e ON e.id_employees = c.id_employees
+        WHERE
+            c.id_customer = #{idCustomer}
+    </select>
+
+    <insert id="createCustomer">
+        INSERT INTO
+            customers(name_customer, phone_number_customer, address_customer, id_employees)
+        values
+            (#{nameCustomer},
+             #{phoneNumberCustomer},
+             #{addressCustomer},
+             #{idEmployees})
+    </insert>
+
+
+    <update id="updateCustomer">
+        UPDATE
+            customers c
+        SET
+            c.name_customer = #{nameCustomer},
+            c.phone_number_customer = #{phoneNumberCustomer},
+            c.address_customer = #{addressCustomer},
+            c.version_customer = version_customer +1
+        WHERE
+            c.id_customer = #{idCustomer}
+    </update>
+
+    <select id="getNameByPhone" resultType="String">
+        SELECT
+            c.name_customer
+        FROM
+            customers c
+        WHERE
+            c.status_delete = 0
+        AND
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
+
+
+    <select id="getPhoneByName" resultType="String">
+        SELECT
+            c.phone_number_customer
+        FROM
+            customers c
+        WHERE
+            c.status_delete = 0
+        AND
+            c.name_customer = #{nameCustomer}
+    </select>
+
+
+    <select id="getIdCustomerByPhoneNumberCustomer" resultType="int">
+        SELECT
+            c.id_customer
+        FROM
+            customers c
+        WHERE
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
+
+
+    <select id="getAddressByPhoneNumberCustomer">
+        SELECT
+            c.address_customer
+        FROM
+            customers c
+        WHERE
+            c.phone_number_customer = #{phoneNumberCustomer}
+    </select>
+</mapper>

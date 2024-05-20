@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" lang="">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8"/>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/css/bootstrap.min.css"
+          integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
+    <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+    <title>Phân Bổ</title>
+</head>
+<body>
+<div th:insert="~{navbar :: nav}"></div>
+<nav class="navbar navbar-light bg-dark text-white head-text">
+    Phân bổ sản phẩm
+</nav>
+
+<h2 class=" mt-3 mb-3 text-center">Phân bổ sản phẩm</h2>
+<div class="container mt-3">
+    <form id="searchForm" th:action="@{allocation}" th:method="POST" th:object="${allocationList}">
+        <table width="100%">
+            <thead>
+            <tr class="bg-dark text-light text-center">
+                <th class="col-2" scope="col">Số thứ tự</th>
+                <th scope="col">Mã sản phẩm</th>
+                <th scope="col">Tên sản phẩm</th>
+                <th class="col-2" scope="col">Số lượng</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="allocate, allocateStat : *{allocaties}">
+                <td th:text="${loop.count + pageCustomerNotBuyProduct * index}"></td>
+                <td></td>
+                <td><input class="codeProduct w-100" type="text" th:field="*{allocaties[__${allocateStat.index}__].productCode}" /></td>
+                <td><input class="nameProduct w-100" type="text" th:field="*{allocaties[__${allocateStat.index}__].productName}" /></td>
+                <td><input class="quantity w-100 text-center" type="number" th:field="*{allocaties[__${allocateStat.index}__].quantity}" /></td>
+            </tr>
+            </tbody>
+        </table>
+        <div class="row justify-content-end mt-3 mr-3">
+            <button id="allocateBtn" class="btn btn-primary" type="submit">
+                Phân bổ
+            </button>
+        </div>
+    </form>
+</div>
+
+
+</body>
+</html>
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.12.9/dist/umd/popper.min.js"
+        integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q"
+        crossorigin="anonymous"></script>
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@4.0.0/dist/js/bootstrap.min.js"
+        integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl"
+        crossorigin="anonymous"></script>

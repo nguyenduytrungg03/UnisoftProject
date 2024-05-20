@@ -1,0 +1,185 @@
+<?xml version="1.0" encoding="UTF-8"?>
+    <!DOCTYPE mapper
+    PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+    "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.example.projecttraining.mapper.ProductMapper">
+
+    <resultMap id="productResultMap" type="com.example.projecttraining.model.Product">
+        <id property="idProduct" column="id_product"/>
+        <result property="codeProduct" column="code_product"/>
+        <result property="nameProduct" column="name_product"/>
+        <result property="salePrice" column="sale_price"/>
+        <result property="purchasePrice" column="purchase_price"/>
+        <result property="inventoryNumber" column="inventory_number"/>
+        <result property="statusDelete" column="status_delete"/>
+        <result property="versionProduct" column="version_product"/>
+    </resultMap>
+
+    <select id="countProduct">
+        SELECT
+            count(*)
+        FROM
+            products p
+        WHERE 
+			p.status_delete = 0 ;
+    </select>
+    <!-- Search codeProduct & nameProduct -->
+    <select id="getAllProduct" resultType="java.util.Map">
+        SELECT
+                p.id_product as idProduct,
+                p.code_product as codeProduct,
+                p.name_product as nameProduct,
+                p.sale_price as salePrice,
+                p.purchase_price as purchasePrice,
+                p.inventory_number as inventoryNumber
+        FROM
+                products p
+        WHERE
+                p.status_delete = 0
+            AND
+                TRIM(code_product) LIKE CONCAT(#{codeProduct}, '%')
+            AND
+                TRIM(name_product) LIKE CONCAT(#{nameProduct}, '%')
+        ORDER BY
+                p.code_product
+        LIMIT
+                #{pageIndex}
+        OFFSET
+                #{pageSize}
+    </select>
+
+    <!-- Find By id Product -->
+    <select id="findByIdProduct" resultType="com.example.projecttraining.model.Product"  >
+          SELECT
+              p.id_product as idProduct,
+              p.code_product as codeProduct,
+              p.name_product as nameProduct,
+              p.sale_price as salePrice,
+              p.purchase_price as purchasePrice,
+              p.inventory_number as inventoryNumber,
+              p.status_delete as statusDelete,
+              p.version_product as versionProduct
+          FROM
+               products p
+          <where>
+              p.id_product = #{idProduct}
+          </where>
+
+    </select>
+
+    <!-- Delete Product -->
+    <update id="deleteProduct"  parameterType="com.example.projecttraining.model.Product">
+            UPDATE
+               products p
+            SET
+               p.status_delete = 1,
+               p.version_product = version_product + 1
+            WHERE
+               p.id_product = #{idProduct}
+    </update>
+
+    <!--Update Product -->
+    <update id="updateProduct" >
+          UPDATE
+             products p
+          SET
+             p.code_product = #{codeProduct},
+             p.name_product = #{nameProduct},
+             p.sale_price = #{salePrice},
+             p.purchase_price = #{purchasePrice},
+             p.version_product = version_product + 1
+          WHERE
+             p.id_product = #{idProduct}
+    </update>
+
+
+    <insert id="createProduct" parameterType="com.example.projecttraining.model.Product">
+        INSERT INTO
+            products(id_product, code_product, name_product, sale_price, purchase_price, inventory_number, status_delete, version_product)
+        VALUES
+            (#{idProduct},
+             #{codeProduct},
+             #{nameProduct},
+             #{salePrice},
+             #{purchasePrice},
+             #{inventoryNumber},0,0)
+    </insert>
+    
+    
+    <select id="exitsByCodeProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	products p
+	    WHERE
+	    	p.code_product = #{codeProduct}
+	</select>
+		
+	
+	<select id="exitsByNameProduct" resultType="int">
+	SELECT 
+	    	COUNT(*)
+	    FROM
+	    	products p
+	    WHERE
+	    	p.name_product = #{nameProduct}
+
+	</select>
+    
+    <select id="exitsByCodeProductNotIdProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	products p
+	   WHERE
+            code_product = #{codeProduct}
+       AND
+            id_product != #{idProduct}
+	</select>
+	
+	<select id="exitsByNameProductNotIdProduct" resultType="int">
+	    SELECT 
+	    	COUNT(*)
+	    FROM
+	    	products p
+	    WHERE
+	    	p.name_product = #{nameProduct}
+        AND
+            id_product != #{idProduct}
+	</select>
+
+    <select id="getCodeByName" resultType="String">
+        SELECT
+            p.code_product
+        FROM
+            products p
+        WHERE
+            p.status_delete = 0
+        AND
+            p.name_product = #{nameProduct}
+    </select>
+
+
+    <select id="getNameByCode" resultType="String" >
+        SELECT
+            p.name_product
+        FROM
+            products p
+        WHERE
+            p.status_delete = 0
+        AND
+            p.code_product = #{codeProduct}
+    </select>
+
+
+
+    <select id="getProductByCodeProduct">
+        SELECT
+            p.id_product as idProduct,
+            p.sale_price as salePrice
+        FROM
+            products p
+        WHERE
+            p.code_product = #{codeProduct}
+    </select>
+</mapper>
