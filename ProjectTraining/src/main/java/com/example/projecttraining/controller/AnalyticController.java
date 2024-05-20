@@ -57,24 +57,12 @@ public class AnalyticController {
         double totalCustomerNotBuyProduct = (double) countCustomerNotBuyProduct /index;
         int totalPageCustomerNotBuyProduct = (int) Math.ceil(totalCustomerNotBuyProduct);
 
-
-        int countListProductBestSeller = iOrderService.countListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
-        double totalProductBestSeller = (double) countListProductBestSeller / index;
-        int totalPageProductBestSeller = (int) Math.ceil(totalProductBestSeller);
-
-
-        int countListProductNoOrder = iOrderService.countListProductNoOrder(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
-        double totalProductNoOrder = (double) countListProductNoOrder / index;
-        int totalPageProductNoOrder = (int) Math.ceil(totalProductNoOrder);
-
-
         Map<String,Object> pagination = Page.handlePaging(pageCustomerNotBuyProduct,totalPageCustomerNotBuyProduct);
         int startPage = (int) pagination.get("startPage");
         int endPage = (int) pagination.get("endPage");
         boolean showThreeDotStart = (boolean) pagination.get("showThreeDotStart");
         boolean showThreeDotEnd = (boolean) pagination.get("showThreeDotEnd");
-
-        model.addAttribute("listProductBestSeller", listProductBestSeller);
+        model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
         model.addAttribute("totalPageCustomerNotBuyProduct", totalPageCustomerNotBuyProduct);
         model.addAttribute("pageCustomerNotBuyProduct", pageCustomerNotBuyProduct);
         model.addAttribute("index", index);
@@ -84,14 +72,41 @@ public class AnalyticController {
         model.addAttribute("showThreeDotEnd", showThreeDotEnd);
 
 
+        int countListProductBestSeller = iOrderService.countListProductBestSeller(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
+        double totalProductBestSeller = (double) countListProductBestSeller / index;
+        int totalPageProductBestSeller = (int) Math.ceil(totalProductBestSeller);
 
-        model.addAttribute("listCustomerNotBuyProduct", listCustomerNotBuyProduct);
-
-        model.addAttribute("listProductNoOrder", listProductNoOrder);
+        Map<String,Object> paginationProductBestSeller = Page.handlePaging(pageProductBestSeller,totalPageProductBestSeller);
+        int startPageProductBestSeller = (int) paginationProductBestSeller.get("startPageProductBestSeller");
+        int endPageProductBestSeller = (int) paginationProductBestSeller.get("endPageProductBestSeller");
+        boolean showThreeDotStartProductBestSeller = (boolean) paginationProductBestSeller.get("showThreeDotStartProductBestSeller");
+        boolean showThreeDotEndProductBestSeller = (boolean) paginationProductBestSeller.get("showThreeDotEndPageProductBestSeller");
+        model.addAttribute("listProductBestSeller", listProductBestSeller);
         model.addAttribute("totalPageProductBestSeller", totalPageProductBestSeller);
-        model.addAttribute("totalPageProductNoOrder", totalPageProductNoOrder);
         model.addAttribute("pageProductBestSeller", pageProductBestSeller);
+        model.addAttribute("startPageProductBestSeller",startPageProductBestSeller);
+        model.addAttribute("endPageProductBestSeller",endPageProductBestSeller);
+        model.addAttribute("showThreeDotStartProductBestSeller", showThreeDotStartProductBestSeller);
+        model.addAttribute("showThreeDotEndProductBestSeller", showThreeDotEndProductBestSeller);
+
+
+
+        int countListProductNoOrder = iOrderService.countListProductNoOrder(LocalDate.parse(dayOrderStart), LocalDate.parse(dayOrderEnd));
+        double totalProductNoOrder = (double) countListProductNoOrder / index;
+        int totalPageProductNoOrder = (int) Math.ceil(totalProductNoOrder);
+
+        Map<String,Object> paginationProductNoOrder = Page.handlePaging(pageProductNoOrder,totalPageProductNoOrder);
+        int startPageProductNoOrder = (int) paginationProductNoOrder.get("startPageProductNoOrder");
+        int endPageProductNoOrder = (int) paginationProductNoOrder.get("endPageProductNoOrder");
+        boolean showThreeDotStartProductNoOrder = (boolean) paginationProductNoOrder.get("showThreeDotStartProductNoOrder");
+        boolean showThreeDotEndProductNoOrder = (boolean) paginationProductNoOrder.get("showThreeDotEndProductNoOrder");
+        model.addAttribute("listProductNoOrder", listProductNoOrder);
+        model.addAttribute("totalPageProductNoOrder", totalPageProductNoOrder);
         model.addAttribute("pageProductNoOrder", pageProductNoOrder);
+        model.addAttribute("startPageProductNoOrder",startPageProductNoOrder);
+        model.addAttribute("endPageProductNoOrder",endPageProductNoOrder);
+        model.addAttribute("showThreeDotStartProductNoOrder", showThreeDotStartProductNoOrder);
+        model.addAttribute("showThreeDotEndProductNoOrder", showThreeDotEndProductNoOrder);
 
 
         return "analytic/show";

@@ -64,7 +64,7 @@
             </tbody>
         </table>
 
-        <div id="customerNotBuyPage" th:if="${listProductBestSeller.size() > 0}">
+        <div id="customerNotBuyPage" th:if="${listCustomerNotBuyProduct.size() > 0}">
             <nav aria-label="Page navigation example">
                 <ul class="pagination display-flex">
                     <li th:if="${pageCustomerNotBuyProduct > 0}" class="page-item">
@@ -99,7 +99,7 @@
         </div>
 
 
-        <table class="table-striped table">
+        <table th:id="tableBestSeller" class="table-striped table">
             <h3>Danh sách sản phẩm bán chạy nhất</h3>
             <thead class="thead-dark">
             <tr class="w-100">
@@ -109,7 +109,7 @@
                 <th>Số lượng</th>
             </tr>
             </thead>
-            <tbody th:id="tableBestSeller">
+            <tbody >
             <tr th:each="analyticBestSeller,loop : ${listProductBestSeller}">
                 <td th:text="${loop.count + pageProductBestSeller * index}"></td>
                 <td th:text="${analyticBestSeller['codeProduct']}"></td>
@@ -121,6 +121,42 @@
             </tr>
             </tbody>
         </table>
+
+        <div id="productBestSeller" th:if="${listProductBestSeller.size() > 0}">
+            <nav aria-label="Page navigation example">
+                <ul class="pagination display-flex">
+                    <li th:if="${pageProductBestSeller > 0}" class="page-item">
+                        <button id="productBestseller" class="page-link"
+                                th:attr="data-page='/api/analytics/productbestseller?page=' + ${pageProductBestSeller} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">
+                            Previous
+                        </button>
+                    </li>
+                    <li class="page-item" th:if="${showThreeDotStartProductBestSeller}">
+                        <span class="page-link ">...</span>
+                    </li>
+                    <th:block th:each="pageNumber : ${#numbers.sequence(startPageProductBestSeller, endPageProductBestSeller)}">
+                        <li class="page-item active" th:if="${pageNumber -1 == pageProductBestSeller}">
+                            <a class="page-link " th:text="${pageNumber}"></a>
+                        </li>
+                        <li class="page-item" th:if="${pageNumber -1 != pageProductBestSeller}">
+                            <button id="productBestseller" class="page-link" th:text="${pageNumber}"
+                                    th:attr="data-page='/api/analytics/productbestseller?page=' + ${pageNumber} + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}"></button>
+                        </li>
+                    </th:block>
+                    <li class="page-item" th:if="${showThreeDotEndProductBestSeller}">
+                        <span class="page-link">...</span>
+                    </li>
+                    <li class="page-item" th:if="${pageProductBestSeller + 1 != totalPageCustomerNotBuyProduct }">
+                        <button id="productBestseller" class="page-link"
+                                th:attr="data-page='/api/analytics/productbestseller?page=' + (${pageProductBestSeller} + 2) + '&amp;dayOrderStart=' + ${dayOrderStart} + '&amp;dayOrderEnd=' + ${dayOrderEnd}">
+                            Next
+                        </button>
+                    </li>
+                </ul>
+            </nav>
+        </div>
+
+
 
 
         <table class="table-striped table">
@@ -165,20 +201,20 @@
                 success: function(response){
                     console.log(response +"ahahaha");
                     $('#tableCustomerNotBuy tbody').empty();
-                    if(response.customerList.length === 0){ //kiểm tra xem danh sách khách hàng có rỗng không
-                        $('#tableCustomerNotBuy tbody').html('<tr><td cospan="4">Không có khách hàng nào</td></tr>')
+                    if(response.customerList.length === 0){ //kiểm tra xem danh sách sản phẩm có rỗng không
+                        $('#customerNotBuyPage tbody').html('<tr><td cospan="4">Không có sản phẩm nào</td></tr>')
                         if(response.messageError !== ''){
                             alert("Kh có dữ liệu")
                         }
                     }else{
-                        $.each(response.customerList, function(index,item){
+                        $.each(response.productList, function(index,item){
                             let rowHTML = '<tr>' +
                   '<td>' + (index + 1 + (response.page * response.index)) + '<td>' +
                   '<td>' + item['nameCustomer'] + '<td>' +
                   '<td>' + item['phoneNumberCustomer'] + '<td>' +
                   '<td>' + item['addressCustomer'] + '<td>' +
                                          '<tr>';
-                            $('#tableCustomerNotBuy tbody').append(rowHTML);
+                            $('#customerNotBuyPage tbody').append(rowHTML);
                         });
                         }
                         $('#customerNotBuyPage').empty();
@@ -187,7 +223,7 @@
                             '<ul class="pagination display-flex">'
                         	if(response.page>0 ){
                         		pageNavigation += '<li class="page-item">' +
-                                 	          '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + response.page + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">Previous</button>' +
+                                 	          '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/productbestseller?page=' + response.page + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">Previous</button>' +
                                 			  '</li>';
                         	}
                             if(response.showThreeDotStart){
@@ -202,7 +238,7 @@
                                     				  '</li>';
                             	}else{
                             		pageNavigation += '<li class="page-item">' +
-                                    				  '<button id="customerNotBuyProduct" class="page-link"  data-page="/api/analytics/customernotbuyproduct?page=' + pageNumber + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">' + pageNumber + '</button>' +
+                                    				  '<button id="customerNotBuyProduct" class="page-link"  data-page="/api/analytics/productbestseller?page=' + pageNumber + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">' + pageNumber + '</button>' +
                                     				  '</li>';
                             	}
                             }
@@ -213,7 +249,7 @@
                             }
                             if (response.page + 1 !== response.totalPage){
                             	 pageNavigation += '<li class="page-item">' +
-                                  				   '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + (response.page + 2) + '&dayOrderStart=' + response.dayOrderStart + '&orderDayEnd=' + response.orderDayEnd + '">Next</button>' +
+                                  				   '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/productbestseller?page=' + (response.page + 2) + '&dayOrderStart=' + response.dayOrderStart + '&orderDayEnd=' + response.orderDayEnd + '">Next</button>' +
                                  				   '</li>';
                             }
                             $('#customerNotBuyPage').html(pageNavigation);
@@ -225,6 +261,78 @@
                 });
             });
         });
+
+
+    $(document).ready(function (){
+        $(document).on('click','#productBestSeller', function(){
+            let url = $(this).data('page');
+            console.log("url :" + url);
+            $.ajax({
+                url: url,
+                type: 'GET',
+                success: function(response){
+                    console.log(response +"ahahaha");
+                    $('#tableBestSeller tbody').empty();
+                    if(response.customerList.length === 0){ //kiểm tra xem danh sách khách hàng có rỗng không
+                        $('#tableBestSeller tbody').html('<tr><td cospan="4">Không có khách hàng nào</td></tr>')
+                        if(response.messageError !== ''){
+                            alert("Kh có dữ liệu")
+                        }
+                    }else{
+                        $.each(response.customerList, function(index,item){
+                            let rowHTML = '<tr>' +
+                                '<td>' + (index + 1 + (response.page * response.index)) + '<td>' +
+                                '<td>' + item['nameProduct'] + '<td>' +
+                                '<td>' + item['codeProduct'] + '<td>' +
+                                '<td>' + item['totalSold'] + '<td>' +
+                                '<tr>';
+                            $('#tableBestSeller tbody').append(rowHTML);
+                        });
+                    }
+                    $('#tableBestseller').empty();
+                    if(response.customerList.length > 0){
+                        let pageNavigation = '<nav aria-label="Page navigation example">' +
+                            '<ul class="pagination display-flex">'
+                        if(response.page>0 ){
+                            pageNavigation += '<li class="page-item">' +
+                                '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + response.page + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">Previous</button>' +
+                                '</li>';
+                        }
+                        if(response.showThreeDotStart){
+                            pageNavigation +=	'<li class="page-item">' +
+                                '<span class="page-link">...</span >\n' +
+                                '</li>';
+                        }
+                        for(let pageNumber = response.startPage; pageNumber <= response.endPage; pageNumber++){
+                            if (pageNumber - 1 === response.page){
+                                pageNavigation += '<li class="page-item active">' +
+                                    '<span  class="page-link">' + pageNumber + ' </span>' +
+                                    '</li>';
+                            }else{
+                                pageNavigation += '<li class="page-item">' +
+                                    '<button id="customerNotBuyProduct" class="page-link"  data-page="/api/analytics/customernotbuyproduct?page=' + pageNumber + '&dayOrderStart=' + response.dayOrderStart + '&dayOrderEnd=' + response.dayOrderEnd + '">' + pageNumber + '</button>' +
+                                    '</li>';
+                            }
+                        }
+                        if(response.showThreeDotEnd){
+                            pageNavigation += '<li class="page-item">' +
+                                '<span  class="page-link">...</span>' +
+                                '</li>';
+                        }
+                        if (response.page + 1 !== response.totalPage){
+                            pageNavigation += '<li class="page-item">' +
+                                '<button id="customerNotBuyProduct" class="page-link" data-page="/api/analytics/customernotbuyproduct?page=' + (response.page + 2) + '&dayOrderStart=' + response.dayOrderStart + '&orderDayEnd=' + response.orderDayEnd + '">Next</button>' +
+                                '</li>';
+                        }
+                        $('#customerNotBuyPage').html(pageNavigation);
+                    }
+                },
+                error: function (xhr, status, error) {
+                    console.error(error);
+                }
+            });
+        });
+    });
 
 
 </script>
